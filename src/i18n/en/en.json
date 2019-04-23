@@ -1,0 +1,17 @@
+{
+    "footer": {
+        "copyright": "All rights reserved."
+    },
+    "header": {
+        "changeLang": "Change language",
+        "changeTheme": "Change theme",
+        "theme": {
+            "dark": "dark",
+            "light": "light"
+        }
+    },
+    "notification": {
+        "langChange": "Changed language",
+        "themeChange": "Changed theme"
+    }
+}

@@ -1,0 +1,59 @@
+$default-size: 50%;
+$sm-size: 40%;
+$md-size: 30%;
+$lg-size: 20%;
+$bump: 1.5%;
+.header__modal-overlay.header__modal-overlay {
+    padding: 0;
+}
+
+.header.header {
+    transition: all 0.15s;
+}
+
+.header.header.active {
+    left: $default-size + $bump;
+
+    @media (min-width: $sm-breakpoint) {
+        left: $sm-size + $bump;
+    }
+    @media (min-width: $md-breakpoint) {
+        left: $md-size + $bump;
+    }
+    @media (min-width: $lg-breakpoint) {
+        left: $lg-size + $bump;
+    }
+}
+
+.header__modal-container.header__modal-container {
+    margin: 0 0 auto 0;
+    width: $default-size;
+
+    @media (min-width: $sm-breakpoint) {
+        width: $sm-size;
+    }
+    @media (min-width: $md-breakpoint) {
+        width: $md-size;
+    }
+    @media (min-width: $lg-breakpoint) {
+        width: $lg-size;
+    }
+}
+
+.header__card.header__card.header__card {
+    margin: 0;
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+    border-radius: 0;
+    background: initial;
+
+    .card-subtitle,
+    .card-content {
+        padding: 0;
+    }
+
+    .card-title {
+        padding: 0 3%;
+    }
+}
