@@ -24,20 +24,24 @@
     },
     "homepage": "https://github.com/maxijonson/tchin-react-components#readme",
     "devDependencies": {
+        "@types/extract-text-webpack-plugin": "^3.0.4",
         "@types/history": "^4.7.2",
         "@types/i18next": "^12.1.0",
         "@types/lodash": "^4.14.123",
         "@types/moment": "^2.13.0",
+        "@types/react": "^16.8.14",
         "@types/react-dom": "^16.8.4",
         "@types/react-redux": "^7.0.8",
         "@types/react-router-dom": "^4.3.2",
         "@types/react-swipeable": "^4.3.0",
         "@types/react-toastify": "^4.0.2",
-        "@types/react": "^16.8.14",
         "@types/styled-components": "^4.1.14",
         "@types/tinycolor2": "^1.4.1",
+        "@types/webpack": "^4.4.27",
+        "@types/webpack-dev-server": "^3.1.5",
         "@typescript-eslint/eslint-plugin": "^1.7.0",
         "@typescript-eslint/parser": "^1.7.0",
+        "eslint": "^5.16.0",
         "eslint-config-airbnb": "^17.1.0",
         "eslint-config-prettier": "^4.1.0",
         "eslint-config-typescript": "^2.0.0",
@@ -45,12 +49,11 @@
         "eslint-plugin-jsx-a11y": "^6.2.1",
         "eslint-plugin-prettier": "^3.0.1",
         "eslint-plugin-react": "^7.12.4",
-        "eslint": "^5.16.0",
         "prettier": "^1.17.0",
         "typescript": "^3.4.4",
+        "webpack": "^4.30.0",
         "webpack-cli": "^3.3.1",
-        "webpack-dev-server": "^3.3.1",
-        "webpack": "^4.30.0"
+        "webpack-dev-server": "^3.3.1"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.17",
@@ -58,6 +61,7 @@
         "@fortawesome/free-regular-svg-icons": "^5.8.1",
         "@fortawesome/free-solid-svg-icons": "^5.8.1",
         "@fortawesome/react-fontawesome": "^0.1.4",
+        "extract-text-webpack-plugin": "^3.0.2",
         "history": "^4.9.0",
         "i18next-markdown-jsx-plugin": "^1.0.13",
         "i18next": "^15.0.9",
@@ -77,6 +81,7 @@
         "redux-thunk": "^2.3.0",
         "redux": "^4.0.1",
         "styled-components": "^4.2.0",
-        "tinycolor2": "^1.4.1"
+        "tinycolor2": "^1.4.1",
+        "tslint-webpack-plugin": "^2.0.4"
     }
 }
