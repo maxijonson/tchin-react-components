@@ -101,6 +101,10 @@ class App {
         return history;
     }
 
+    public get t() {
+        return i18n.t;
+    }
+
     public setTheme(theme: "light" | "dark") {
         switch (theme) {
             case "light":

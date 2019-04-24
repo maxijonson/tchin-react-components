@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import * as React from "react";
-import { Hooks } from "src/app";
+import { Hooks } from "src/modules";
 import { BREAKPOINTS, ZINDEX } from "src/config";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";

@@ -1,12 +1,15 @@
 {
     "name": "tchin-react-components",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Tristan Chin's own React components to reuse in future projects",
-    "main": "index.ts",
+    "main": "dist/index.ts",
+    "types": "dist/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "webpack-dev-server",
-        "lint": "eslint src/**"
+        "lint": "eslint src/**",
+        "tslint": "tslint -p tsconfig.json",
+        "compile": "tsc"
     },
     "repository": {
         "type": "git",
@@ -29,6 +32,7 @@
         "@types/i18next": "^12.1.0",
         "@types/lodash": "^4.14.123",
         "@types/moment": "^2.13.0",
+        "@types/node": "^11.13.7",
         "@types/react": "^16.8.14",
         "@types/react-dom": "^16.8.4",
         "@types/react-redux": "^7.0.8",
@@ -50,7 +54,6 @@
         "eslint-plugin-prettier": "^3.0.1",
         "eslint-plugin-react": "^7.12.4",
         "prettier": "^1.17.0",
-        "typescript": "^3.4.4",
         "webpack": "^4.30.0",
         "webpack-cli": "^3.3.1",
         "webpack-dev-server": "^3.3.1"
