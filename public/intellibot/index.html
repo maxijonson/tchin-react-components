@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+        <title>
+            Intellibot - Discord Bot
+        </title>
+        <meta charset="UTF-8" />
+        <meta
+            name="description"
+            content="Intellibot | The multipurpose Discord bot powered by NodeJS"
+        />
+        <meta
+            name="keywords"
+            content="Intellibot, javascript, nodejs, discord, bot, commands, command, multipurpose"
+        />
+        <meta name="author" content="MaxiJonson" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            property="og:image"
+            content="http://maxijonson.com/intellibot/preview.jpg"
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+        <script>
+            function isMobile() {
+                return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+                    navigator.userAgent
+                );
+            }
+            var sections = [];
+            $(function() {
+                if (!isMobile()) {
+                    ////// ------- INTRO ------- //////////
+                    $("#logo").addClass("logoAnimate");
+                    setTimeout(function() {
+                        $("#button-invite").addClass("buttonAnimate");
+                        $("#content").addClass("contentAnimate");
+                        setTimeout(function() {
+                            $("#button-commands").addClass("buttonAnimate");
+                        }, 250);
+                        setTimeout(function() {
+                            $("#stamp").addClass("stampAnimate");
+                            setTimeout(function() {
+                                $("#stamp").addClass("stampAnimateTwo");
+                            }, 250);
+                        }, 2000);
+                        setTimeout(function() {
+                            $("#fixed").addClass("fixedAnimate");
+                        }, 1000);
+                        setTimeout(function() {
+                            $("#cmd").addClass("cmdAnimate");
+                        }, 3100);
+                        setTimeout(function() {
+                            $("#social").addClass("socialAnimate");
+                        }, 1000);
+                    }, 1000);
+                    ////// ------- /INTRO ------- //////////
+
+                    ////// ------- RANDOMIZE COMMANDS SPEEDS ------- //////////
+                    $("#cmd")
+                        .children("span")
+                        .each(function(i) {
+                            $(this).css({
+                                animation: `marquee ${Math.random() * (10 - 4) +
+                                    4}s linear infinite`,
+                                position: "absolute",
+                                top: `${3 + i * 3}%`,
+                                "z-index": "-900",
+                            });
+                        });
+                    ////// ------- /RANDOMIZE COMMANDS SPEEDS ------- //////////
+                } else {
+                    // MOBILE
+                    $("#cmd").css({
+                        display: "none",
+                    });
+                }
+            });
+
+            /* Every time the window is scrolled ... */
+            $(window).scroll(function() {
+                if (!isMobile()) {
+                    /* Check the location of each desired element */
+                    $(".command").each(function(i) {
+                        var mid_of_object =
+                            $(this).offset().top + $(window).height() / 3;
+
+                        var bottom_of_window =
+                            $(window).scrollTop() + $(window).height();
+
+                        /* If the object is completely visible in the window, fade it it */
+                        if (bottom_of_window > mid_of_object) {
+                            var name = $(this).find(".name");
+                            var description = $(this).find(".description");
+                            var divider = $(this).find(".vdivider");
+                            var image = $(this).find(".image");
+
+                            $(divider).addClass("featDividerAnimate");
+                            setTimeout(function() {
+                                $(name).addClass("featNameAnimate");
+                                $(image).addClass("featImageAnimate");
+                                setTimeout(function() {
+                                    $(description).addClass(
+                                        "featDescriptionAnimate"
+                                    );
+                                    setTimeout(function() {}, 500);
+                                }, 500);
+                            }, 500);
+                        }
+                    });
+                }
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="fixed">
+            <div id="banner">
+                <img src="banner.png" style="height: 80%;" />
+            </div>
+            <div id="links">
+                <a
+                    href="https://discordapp.com/oauth2/authorize?client_id=356619840649428993&scope=bot&permissions=271707143"
+                    class="link"
+                >
+                    INVITE
+                </a>
+                <a
+                    href="http://www.maxijonson.com/intellibot/commands"
+                    class="link"
+                >
+                    COMMANDS
+                </a>
+            </div>
+        </div>
+        <div id="header">
+            <div id="logo"></div>
+            <div>
+                <a
+                    href="https://discordapp.com/oauth2/authorize?client_id=356619840649428993&scope=bot&permissions=271707143"
+                    id="button-invite"
+                    >INVITE</a
+                >
+                <br />
+                <a
+                    href="http://www.maxijonson.com/intellibot/commands"
+                    id="button-commands"
+                    >COMMANDS</a
+                >
+            </div>
+            <div id="social">
+                <a href="https://twitter.com/Intellibot_Bot" id="twitter"
+                    ><img src="twitter.png"
+                /></a>
+                <a
+                    href="https://github.com/maxijonson/Intellibot"
+                    id="githubLogo"
+                    ><img src="github.png"
+                /></a>
+                <br />
+                <a
+                    href="https://discordbots.org/bot/356619840649428993"
+                    id="discordbotslist"
+                >
+                    <img
+                        src="https://discordbots.org/api/widget/servers/356619840649428993.svg"
+                        alt="Discord Bots"
+                    />
+                </a>
+            </div>
+            <div id="stamp">
+                BETA
+            </div>
+            <div id="cmd">
+                <span>MUSIC</span>
+                <span>MEMES</span>
+                <span>ROBOTPIECES</span>
+                <span>MANAGE</span>
+                <span>SUDOKU</span>
+                <span>GOOGLE</span>
+                <span>ENCRYPT</span>
+                <span>DECRYPT</span>
+                <span>DEFAULTROLE</span>
+                <span>FUNFACT</span>
+                <span>QUESTION</span>
+                <span>ADDADMIN</span>
+                <span>ADMINS</span>
+                <span>BLACKLIST</span>
+                <span>HELP</span>
+                <span>INVITE</span>
+                <span>JOKE</span>
+                <span>NOTIFICATIONS</span>
+                <span>RPCARD</span>
+                <span>RPS</span>
+            </div>
+        </div>
+
+        <div id="content">
+            <div class="divider">
+                <hr />
+            </div>
+
+            <div class="section" style="text-align: center;">
+                <div class="name">
+                    INTELLIBOT
+                </div>
+                Welcome to the official webpage of Intellibot, the multipurpose
+                Discord bot! Intellibot is fully powered by NodeJS and has many
+                features for entertainment and server management. See the
+                features below to see what he is capable of!<br />
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+
+            <div class="section" style="text-align: center;">
+                <div class="name">
+                    ARCHIVED
+                </div>
+                Please note the bot has been archived and no further development
+                will be made on it. More info on the Github repo. Thanks to
+                everyone for your feedback, this project was super fun to make!
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section command" id="musicSection">
+                <div class="feature">
+                    <div class="name">
+                        MUSIC
+                    </div>
+                    <div class="description">
+                        Enjoy all the music on Youtube there is! (or whatever
+                        else you like on Youtube!) Music is no doubt the biggest
+                        command of Intellibot. This command let's you save links
+                        to play them later simply by calling their name, create
+                        playlists, search Youtube videos and more!
+                    </div>
+                </div>
+                <div class="vdivider"></div>
+                <div class="image" id="musicImg"></div>
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section command" id="manageSection">
+                <div class="feature">
+                    <div class="name">
+                        SERVER MANAGEMENT
+                    </div>
+                    <div class="description">
+                        Intellibot offers many customizable options to manage
+                        your server as an admin. From setting rules and the
+                        command prefix to banning strings and having your new
+                        users being greeted properly! You can even decide to
+                        limit access to certain commands or subcommands that are
+                        available to everyone by default.
+                    </div>
+                </div>
+                <div class="vdivider"></div>
+                <div class="image" id="manageImg"></div>
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section command" id="engageSection">
+                <div class="feature">
+                    <div class="name">
+                        ENGAGE WITH OTHER SERVERS
+                    </div>
+                    <div class="description">
+                        Intellibot includes a score system named "robotpieces".
+                        These robotpieces are kept throughout servers so you can
+                        rank yourself with all the other users! This means your
+                        score is global, so you keep your pieces from server to
+                        server, as long as Intellibot is in it!
+                    </div>
+                </div>
+                <div class="vdivider"></div>
+                <div class="image" id="engageImg"></div>
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section command" id="uniqueSection">
+                <div class="feature">
+                    <div class="name">
+                        UNIQUE SETTINGS
+                    </div>
+                    <div class="description">
+                        Intellibot comes with default settings (such as prefix
+                        and notification channel). Each servers have their own
+                        unique spot in it's memory (if that won't make you feel
+                        special, I don't know what will!). It's up to you to
+                        customize it to your preferences!
+                    </div>
+                </div>
+                <div class="vdivider"></div>
+                <div class="image" id="uniqueImg"></div>
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section command" id="memesSection">
+                <div class="feature">
+                    <div class="name">
+                        MEMES
+                    </div>
+                    <div class="description">
+                        Unlike other bots, Intellibot does not rely on any API
+                        to create memes! You can store image templates by giving
+                        them to Intellibot and he'll keep them for you. You can
+                        then use a command and Intellibot will create a fresh,
+                        dank meme! No watermark, no APIs, fully unique memes!
+                    </div>
+                </div>
+                <div class="vdivider"></div>
+                <div class="image" id="memesImg"></div>
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section command" id="moreSection">
+                <div class="feature">
+                    <div class="name">
+                        MORE
+                    </div>
+                    <div class="description">
+                        There's much more that comes with Intellibot, but I work
+                        alone on this project and, at the time of making this
+                        page, I have 5 weeks and 5 days before release, so I'm
+                        keeping it short and will probably add more to this page
+                        once the bot hits v1.0! Hey, at least the page has
+                        device adaptive properties and animations, so it's not
+                        like it was just spitted out of the WWW!
+                    </div>
+                </div>
+                <div class="vdivider"></div>
+                <div class="image" id="moreImg"></div>
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section" style="text-align:center;">
+                <div class="name">
+                    AN ACHIEVEMENT
+                </div>
+                Thanks to these modules/plugins/etc, Intellibot has been made
+                possible! <br />
+                <b>DiscordJs</b>
+                <i>The library Intellibot uses to simplify the Discord API</i
+                ><br />
+                <b>FFMPEG, ytdl-core, Simple Youtube API</b>
+                <i>The plugin and modules used to make the music command</i
+                ><br />
+                <b>Jimp</b>
+                <i>Used to make the memes and everything else image related</i
+                ><br />
+                <b>NodeJs</b>
+                <i>The ultimate JavaScript framework that powers Intellibot</i
+                ><br />
+                <b>Digital Ocean</b>
+                <i>The server Intellibot will being hosted on</i><br />
+                <br />
+                Sincerly, this has been a great way to learn more about
+                JavaScript and made me fall a bit more in love with JavaScript!
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div class="section" style="text-align:center;">
+                <div class="name">
+                    INVITE
+                </div>
+                Ready to make your Discord experience better?! Get Intellibot in
+                your server today! <br />
+                <a
+                    href="https://discordapp.com/oauth2/authorize?client_id=356619840649428993&scope=bot&permissions=271707143"
+                    id="endbtn"
+                    >Invite</a
+                >
+            </div>
+
+            <div class="divider">
+                <hr />
+            </div>
+            <div id="copyright">
+                Copyright © 2019 MaxiJonson. All rights reserved.
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+{
+    "footer": {
+        "copyright": "All rights reserved."
+    },
+    "header": {
+        "changeLang": "Change language",
+        "home": "Home",
+        "portfolio": "Portfolio",
+        "sandbox": "Sandbox",
+        "theme": {
+            "dark": "dark",
+            "light": "light"
+        }
+    },
+    "home": {
+        "intro": {
+            "maxijonson": "MAXIJONSON'S OFFICIAL WEBSITE",
+            "tagline": " | Computer Science Student",
+            "tristan": "TRISTAN CHIN'S OFFICIAL WEBSITE",
+            "welcome": "Welcome to"
+        },
+        "playground": {
+            "subtitle": "Experience by practice",
+            "title": "My Playground"
+        },
+        "sections": {
+            "about": {
+                "title": "About me"
+            },
+            "experience": {
+                "categories": {
+                    "application": "Application",
+                    "database": "Database",
+                    "mobile": "Mobile",
+                    "os": "OS",
+                    "web": "Web"
+                },
+                "legend": "Self-taught",
+                "levels": {
+                    "advanced": "Advanced",
+                    "basic": "Basic",
+                    "intermediate": "Intermediate"
+                },
+                "title": "Experience"
+            },
+            "programming": {
+                "title": "Programming"
+            },
+            "youtube": {
+                "title": "Youtube"
+            }
+        },
+        "share": {
+            "subtitle": "Sharing is caring",
+            "title": "The Code"
+        },
+        "welcome": {
+            "funfact": {
+                "maxijonson": "Fun fact: I have more than one domain name for this website. Going to [MaxiJonson](https://www.maxijonson.com/) changes it a bit!",
+                "tristan": "Fun fact: I have more than one domain name for this website. Going to [Tristan Chin](https://www.chintristan.io/) changes it a bit!"
+            },
+            "subtitle": "Get to know me and my experience",
+            "title": "Welcome"
+        }
+    },
+    "notification": {
+        "langChange": "Changed language",
+        "themeChange": "Changed theme"
+    },
+    "portfolio": {
+        "details": "Show details",
+        "projects": {
+            "cuisto": {
+                "short": "A restaurant management solution for organizations with one or more branches. (Project in french)"
+            },
+            "intellibot": {
+                "short": "The ultimate multipurpose Discord bot."
+            },
+            "poly": {
+                "short": "An audio visualizer wallpaper for Wallpaper Engine."
+            },
+            "punchbot": {
+                "short": "Keep track of your work time right on Discord."
+            },
+            "react": {
+                "short": "A Wallpaper Engine project with 100+ customizable options."
+            },
+            "website": {
+                "short": "4th edition of this very website you're looking at!",
+                "title": "Website"
+            }
+        }
+    }
+}

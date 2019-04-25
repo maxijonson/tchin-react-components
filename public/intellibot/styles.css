@@ -1,0 +1,606 @@
+@font-face {
+    font-family: "nexaLight";
+    src: url("./Nexa Light.otf");
+}
+
+@font-face {
+    font-family: "nexaBold";
+    src: url("./Nexa Bold.otf");
+}
+
+@font-face {
+    font-family: "Glametrix";
+    src: url("./Glametrix.otf");
+}
+
+@media screen and (max-width: 1500px), screen and (min-width: 1500px) {
+    /* LARGE DEVICES */
+    body {
+        font-size: 1em;
+        overflow-x: hidden;
+    }
+
+    .image {
+        width: 40%;
+        left: 52.5%;
+        height: 100%;
+        position: absolute;
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    .feature {
+        top: 30%;
+        position: absolute;
+        width: 35%;
+        padding: 0 5% 0 5%;
+    }
+
+    .feature > .name {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    .command {
+        height: 80%;
+    }
+
+    .description {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    .section {
+        padding: 0 5% 0 5%;
+    }
+
+    #content {
+        transform: translateY(50%);
+        opacity: 0;
+        position: relative;
+        top: 7%;
+    }
+
+    #logo {
+        transform: scale(0) rotate(-90deg);
+    }
+
+    #fixed {
+        opacity: 0;
+        transform: translateY(-50%);
+    }
+
+    #button-invite,
+    #button-commands {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    #social {
+        opacity: 0;
+        transform: translateY(-150%) rotate(-90deg);
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    /* NORMAL DEVICES */
+    body {
+        font-size: 0.75em;
+    }
+
+    .vdivider {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    /* SMALL DEVICES */
+    body {
+        font-size: 0.65em;
+    }
+
+    #fixed {
+        display: none;
+    }
+
+    .feature {
+        top: 0;
+        text-align: center;
+        position: relative;
+        width: 100%;
+        padding: 0;
+    }
+
+    .image {
+        margin-top: 5%;
+        width: 100%;
+        height: 80%;
+        position: relative;
+        left: 0;
+    }
+
+    .section {
+        padding: 0 5% 25% 5%;
+    }
+
+    .vdivider {
+        transform: translateY(-100%) !important;
+        opacity: 0 !important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    /* MOBILE */
+    body {
+        font-size: 0.5em;
+    }
+
+    .image {
+        display: none;
+    }
+
+    .command {
+        height: auto;
+    }
+
+    .feature > .name {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .description {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    #content {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    #logo {
+        transform: scale(1) rotate(0);
+    }
+
+    #button-invite,
+    #button-commands {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    #social {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+    }
+
+    .section {
+        padding: 0 5% 0 5%;
+    }
+}
+
+@keyframes marquee {
+    0% {
+        left: 90%;
+        opacity: 0;
+        z-index: -9000;
+    }
+    6% {
+        transform: scale(1);
+        font-weight: normal;
+    }
+    8% {
+        transform: scale(1.75);
+        font-weight: bolder;
+    }
+    11% {
+        transform: scale(1);
+        font-weight: normal;
+    }
+    15% {
+        opacity: 1;
+    }
+    30% {
+        transform: scale(1);
+        font-weight: normal;
+    }
+    33% {
+        transform: scale(1.75);
+        font-weight: bolder;
+    }
+    35% {
+        transform: scale(1);
+        font-weight: normal;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        left: -100%;
+    }
+}
+
+@keyframes lightsup {
+    0% {
+        text-shadow: 0 0 0 blue;
+    }
+
+    25% {
+        text-shadow: 0 0 0 blue;
+    }
+    27% {
+        text-shadow: 0 0 0.1em blue;
+    }
+    29% {
+        text-shadow: 0 0 0 blue;
+    }
+    32% {
+        text-shadow: 0 0 0 blue;
+    }
+    34% {
+        text-shadow: 0 0 0.1em blue;
+    }
+    36% {
+        text-shadow: 0 0 0 blue;
+    }
+
+    60% {
+        text-shadow: 0 0 0 blue;
+    }
+    62% {
+        text-shadow: 0 0 0.1em blue;
+    }
+    64% {
+        text-shadow: 0 0 0 blue;
+    }
+    66% {
+        text-shadow: 0 0 0 blue;
+    }
+    68% {
+        text-shadow: 0 0 0.1em blue;
+    }
+    70% {
+        text-shadow: 0 0 0 blue;
+    }
+
+    90% {
+        text-shadow: 0 0 0 blue;
+    }
+    27% {
+        text-shadow: 0 0 0.2em blue;
+    }
+}
+
+body {
+    background: linear-gradient(to right, white, #f2f2f2);
+}
+
+#fixed {
+    position: fixed;
+    width: 100%;
+    height: 7%;
+    background-color: white;
+    z-index: 9999999;
+    box-shadow: 0 0 0.5em black;
+    transition: all 0.5s;
+}
+
+#header {
+    width: 100%;
+    font-family: nexaLight;
+    height: 60%;
+}
+
+#stamp {
+    position: relative;
+    font-size: 1.5em;
+    font-weight: bolder;
+    color: white;
+    z-index: 99;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    top: 2%;
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+#cmd {
+    opacity: 0;
+    width: 100%;
+    transition: 0.75s opacity;
+    z-index: -9000;
+}
+
+#musicImg {
+    background-image: url("music.gif");
+}
+
+#uniqueImg {
+    background-image: url("unique.gif");
+}
+
+#manageImg {
+    background-image: url("manage.gif");
+}
+
+#engageImg {
+    background-image: url("engage.gif");
+}
+
+#memesImg {
+    background-image: url("meme.gif");
+}
+
+#moreImg {
+    background-image: url("more.gif");
+}
+
+#button-invite,
+#button-commands {
+    transition: 0.5s all;
+    z-index: 9000;
+    position: relative;
+    background-color: white;
+    border: 0.1em solid #a5abff;
+    width: 10%;
+    margin: auto;
+    display: block;
+    text-align: center;
+    padding: 0.3em;
+    text-decoration: none;
+    color: black;
+    font-family: nexaLight;
+}
+
+#endbtn {
+    transition: 0.5s all;
+    z-index: 9000;
+    position: relative;
+    background-color: white;
+    border: 0.1em solid #a5abff;
+    width: 10%;
+    margin: auto;
+    display: block;
+    text-align: center;
+    padding: 0.3em;
+    text-decoration: none;
+    color: black;
+    font-family: nexaLight;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#content {
+    width: 100%;
+    height: 100%;
+    transition: 1s all;
+}
+
+#copyright {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1%;
+    font-family: nexaBold;
+}
+
+#logo {
+    transition: 1s all;
+    z-index: 9000000;
+    margin: auto;
+    height: 80%;
+    width: 100%;
+    background-image: url("intellibot.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+#twitter {
+    transition: 0.5s all;
+    position: relative;
+    margin: auto;
+    width: 2%;
+    text-align: center;
+    text-decoration: none;
+}
+
+#githubLogo {
+    position: relative;
+    transition: 0.5s all;
+    margin: auto;
+    width: 2%;
+    text-align: center;
+    text-decoration: none;
+}
+
+#social {
+    transition: 0.5s all;
+    z-index: 8000;
+    margin-top: 1.5%;
+    text-align: center;
+}
+
+#links {
+    position: relative;
+    text-align: right;
+    height: 100%;
+}
+
+#banner {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: absolute;
+    background-repeat: no-repeat;
+    top: 10%;
+}
+
+.link,
+.link:visited,
+.link:active {
+    transition: all 0.5s;
+    text-decoration: none;
+    color: black;
+    top: 35%;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    position: relative;
+    padding: 0.5%;
+    margin: 1%;
+    border: 0.1em solid #a5abff;
+    font-family: nexaLight;
+}
+
+.image {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    text-align: center;
+    top: 0;
+    transition: 1s all, transform 0.5s, opacity 0.5s;
+}
+
+.name {
+    text-align: center;
+    font-family: nexaBold;
+    font-size: 2em;
+}
+
+.vdivider {
+    position: absolute;
+    transition: 0.5s all;
+    left: 50%;
+    border-left: 1px solid black;
+    top: 20%;
+    bottom: 20%;
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.description {
+    transition: 0.5s all;
+}
+
+.divider {
+    margin: 5% 10% 5% 10%;
+}
+
+.feature {
+    transition: 1s all;
+}
+
+.section {
+    position: relative;
+    z-index: 1;
+    text-align: justify;
+    font-family: Glametrix;
+    font-size: 2em;
+}
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.feature > .name {
+    font-size: 1em;
+    transition: 0.5s all;
+    margin-bottom: 5%;
+}
+
+#twitter > img,
+#githubLogo > img {
+    transition: all 1s;
+    transition-timing-function: cubic-bezier(0.5, 1.75, 1.25, 1.5);
+    filter: grayscale(100%);
+    width: 2%;
+    margin: 0 0.5% 0 0.5%;
+}
+
+#twitter > img:hover,
+#githubLogo > img:hover {
+    filter: grayscale(0);
+    transform: scale(1.5) rotate(345deg);
+}
+
+#social > a {
+    transition: 0.5s all;
+}
+
+.link:hover {
+    background-color: lightgrey;
+    border-color: black;
+    box-shadow: 0 0 0.5em black;
+    font-weight: bolder;
+}
+
+#button-invite:hover,
+#button-commands:hover,
+#endbtn:hover {
+    background-color: lightgrey;
+    border: 0.05em solid black;
+    transform: scale(1.05);
+    font-family: nexaLight;
+    font-weight: bolder;
+    box-shadow: 0 0 1em black;
+}
+#logo.logoAnimate {
+    transform: scale(1) rotate(0deg);
+}
+
+#button-invite.buttonAnimate,
+#button-commands.buttonAnimate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#content.contentAnimate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#cmd.cmdAnimate {
+    z-index: -90000;
+    opacity: 1;
+}
+
+#social.socialAnimate {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+}
+
+#stamp.stampAnimate {
+    transform: scale(1);
+}
+
+#stamp.stampAnimateTwo {
+    animation: lightsup 3s;
+    animation-iteration-count: 1;
+    text-shadow: 0 0 0.1em blue;
+    opacity: 1;
+    color: white;
+}
+
+.image.featImageAnimate {
+    display: block;
+}
+
+.name.featNameAnimate,
+.image.featImageAnimate {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.vdivider.featDividerAnimate,
+.description.featDescriptionAnimate {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#fixed.fixedAnimate {
+    transform: translateY(0);
+    opacity: 1;
+}

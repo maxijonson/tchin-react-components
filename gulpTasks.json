@@ -1,0 +1,42 @@
+{
+    "PRE_COMMIT": {
+        "task": "pre-commit",
+        "hook": "pre-commit"
+    },
+    "PREPARE_COMMIT": {
+        "task": "prepare-commit",
+        "hook": "prepare-commit-msg"
+    },
+    "POST_COMMIT": {
+        "task": "post-commit",
+        "hook": "post-commit"
+    },
+    "BUMP_VERSION": {
+        "task": "bump-version",
+        "hook": null
+    },
+    "CHERRY_PICK": {
+        "task": "cherry-pick",
+        "hook": null
+    },
+    "REQUIRE_HEROKU": {
+        "task": "require:heroku",
+        "hook": null
+    },
+    "REQUIRE_VERSION": {
+        "task": "require:version",
+        "hook": null
+    },
+    "REQUIRE_MESSAGE": {
+        "task": "require:message",
+        "hook": null
+    },
+    "REQUIRE_NOT_NCP": {
+        "task": "require:not-ncp",
+        "hook": null
+    },
+    "DEV_SERVER": {
+        "task": "server:dev",
+        "hook": null
+    }
+}
