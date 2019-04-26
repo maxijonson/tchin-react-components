@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import * as React from "react";
-import { Hooks } from "src/app";
-import { BREAKPOINTS, ZINDEX } from "src/config";
+import { Hooks } from "../../../src/app";
+import { BREAKPOINTS, ZINDEX } from "../../../src/config";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
 
@@ -22,7 +22,7 @@ const Scrollbar = styled.div.attrs(
             top: `${pos}%`,
             height: `${height}%`,
         },
-    }),
+    })
 )<{ height: number; pos: number }>`
     transition: height 0.5s, background 0.25s;
     position: absolute;
@@ -48,10 +48,10 @@ export const SCROLLBAR_EVENT = "scrollbarShouldUpdate";
 // TODO: drag events
 export default () => {
     const [docHeight, setDocHeight] = React.useState(
-        document.body.scrollHeight,
+        document.body.scrollHeight
     );
     const [position, setPosition] = React.useState(
-        document.documentElement.scrollTop,
+        document.documentElement.scrollTop
     );
     const breakpoint = useCurrentBreakpoint("screen");
 
@@ -60,7 +60,6 @@ export default () => {
 
     const updateDocHeight = () => {
         setDocHeight(document.body.scrollHeight);
-        console.log("updateDocHeight");
     };
 
     const updatePosition = () => {

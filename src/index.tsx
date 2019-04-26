@@ -12,10 +12,10 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import "src/modules/i18n/i18n";
+import "./modules/i18n/i18n";
 import "./styles/styles.scss";
 
-import { app } from "src/app";
+import { app } from "./app";
 import { APP_ROOT } from "./config";
 import AppRouter from "./routers/AppRouter";
 
@@ -27,5 +27,5 @@ ReactDOM.render(
     <Provider store={app.store}>
         <AppRouter />
     </Provider>,
-    document.getElementById(APP_ROOT),
+    document.getElementById(APP_ROOT)
 );

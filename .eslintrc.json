@@ -1,0 +1,84 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "airbnb",
+        "typescript",
+        "typescript/react",
+        "typescript/prettier-react",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "project": "./tsconfig.json",
+        "sourceType": "module",
+        "tsconfigRootDir": ".",
+        "useJSXTextNode": true
+    },
+    "plugins": ["react", "@typescript-eslint"],
+    "rules": {
+        "jsx-a11y/anchor-is-valid": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-object-literal-type-assertion": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "ignoreRestSiblings": true
+            }
+        ],
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-static-element-interactions": "off",
+        "no-console": [
+            "warn",
+            {
+                "allow": ["warn"]
+            }
+        ],
+        "no-shadow": [
+            "error",
+            {
+                "allow": ["theme"]
+            }
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+                "arrowParens": "always",
+                "semi": true,
+                "tabWidth": 4,
+                "trailingComma": "es5"
+            }
+        ],
+        "react/destructuring-assignment": "off",
+        "react/display-name": "off",
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [".tsx", ".jsx"]
+            }
+        ],
+        "react/no-children-prop": "off",
+        "react/no-multi-comp": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

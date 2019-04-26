@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import Switch from "react-switch";
-import { setTheme as setThemeAction } from "src/actions";
-import { Hooks } from "src/modules";
-import { ITheme, themes } from "src/modules/CSS";
+import { setTheme as setThemeAction } from "../../../src/actions";
+import { Hooks } from "../../../src/modules";
+import { ITheme, themes } from "../../../src/modules/CSS";
 
 const { useConnect } = Hooks;
 
@@ -14,7 +14,7 @@ export default () => {
         ({ theme }) => ({ theme }),
         (dispatch) => ({
             setTheme: (theme: ITheme) => dispatch(setThemeAction(theme)),
-        }),
+        })
     );
 
     const handleThemeChange = (checked: boolean) => {

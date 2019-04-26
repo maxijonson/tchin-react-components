@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import posed from "react-pose";
-import { THEME_TRANSITION_TIME, ZINDEX } from "src/config";
-import { CSS, Hooks } from "src/modules";
+import { THEME_TRANSITION_TIME, ZINDEX } from "../../../src/config";
+import { CSS, Hooks } from "../../../src/modules";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
 
@@ -43,7 +43,7 @@ const Overlay = styled(
                 default: { duration: 100 },
             },
         },
-    }),
+    })
 )`
     display: grid;
     height: 100vh;
@@ -82,7 +82,7 @@ const Container = styled(
             x: ({ left, right }: IPoseOptions) =>
                 left || right ? (left ? "-100%" : "100%") : "0%",
         },
-    }),
+    })
 )`
     z-index: ${ZINDEX.modal + 2};
     margin: auto 0;
@@ -114,7 +114,7 @@ export default (props: IModalOwnProps) => {
         () => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             e.stopPropagation();
         },
-        [],
+        []
     );
 
     const pose = visible ? "visible" : "hidden";
@@ -139,7 +139,7 @@ export default (props: IModalOwnProps) => {
                     {children}
                 </Container>
             </Overlay>,
-            target,
+            target
         ) || null
     );
 };

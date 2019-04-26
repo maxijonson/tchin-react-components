@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Button, ErrorModal } from "src/components";
-import { Hooks } from "src/modules";
+import { Button, ErrorModal } from "../../../src/components";
+import { Hooks } from "../../../src/modules";
 import { withCatcher } from "../Catcher/Catcher";
 import Card from "./Card";
 

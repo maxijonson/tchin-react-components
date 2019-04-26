@@ -1,36 +1,35 @@
 import * as _ from "lodash";
-import * as actions from "src/actions";
-import { CSS, Hooks, i18n, t, Utils } from "src/modules/";
-import { store } from "src/store/config";
-import { history } from "./routers/AppRouter";
+import * as actions from "./actions";
+import { CSS, Hooks, i18n, t, Utils } from "./modules/";
+import { store } from "./store/config";
 
-import { toast, ToastContent, ToastOptions } from "react-toastify";
-import { Bounce } from "react-toastify";
+import { toast, ToastContent, ToastOptions, Bounce } from "react-toastify";
+import { history } from "./routers/AppRouter";
 import { SESSION_KEYS } from "./config";
 import { themes } from "./modules/CSS";
 
 class App {
-    get store() {
+    public get store() {
         return store;
     }
 
-    get state() {
+    public get state() {
         return this.store.getState();
     }
 
-    get dispatch() {
+    public get dispatch() {
         return this.store.dispatch;
     }
 
-    get language() {
+    public get language() {
         return i18n.language;
     }
 
-    get history() {
+    public get history() {
         return history;
     }
 
-    get t() {
+    public get t() {
         return t;
     }
 
@@ -51,13 +50,13 @@ class App {
         }
         i18n.changeLanguage(lang);
         window.sessionStorage.setItem(SESSION_KEYS.i18n, lang);
-        this.notify(`${app.t("notification.langChange")}: ${lang}`);
+        this.notify(`${t("notification.langChange")}: ${lang}`);
     }
 
     public enforceSSL() {
         if (
             !_.some(["tristan", "maxijonson"], (name) =>
-                _.includes(window.location.hostname, name),
+                _.includes(window.location.hostname, name)
             )
         ) {
             return;

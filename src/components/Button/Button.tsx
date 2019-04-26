@@ -1,9 +1,9 @@
 import * as React from "react";
-import { THEME_TRANSITION_TIME } from "src/config";
-import { Hooks } from "src/modules";
-import { fonts, ITheme } from "src/modules/CSS";
-import styled, { ThemeProvider } from "styled-components";
 import tinycolor from "tinycolor2";
+import styled, { ThemeProvider } from "styled-components";
+import { THEME_TRANSITION_TIME } from "../../../src/config";
+import { Hooks } from "../../../src/modules";
+import { fonts, ITheme } from "../../../src/modules/CSS";
 
 const { useConnect } = Hooks;
 

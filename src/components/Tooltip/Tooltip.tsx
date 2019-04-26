@@ -1,7 +1,11 @@
 import * as React from "react";
 import posed from "react-pose";
-import { BREAKPOINTS, THEME_TRANSITION_TIME, ZINDEX } from "src/config";
-import { Hooks } from "src/modules";
+import {
+    BREAKPOINTS,
+    THEME_TRANSITION_TIME,
+    ZINDEX,
+} from "../../../src/config";
+import { Hooks } from "../../../src/modules";
 import styled from "styled-components";
 
 const { useConnect, useCurrentBreakpoint } = Hooks;
@@ -84,7 +88,7 @@ const Tip = styled(
                 default: { duration: 125 },
             },
         },
-    }),
+    })
 )<{
     minWidth?: string;
     maxWidth?: string;
@@ -204,8 +208,12 @@ export default (props: ITooltipProps) => {
                 window.clearTimeout(timeout);
             }
         },
-        [],
+        []
     );
+
+    const hide = () => {
+        setVisibility("hidden");
+    };
 
     const show = () => {
         setVisibility("visible");
@@ -214,10 +222,6 @@ export default (props: ITooltipProps) => {
                 hide();
             }, mobileTimeout);
         }
-    };
-
-    const hide = () => {
-        setVisibility("hidden");
     };
 
     return (
@@ -244,6 +248,11 @@ export default (props: ITooltipProps) => {
             <Trigger
                 className="tooltip__trigger"
                 onMouseOver={
+                    (screen >= BREAKPOINTS.md && show) ||
+                    (activeOnMobile && show) ||
+                    undefined
+                }
+                onFocus={
                     (screen >= BREAKPOINTS.md && show) ||
                     (activeOnMobile && show) ||
                     undefined

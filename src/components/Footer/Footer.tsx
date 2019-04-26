@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { THEME_TRANSITION_TIME } from "src/config";
-import { Hooks } from "src/modules";
+import { THEME_TRANSITION_TIME } from "../../../src/config";
+import { Hooks } from "../../../src/modules";
 import styled from "styled-components";
 import { version } from "../../../package.json";
 import { fonts } from "../../modules/CSS";
@@ -11,6 +11,7 @@ const { useConnect } = Hooks;
 
 interface IFooterProps {
     kClassName?: string;
+    projectVersion?: string;
 }
 
 const Footer = styled.footer`
@@ -24,7 +25,7 @@ const Footer = styled.footer`
     width: 100%;
 `;
 
-export default ({ kClassName = "" }: IFooterProps) => {
+export default ({ kClassName = "", projectVersion }: IFooterProps) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     const { t } = useTranslation();
 
@@ -32,7 +33,8 @@ export default ({ kClassName = "" }: IFooterProps) => {
         <Footer theme={theme} className={`footer ${kClassName}`}>
             Copyright <FontAwesomeIcon icon={["far", "copyright"]} />{" "}
             {new Date().getFullYear()} Tristan Chin. {t("footer.copyright")}
-            <br />v{version}
+            <br />
+            {projectVersion && `v${projectVersion}`} (TRC v{version})
         </Footer>
     );
 };

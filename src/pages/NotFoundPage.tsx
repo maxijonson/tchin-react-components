@@ -1,9 +1,8 @@
 import * as _ from "lodash";
 import * as React from "react";
-import { Tooltip, ViewportContainer } from "src/components";
-import { PATHS } from "src/config";
-import { Hooks } from "src/modules";
-import { ITheme } from "src/modules/CSS";
+import { Tooltip, ViewportContainer } from "../../src/components";
+import { Hooks } from "../../src/modules";
+import { ITheme } from "../../src/modules/CSS";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
 
@@ -13,22 +12,22 @@ interface IKeywords {
     [keyword: string]: { color: string };
 }
 const keywords: IKeywords = {
-    "import": {
+    import: {
         color: "#F92660",
     },
-    "from": {
+    from: {
         color: "#F92660",
     },
-    "as": {
+    as: {
         color: "#F92660",
     },
-    "export": {
+    export: {
         color: "#F92660",
     },
-    "return": {
+    return: {
         color: "#F92660",
     },
-    "default": {
+    default: {
         color: "#F92660",
     },
     "=": {
@@ -43,13 +42,13 @@ const keywords: IKeywords = {
     "}": {
         color: "#CFCC03",
     },
-    "const": {
+    const: {
         color: "#3FC0EF",
     },
     "=>": {
         color: "#3FC0EF",
     },
-    "IExistingLink": {
+    IExistingLink: {
         color: "#98CC30",
     },
 };
@@ -110,7 +109,7 @@ const CodeLine = ({ line }: { line: string }) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     const isImport = line.startsWith("import");
     const url = window.location.href.substring(
-        window.location.protocol.length + 2,
+        window.location.protocol.length + 2
     );
     let inBrackets = false;
     if (line == special) {
@@ -156,7 +155,7 @@ const CodeLine = ({ line }: { line: string }) => {
 export default () => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     return (
-        <ViewportContainer background={PATHS.images.notFoundBg}>
+        <ViewportContainer background={"/assets/notFound-bg.jpg"}>
             <Container theme={theme}>
                 <Code theme={theme}>
                     <h1 style={{ textAlign: "center" }}>404 - Not Found</h1>

@@ -6,13 +6,13 @@
         "typescriptreact"
     ],
     "workbench.colorCustomizations": {
-        "tab.activeBackground": "#1499c2",
-        "tab.activeForeground": "#9ef0ff",
-        "activityBarBadge.background": "#1499c2",
-        "activityBar.background": "#1f2b2e",
-        "statusBar.background": "#0791a3",
-        "activityBar.foreground": "#039db1",
-        "titleBar.activeBackground": "#10565f"
+        "tab.activeBackground": "#1482c2",
+        "tab.activeForeground": "#9ed8ff",
+        "activityBarBadge.background": "#1482c2",
+        "activityBar.background": "#1f2a2e",
+        "statusBar.background": "#0772a3",
+        "activityBar.foreground": "#037ab1",
+        "titleBar.activeBackground": "#10465f"
     },
     "git.autofetch": false
 }

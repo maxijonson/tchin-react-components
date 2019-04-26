@@ -1,7 +1,7 @@
 import React from "react";
-import { Background } from "src/components";
-import { THEME_TRANSITION_TIME } from "src/config";
-import { Hooks } from "src/modules";
+import { Background } from "../../../src/components";
+import { THEME_TRANSITION_TIME } from "../../../src/config";
+import { Hooks } from "../../../src/modules";
 import styled from "styled-components";
 import ColorOverlay from "../ColorOverlay/ColorOverlay";
 

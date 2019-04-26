@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Card } from "src/components";
+import { Card } from "../../../src/components";
 import Modal from "./Modal";
 
 interface IErrorModalOwnProps {

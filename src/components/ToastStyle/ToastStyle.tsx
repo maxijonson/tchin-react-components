@@ -1,5 +1,5 @@
-import { BREAKPOINTS } from "src/config";
-import { fonts, ITheme } from "src/modules/CSS";
+import { BREAKPOINTS } from "../../../src/config";
+import { fonts, ITheme } from "../../../src/modules/CSS";
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle<{ theme: ITheme }>`

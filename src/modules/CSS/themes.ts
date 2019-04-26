@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { colors } from "./colors";
 
 export type Section =

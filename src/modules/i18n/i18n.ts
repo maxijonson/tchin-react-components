@@ -3,11 +3,11 @@ import markdownJsx from "i18next-markdown-jsx-plugin";
 import * as _ from "lodash";
 import { initReactI18next } from "react-i18next";
 
-import { SESSION_KEYS } from "src/config";
-import enLong from "src/i18n/en/en-long.json";
-import en from "src/i18n/en/en.json";
-import frLong from "src/i18n/fr/fr-long.json";
-import fr from "src/i18n/fr/fr.json";
+import { SESSION_KEYS } from "../../../src/config";
+import enLong from "../../../src/i18n/en/en-long.json";
+import en from "../../../src/i18n/en/en.json";
+import frLong from "../../../src/i18n/fr/fr-long.json";
+import fr from "../../../src/i18n/fr/fr.json";
 
 const DEFAULT_LNG = "en";
 
@@ -38,7 +38,7 @@ i18n.use(markdownJsx)
                 savedLng &&
                 _.includes(
                     i18n.languages,
-                    window.sessionStorage.getItem(SESSION_KEYS.i18n),
+                    window.sessionStorage.getItem(SESSION_KEYS.i18n)
                 )
             ) {
                 return savedLng;
@@ -55,7 +55,7 @@ i18n.use(markdownJsx)
 
 export const t = (
     key: string | string[],
-    options?: i18n.TOptions<i18n.StringMap> | undefined,
+    options?: i18n.TOptions<i18n.StringMap> | undefined
 ) => i18n.t(key, options);
 
 export default i18n;

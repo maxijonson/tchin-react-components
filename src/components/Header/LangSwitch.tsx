@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import Switch from "react-switch";
-import { app } from "src/app";
-import { Hooks } from "src/modules";
+import { app } from "../../../src/app";
+import { Hooks } from "../../../src/modules";
 
 const { useConnect } = Hooks;
 
 export default () => {
-    const { i18n, t } = useTranslation();
+    const { i18n } = useTranslation();
 
     const { theme } = useConnect(({ theme }) => ({ theme }));
 
@@ -19,7 +19,6 @@ export default () => {
         <div style={{ display: "inline-block" }}>
             <Switch
                 activeBoxShadow={theme.colors.defaultText}
-                ariaLabelledby={t("header.changeLang")}
                 checked={i18n.language == "en"}
                 onChange={handleLangChange}
                 handleDiameter={15}
@@ -46,7 +45,7 @@ export default () => {
                             color: theme.colors.defaultText,
                             paddingRight: 2,
                         }}
-                        children={"EN"}
+                        children="EN"
                     />
                 }
                 uncheckedIcon={
@@ -60,7 +59,7 @@ export default () => {
                             color: theme.colors.defaultText,
                             paddingRight: 2,
                         }}
-                        children={"FR"}
+                        children="FR"
                     />
                 }
             />

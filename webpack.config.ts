@@ -1,7 +1,6 @@
 import ExtractTextPlugin from "extract-text-webpack-plugin";
-import * as _ from "lodash";
 import path from "path";
-import TSLintPlugin from "tslint-webpack-plugin";
+
 import webpack = require("webpack");
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
@@ -15,13 +14,6 @@ if (process.env.NODE_ENV === "test") {
 const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
     const isProduction = env.NODE_ENV === "production";
     const CSSExtract = new ExtractTextPlugin("styles.css");
-    const TSLint = new TSLintPlugin({
-        files: ["./src/**/*.ts"],
-        config: "./tslint.json",
-        project: "./tsconfig.json",
-        outputAbsolutePaths: false,
-        warningsAsError: true,
-    });
 
     return {
         entry: ["babel-polyfill", "./src/index.tsx"],
@@ -67,7 +59,7 @@ const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
             modules: [path.resolve(__dirname), "node_modules"],
             extensions: [".tsx", ".ts", ".js", ".json"],
         },
-        plugins: [CSSExtract, TSLint],
+        plugins: [CSSExtract],
         mode: isProduction ? "production" : "development",
         devtool: isProduction ? "source-map" : "inline-source-map",
         devServer: {

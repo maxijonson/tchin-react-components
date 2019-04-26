@@ -36,7 +36,7 @@ export default class Catcher extends React.Component<
     ICatcherOwnProps,
     ICatcherState
 > {
-    constructor(props: ICatcherOwnProps) {
+    public constructor(props: ICatcherOwnProps) {
         super(props);
         this.state = { errorReport: null };
     }
@@ -95,7 +95,7 @@ export const withCatcher = (
         Fallback?: IFallback;
         onError?: IOnError;
         wrappedProps?: IWrappedProps;
-    },
+    }
 ) => (props: any) => (
     <Catcher
         Fallback={options && options.Fallback}

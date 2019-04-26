@@ -6,8 +6,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { ConnectedComponentClass } from "react-redux";
-import { app } from "src/app";
-import { HomePage, NotFoundPage, PortfolioPage } from "../pages";
+import { app } from "../../src/app";
+import { NotFoundPage } from "../pages";
 
 export interface IRoute {
     name: string;
@@ -26,32 +26,6 @@ interface ISocial {
 }
 
 export const routes: IRoute[] = [
-    {
-        name: "header.home",
-        key: "home",
-        path: "/",
-        exact: true,
-        component: HomePage,
-        Icon: () => (
-            <FontAwesomeIcon
-                icon="home"
-                color={app.state.theme.colors.defaultText}
-            />
-        ),
-    },
-    {
-        name: "header.portfolio",
-        path: "/portfolio",
-        key: "portfolio",
-        exact: true,
-        component: PortfolioPage,
-        Icon: () => (
-            <FontAwesomeIcon
-                icon="book-open"
-                color={app.state.theme.colors.defaultText}
-            />
-        ),
-    },
     {
         name: "Not Found",
         key: "notFound",

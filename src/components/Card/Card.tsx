@@ -1,13 +1,11 @@
-import * as _ from "lodash";
 import React from "react";
 import * as Reveal from "react-reveal";
-import { CardCatcher } from "src/components/Card/CardCatcher";
-import { BREAKPOINTS } from "src/config";
-import { THEME_TRANSITION_TIME } from "src/config";
-import { Hooks } from "src/modules";
-import { fonts, ITheme } from "src/modules/CSS";
 import styled, { ThemeProvider } from "styled-components";
 import tinycolor from "tinycolor2";
+import { CardCatcher } from "../../../src/components/Card/CardCatcher";
+import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../../src/config";
+import { Hooks } from "../../../src/modules";
+import { fonts, ITheme } from "../../../src/modules/CSS";
 import { withCatcher } from "../Catcher/Catcher";
 import {
     defaultProps,
@@ -299,17 +297,17 @@ const Base = (props: ICardProps & ICardInternalProps) => {
 
     const baseDelay = Math.round((delay + duration) / animationDelayFactor);
 
-    let timeout: number;
+    let revealTimeout: number;
     const onRevealTrigger = (timeout: number = 2000) => {
         if (isReveal ? hasRevealed : true) {
             setIsBeingRevealed(true);
-            timeout = window.setTimeout(
+            revealTimeout = window.setTimeout(
                 () => setFallbackHasRevealed(true),
-                timeout,
+                timeout
             );
         }
     };
-    React.useEffect(() => () => window.clearTimeout(timeout));
+    React.useEffect(() => () => window.clearTimeout(revealTimeout));
 
     // Content
     const Content = ContentRenderer || DContent;

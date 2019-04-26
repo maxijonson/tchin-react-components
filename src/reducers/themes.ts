@@ -1,6 +1,6 @@
 import moment from "moment";
-import { SESSION_KEYS } from "src/config";
-import { ITheme, themes } from "src/modules/CSS";
+import { SESSION_KEYS } from "../../src/config";
+import { ITheme, themes } from "../../src/modules/CSS";
 
 const format = "H";
 const night = {
@@ -27,19 +27,19 @@ const getInitialState = (): ITheme => {
 
 export const themesReducer = (
     state: ITheme = getInitialState(),
-    action: IThemeAction,
+    action: IThemeAction
 ): ITheme => {
     switch (action.type) {
         case "themes/SET_THEME":
             window.sessionStorage.setItem(
                 SESSION_KEYS.theme,
-                action.theme.name,
+                action.theme.name
             );
             return action.theme;
         case "themes/RESET_THEME":
             window.sessionStorage.setItem(
                 SESSION_KEYS.theme,
-                themesReducerDefaultState.name,
+                themesReducerDefaultState.name
             );
             return themesReducerDefaultState;
         default:

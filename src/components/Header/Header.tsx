@@ -2,11 +2,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as _ from "lodash";
 import React from "react";
 
-import { app } from "src/app";
-import { Card, Modal } from "src/components";
-import { ZINDEX } from "src/config";
-import { Hooks } from "src/modules";
-import { routes, socials } from "src/routers/routes";
+import { app } from "../../../src/app";
+import { Card, Modal } from "../../../src/components";
+import { ZINDEX } from "../../../src/config";
+import { Hooks } from "../../../src/modules";
+import { routes, socials } from "../../../src/routers/routes";
 import styled from "styled-components";
 import { SCROLLBAR_EVENT } from "../Scrollbar/Scrollbar";
 import LangSwitch from "./LangSwitch";
@@ -70,7 +70,7 @@ export default () => {
 
     return (
         <Header className={`header ${menuVisible ? "active" : ""}`}>
-            <div className={`header--button`} onClick={onMenuClick}>
+            <div className="header--button" onClick={onMenuClick}>
                 <FontAwesomeIcon icon="bars" color={theme.colors.defaultText} />
             </div>
             <Modal
@@ -131,7 +131,7 @@ export default () => {
                                     {...route}
                                     onPathChange={handlePathChange}
                                 />
-                            ),
+                            )
                     )}
                 </Card>
             </Modal>

@@ -148,7 +148,7 @@ type ToSFC<T> = T extends React.DetailedHTMLProps<infer U, any>
 
 type UseStyled = {
     [x in keyof JSX.IntrinsicElements]: (
-        css: string,
+        css: string
     ) => ToSFC<JSX.IntrinsicElements[x]>
 };
 
@@ -164,13 +164,13 @@ export const useStyled: UseStyled = domElements.reduce(
                 React.forwardRef((props: any, ref: any) => (
                     <Inner ref={ref} {...props} css={css} />
                 )),
-                [css],
+                [css]
             );
         };
 
         return ret;
     },
-    {} as UseStyled,
+    {} as UseStyled
 );
 
 export const useStyledCustom = (Component: React.ComponentType<any>) => {
@@ -183,7 +183,7 @@ export const useStyledCustom = (Component: React.ComponentType<any>) => {
             React.forwardRef((props: any, ref: any) => (
                 <Inner ref={ref} {...props} css={css} />
             )),
-            [css],
+            [css]
         );
     };
     return ret;
