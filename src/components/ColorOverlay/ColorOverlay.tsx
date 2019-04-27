@@ -1,7 +1,7 @@
 import React from "react";
+import styled from "styled-components";
 import { Hooks } from "../../../src/modules";
 import { ITheme } from "../../../src/modules/CSS";
-import styled from "styled-components";
 
 const { useConnect } = Hooks;
 

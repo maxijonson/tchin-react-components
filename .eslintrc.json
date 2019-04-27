@@ -29,7 +29,6 @@
     },
     "plugins": ["react", "@typescript-eslint"],
     "rules": {
-        "jsx-a11y/anchor-is-valid": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/no-explicit-any": "off",
@@ -40,14 +39,16 @@
                 "ignoreRestSiblings": true
             }
         ],
+        "import/no-extraneous-dependencies": "off",
         "import/no-unresolved": "off",
         "import/prefer-default-export": "off",
+        "jsx-a11y/anchor-is-valid": "off",
         "jsx-a11y/click-events-have-key-events": "off",
         "jsx-a11y/no-static-element-interactions": "off",
         "no-console": [
             "warn",
             {
-                "allow": ["warn"]
+                "allow": ["warn", "error"]
             }
         ],
         "no-shadow": [

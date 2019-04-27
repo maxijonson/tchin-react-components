@@ -1,12 +1,12 @@
 import * as _ from "lodash";
 import * as React from "react";
 import { useSwipeable } from "react-swipeable";
-import { Tooltip } from "../../../src/components";
+import styled from "styled-components";
+import tinycolor from "tinycolor2";
+import Tooltip from "../Tooltip/Tooltip";
 import { BREAKPOINTS, THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
 import { fonts, ITheme } from "../../../src/modules/CSS";
-import styled from "styled-components";
-import tinycolor from "tinycolor2";
 
 const { useConnect, useCurrentBreakpoint } = Hooks;
 const SLIDE_TIME = 1000;

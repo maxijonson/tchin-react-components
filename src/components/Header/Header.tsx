@@ -1,13 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import * as _ from "lodash";
 import React from "react";
-
-import { app } from "../../../src/app";
-import { Card, Modal } from "../../../src/components";
+import styled from "styled-components";
+import app from "../../../src/app";
+import Modal from "../Modal/Modal";
+import Card from "../Card/Card";
 import { ZINDEX } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { routes, socials } from "../../../src/routers/routes";
-import styled from "styled-components";
 import { SCROLLBAR_EVENT } from "../Scrollbar/Scrollbar";
 import LangSwitch from "./LangSwitch";
 import Nav from "./Nav";
@@ -71,7 +71,10 @@ export default () => {
     return (
         <Header className={`header ${menuVisible ? "active" : ""}`}>
             <div className="header--button" onClick={onMenuClick}>
-                <FontAwesomeIcon icon="bars" color={theme.colors.defaultText} />
+                <FontAwesomeIcon
+                    icon={faBars}
+                    color={theme.colors.defaultText}
+                />
             </div>
             <Modal
                 overlayOpacity={isNavigating ? 1 : undefined}
@@ -110,7 +113,7 @@ export default () => {
                     }
                     footer={
                         <div style={{ textAlign: "center" }}>
-                            {_.map(socials, ({ Icon, name, url }) => (
+                            {_.map(app.socials, ({ Icon, name, url }) => (
                                 <a
                                     style={{ margin: "0 4%" }}
                                     href={url}
@@ -124,7 +127,7 @@ export default () => {
                     kClassName="header--card"
                 >
                     {_.map(
-                        routes,
+                        app.routes,
                         ({ hidden, component, ...route }) =>
                             !hidden && (
                                 <Nav

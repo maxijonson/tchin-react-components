@@ -1,4 +1,3 @@
-import { app, t } from "../../src/app";
 import { ITheme } from "../../src/modules/CSS/themes";
 
 export interface ISetThemeAction {
@@ -15,9 +14,6 @@ declare global {
 }
 
 export const setTheme = (theme: ITheme): ISetThemeAction => {
-    app.notify(
-        `${t("notification.themeChange")}: ${t(`header.theme.${theme.name}`)}`
-    );
     return {
         theme,
         type: "themes/SET_THEME",

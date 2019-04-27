@@ -1,9 +1,9 @@
 import * as _ from "lodash";
 import * as React from "react";
 import { Dispatch } from "redux";
-import { app } from "../../../src/app";
+import app from "../../../src/app";
 import { BREAKPOINTS } from "../../../src/config";
-import { Utils } from "../../../src/modules";
+import * as Utils from "../Utils/utils";
 
 export * from "./useStyled";
 

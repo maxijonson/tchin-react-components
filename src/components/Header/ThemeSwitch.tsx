@@ -1,24 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
 import Switch from "react-switch";
-import { setTheme as setThemeAction } from "../../../src/actions";
 import { Hooks } from "../../../src/modules";
-import { ITheme, themes } from "../../../src/modules/CSS";
+import app from "../../app";
 
 const { useConnect } = Hooks;
 
-const { light, dark } = themes;
-
 export default () => {
-    const { theme, setTheme } = useConnect(
-        ({ theme }) => ({ theme }),
-        (dispatch) => ({
-            setTheme: (theme: ITheme) => dispatch(setThemeAction(theme)),
-        })
-    );
+    const { theme } = useConnect(({ theme }) => ({ theme }));
 
     const handleThemeChange = (checked: boolean) => {
-        setTheme(checked ? light : dark);
+        app.setTheme(checked ? app.themes.light.name : app.themes.dark.name);
     };
     return (
         <div style={{ display: "inline-block" }}>
@@ -42,7 +35,7 @@ export default () => {
                             color: theme.colors.defaultText,
                             paddingRight: 2,
                         }}
-                        children={<FontAwesomeIcon icon="sun" />}
+                        children={<FontAwesomeIcon icon={faSun} />}
                     />
                 }
                 uncheckedIcon={
@@ -56,7 +49,7 @@ export default () => {
                             color: theme.colors.defaultText,
                             paddingRight: 2,
                         }}
-                        children={<FontAwesomeIcon icon="moon" />}
+                        children={<FontAwesomeIcon icon={faMoon} />}
                     />
                 }
             />

@@ -1,4 +1,6 @@
 import ExtractTextPlugin from "extract-text-webpack-plugin";
+import CircularDependencyPlugin from "circular-dependency-plugin";
+
 import path from "path";
 
 import webpack = require("webpack");
@@ -14,6 +16,11 @@ if (process.env.NODE_ENV === "test") {
 const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
     const isProduction = env.NODE_ENV === "production";
     const CSSExtract = new ExtractTextPlugin("styles.css");
+    const CircularDependency = new CircularDependencyPlugin({
+        exclude: /a\.js|node_modules/,
+        failOnError: true,
+        cwd: process.cwd(),
+    });
 
     return {
         entry: ["babel-polyfill", "./src/index.tsx"],
@@ -24,7 +31,7 @@ const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
         module: {
             rules: [
                 {
-                    loader: "babel-loader",
+                    use: ["babel-loader", "eslint-loader"],
                     test: /\.js$/,
                     exclude: /node_modules/,
                 },
@@ -50,7 +57,7 @@ const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
                 {
                     test: /\.tsx?$/,
                     enforce: "pre",
-                    use: "ts-loader",
+                    use: ["ts-loader", "eslint-loader"],
                     exclude: /node_modules/,
                 },
             ],
@@ -59,9 +66,9 @@ const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
             modules: [path.resolve(__dirname), "node_modules"],
             extensions: [".tsx", ".ts", ".js", ".json"],
         },
-        plugins: [CSSExtract],
+        plugins: [CSSExtract, CircularDependency],
         mode: isProduction ? "production" : "development",
-        devtool: isProduction ? "source-map" : "inline-source-map",
+        devtool: isProduction ? "source-map" : "eval-source-map",
         devServer: {
             contentBase: path.join(__dirname, "public"),
             historyApiFallback: true,

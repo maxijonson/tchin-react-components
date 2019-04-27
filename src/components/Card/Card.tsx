@@ -2,7 +2,8 @@ import React from "react";
 import * as Reveal from "react-reveal";
 import styled, { ThemeProvider } from "styled-components";
 import tinycolor from "tinycolor2";
-import { CardCatcher } from "../../../src/components/Card/CardCatcher";
+import Button from "../Button/Button";
+import Modal from "../Modal/Modal";
 import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
 import { fonts, ITheme } from "../../../src/modules/CSS";
@@ -252,7 +253,7 @@ const AnimateSide = ({
     );
 };
 
-const Base = (props: ICardProps & ICardInternalProps) => {
+const CardComponent = (props: ICardProps & ICardInternalProps) => {
     const {
         ContentRenderer,
         HeaderRenderer,
@@ -425,7 +426,69 @@ const Base = (props: ICardProps & ICardInternalProps) => {
     );
 };
 
-export const CardCatched = withCatcher(Base, { Fallback: CardCatcher });
+const CardCatcher = ({ errorReport }: { errorReport: IErrorReport }) => {
+    const { theme } = useConnect(({ theme }) => ({ theme }));
+
+    const [modalVisible, setModalVisible] = React.useState(false);
+
+    const handleClick = () => {
+        setModalVisible(true);
+    };
+
+    const onModalRequestClose = () => setModalVisible(false);
+
+    return (
+        <>
+            <Base
+                background={theme.colors.defaultErrorBg}
+                title={
+                    <span
+                        style={{ color: theme.colors.defaultErrorText }}
+                        children="UH OH"
+                    />
+                }
+                subtitle={
+                    <span
+                        style={{ color: theme.colors.altErrorText }}
+                        children="Something went wrong..."
+                    />
+                }
+                headerSeparator={<span />}
+                imageUrl="assets/images/warn.png"
+            >
+                <div
+                    style={{
+                        color: theme.colors.defaultErrorText,
+                        textAlign: "center",
+                    }}
+                >
+                    <p>
+                        An unexpected error happened and this message was
+                        rendered as fallback to prevent the rest from crashing!
+                    </p>
+                    <Button
+                        title="Debug"
+                        subtitle="see the cryptic stuff"
+                        onClick={handleClick}
+                    />
+                </div>
+            </Base>
+            <Modal visible={modalVisible} onRequestClose={onModalRequestClose}>
+                <Base
+                    kClassName="ErrorModal--Modal--Card"
+                    title="Error Report"
+                    subtitle={errorReport.error.name}
+                >
+                    <pre>{errorReport.error.stack}</pre>
+                </Base>
+            </Modal>
+        </>
+    );
+};
+
+export const CardCatched = withCatcher(CardComponent, {
+    Fallback: CardCatcher,
+});
 
 /**
  * Flexible Card component with default containers, or you can define your own.
@@ -447,9 +510,10 @@ export const CardCatched = withCatcher(Base, { Fallback: CardCatcher });
     </>
  * ```
  */
-export default (props: ICardProps) => (
+export const Base = (props: ICardProps) => (
     <CardCatched {...props} bodyAlignment="left" />
 );
+export default Base;
 
 /**
  * Shows text to the right (when there's an image)

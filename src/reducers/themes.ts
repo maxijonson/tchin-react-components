@@ -1,6 +1,7 @@
 import moment from "moment";
 import { SESSION_KEYS } from "../../src/config";
-import { ITheme, themes } from "../../src/modules/CSS";
+import { ITheme } from "../../src/modules/CSS";
+import { defaultThemes } from "../../src/modules/CSS/themes";
 
 const format = "H";
 const night = {
@@ -11,15 +12,15 @@ const now = Number(moment().format(format));
 const isNight = now > night.start || now < night.end;
 
 export const themesReducerDefaultState: ITheme = isNight
-    ? themes.dark
-    : themes.light;
+    ? defaultThemes.dark
+    : defaultThemes.light;
 
 const getInitialState = (): ITheme => {
     switch (window.sessionStorage.getItem(SESSION_KEYS.theme)) {
-        case themes.light.name:
-            return themes.light;
-        case themes.dark.name:
-            return themes.dark;
+        case defaultThemes.light.name:
+            return defaultThemes.light;
+        case defaultThemes.dark.name:
+            return defaultThemes.dark;
         default:
             return themesReducerDefaultState;
     }

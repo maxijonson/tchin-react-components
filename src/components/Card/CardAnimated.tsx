@@ -23,8 +23,8 @@ import RevealSwing from "react-reveal/Swing";
 import RevealTada from "react-reveal/Tada";
 // @ts-ignore:noImplicitAny
 import RevealWobble from "react-reveal/Wobble";
-import { CardCatched as Card } from "./Card";
 import { IAnimatedCardProps } from "./model";
+import { CardCatched as Card } from "./Card";
 
 export const Fade = (props: IAnimatedCardProps) => {
     const [hasRevealed, setHasRevealed] = React.useState(false);

@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopyright } from "@fortawesome/free-regular-svg-icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import styled from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import styled from "styled-components";
 import { version } from "../../../package.json";
 import { fonts } from "../../modules/CSS";
 
@@ -31,10 +32,14 @@ export default ({ kClassName = "", projectVersion }: IFooterProps) => {
 
     return (
         <Footer theme={theme} className={`footer ${kClassName}`}>
-            Copyright <FontAwesomeIcon icon={["far", "copyright"]} />{" "}
+            Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
             {new Date().getFullYear()} Tristan Chin. {t("footer.copyright")}
             <br />
-            {projectVersion && `v${projectVersion}`} (TRC v{version})
+            {projectVersion && `v${projectVersion}`} (
+            <a href="https://www.npmjs.com/package/tchin-react-components">
+                TRC
+            </a>{" "}
+            v{version})
         </Footer>
     );
 };

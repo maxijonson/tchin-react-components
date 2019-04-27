@@ -1,6 +1,6 @@
-import { shade } from "./shades";
+import { IShade } from "./shades";
 
-export type Color =
+export type IColor =
     | "black"
     | "blue"
     | "navy"
@@ -9,11 +9,11 @@ export type Color =
     | "red"
     | "onyx";
 
-export type IColors = { [name in Color]: string };
+export type IColors = { [name in IColor]: string };
 
-export type IShade = { [name in shade]: IColors };
+export type IPalette = { [name in IShade]: IColors };
 
-export const colors: IShade = {
+export const colors: IPalette = {
     pitchDark: {
         black: "#030303",
         blue: "#04080A",

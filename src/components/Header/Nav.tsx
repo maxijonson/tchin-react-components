@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import { THEME_TRANSITION_TIME } from "../../../src/config";
-import { Hooks } from "../../../src/modules";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
+import { THEME_TRANSITION_TIME } from "../../../src/config";
+import { Hooks } from "../../../src/modules";
 
 const { useConnect } = Hooks;
 

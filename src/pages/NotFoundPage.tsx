@@ -1,10 +1,10 @@
 import * as _ from "lodash";
 import * as React from "react";
+import styled from "styled-components";
+import tinycolor from "tinycolor2";
 import { Tooltip, ViewportContainer } from "../../src/components";
 import { Hooks } from "../../src/modules";
 import { ITheme } from "../../src/modules/CSS";
-import styled from "styled-components";
-import tinycolor from "tinycolor2";
 
 const { useConnect } = Hooks;
 
@@ -152,10 +152,10 @@ const CodeLine = ({ line }: { line: string }) => {
     );
 };
 
-export default () => {
+export default ({ background }: { background?: string }) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     return (
-        <ViewportContainer background={"/assets/notFound-bg.jpg"}>
+        <ViewportContainer background={background || "/assets/notFound-bg.jpg"}>
             <Container theme={theme}>
                 <Code theme={theme}>
                     <h1 style={{ textAlign: "center" }}>404 - Not Found</h1>

@@ -1,12 +1,12 @@
 import * as React from "react";
 import posed from "react-pose";
+import styled from "styled-components";
 import {
     BREAKPOINTS,
     THEME_TRANSITION_TIME,
     ZINDEX,
 } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import styled from "styled-components";
 
 const { useConnect, useCurrentBreakpoint } = Hooks;
 

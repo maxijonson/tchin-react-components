@@ -4,91 +4,16 @@
     },
     "header": {
         "changeLang": "Changer la langue",
+        "changeTheme": "Changer le thème",
         "home": "Accueil",
         "portfolio": "Portfolio",
-        "sandbox": "Carré de sable",
         "theme": {
             "dark": "foncé",
             "light": "clair"
         }
     },
-    "home": {
-        "intro": {
-            "maxijonson": "SITE OFFICIEL DE MAXIJONSON",
-            "tagline": " | Étudiant en Informatique",
-            "tristan": "SITE OFFICIEL DE TRISTAN CHIN",
-            "welcome": "Bienvenue sur le"
-        },
-        "playground": {
-            "subtitle": "L'Expérience par la Pratique",
-            "title": "Mon terrain de jeu"
-        },
-        "sections": {
-            "about": {
-                "title": "À propos de moi"
-            },
-            "experience": {
-                "categories": {
-                    "application": "Application",
-                    "database": "Base de données",
-                    "mobile": "Mobile",
-                    "os": "SE",
-                    "web": "Web"
-                },
-                "legend": "Autodidacte",
-                "levels": {
-                    "advanced": "Avancé",
-                    "basic": "Base",
-                    "intermediate": "Intermédiaire"
-                },
-                "title": "Expérience"
-            },
-            "programming": {
-                "title": "Programmation"
-            },
-            "youtube": {
-                "title": "Youtube"
-            }
-        },
-        "share": {
-            "subtitle": "Partager, c'est aimer",
-            "title": "Le Code"
-        },
-        "welcome": {
-            "funfact": {
-                "maxijonson": "Fait amusant: J'ai plus d'un domaine pour ce site Web. Le site change un peu si vous êtes sur [MaxiJonson](https://www.maxijonson.com/)!",
-                "tristan": "Fait amusant: J'ai plus d'un domaine pour ce site Web. Le site change un peu si vous êtes sur [Tristan Chin](https://www.chintristan.io/)!"
-            },
-            "subtitle": "Apprenez à me connaître, moi et mon expérience",
-            "title": "Bienvenue"
-        }
-    },
     "notification": {
         "langChange": "Langue changée",
         "themeChange": "Thème changé"
-    },
-    "portfolio": {
-        "details": "Voir les détails",
-        "projects": {
-            "cuisto": {
-                "short": "Une solution de gestion en restauration pour les organisations avec une ou plusieurs succursales."
-            },
-            "intellibot": {
-                "short": "Le bot Discord polyvalent par excellence."
-            },
-            "poly": {
-                "short": "Fond d'écran d'un visualiseur audio pour Wallpaper Engine."
-            },
-            "punchbot": {
-                "short": "Gardez une trace de votre temps de travail directement sur Discord."
-            },
-            "react": {
-                "short": "Un projet Wallpaper Engine avec plus de 100 options personnalisables."
-            },
-            "website": {
-                "short": "La 4e édition de ce site que vous regardez en ce moment!",
-                "title": "Site web"
-            }
-        }
     }
 }

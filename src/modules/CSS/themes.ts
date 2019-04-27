@@ -1,45 +1,19 @@
 import { colors } from "./colors";
 
-export type Section =
-    | "pageBackground"
-    | "defaultText"
-    | "themeSwitchOn"
-    | "themeSwitchOff"
-    | "intro"
-    | "defaultColorOverlay"
-    | "card"
-    | "altCard"
-    | "defaultShadow"
-    | "altDefaultShadow"
-    | "cardShadow"
-    | "cardSubtitle"
-    | "cardFooter"
-    | "defaultErrorBg"
-    | "defaultErrorText"
-    | "altErrorText"
-    | "buttonBg"
-    | "buttonText"
-    | "modalBg"
-    | "modalText"
-    | "modalShadow"
-    | "sectionBackground"
-    | "tooltip"
-    | "tooltipText"
-    | "tagText"
-    | "toastBackground"
-    | "toastProgress";
-export type Theme = "light" | "dark";
+export type IThemeName = "light" | "dark";
 
-export type IPalette = { [name in Section]: string };
-
-export interface ITheme {
-    name: Theme;
-    colors: IPalette;
+export interface ISection {
+    [name: string]: string;
 }
 
-export type IThemes = { [name in Theme]: ITheme };
+export interface ITheme {
+    name: IThemeName;
+    colors: ISection;
+}
 
-export const themes: IThemes = {
+export type IThemes = { [name in IThemeName]: ITheme };
+
+export const defaultThemes: IThemes = {
     light: {
         name: "light",
         colors: {
@@ -47,7 +21,6 @@ export const themes: IThemes = {
             defaultText: colors.ultraDark.black,
             themeSwitchOn: colors.normal.white,
             themeSwitchOff: colors.normal.onyx,
-            intro: colors.ultraDark.black,
             defaultColorOverlay: colors.light.white,
             card: colors.pitchLight.white,
             altCard: colors.veryDark.black,
@@ -67,7 +40,6 @@ export const themes: IThemes = {
             sectionBackground: colors.pitchLight.white,
             tooltip: colors.ultraDark.black,
             tooltipText: colors.normal.white,
-            tagText: colors.ultraDark.white,
             toastBackground: colors.normal.white,
             toastProgress: colors.veryLight.onyx,
         },
@@ -79,7 +51,6 @@ export const themes: IThemes = {
             defaultText: colors.pitchLight.white,
             themeSwitchOn: colors.normal.white,
             themeSwitchOff: colors.normal.onyx,
-            intro: colors.normal.white,
             defaultColorOverlay: colors.ultraDark.black,
             card: colors.dark.onyx,
             altCard: colors.veryLight.white,
@@ -99,7 +70,6 @@ export const themes: IThemes = {
             sectionBackground: colors.dark.onyx,
             tooltip: colors.veryDark.onyx,
             tooltipText: colors.normal.white,
-            tagText: colors.normal.white,
             toastBackground: colors.dark.onyx,
             toastProgress: colors.veryDark.white,
         },

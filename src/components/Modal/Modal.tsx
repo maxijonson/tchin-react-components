@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import posed from "react-pose";
-import { THEME_TRANSITION_TIME, ZINDEX } from "../../../src/config";
-import { CSS, Hooks } from "../../../src/modules";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
+import { THEME_TRANSITION_TIME, ZINDEX } from "../../../src/config";
+import { CSS, Hooks } from "../../../src/modules";
 
 const { useConnect, usePortal } = Hooks;
 const { fonts } = CSS;
