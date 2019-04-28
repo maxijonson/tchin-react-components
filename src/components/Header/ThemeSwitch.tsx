@@ -3,15 +3,21 @@ import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
 import Switch from "react-switch";
 import { Hooks } from "../../../src/modules";
-import app from "../../app";
+import { setTheme as setThemeAction } from "../../../src/actions";
+import { defaultThemes, ITheme } from "../../../src/modules/CSS/themes";
 
 const { useConnect } = Hooks;
 
 export default () => {
-    const { theme } = useConnect(({ theme }) => ({ theme }));
+    const { theme, setTheme } = useConnect(
+        ({ theme }) => ({ theme }),
+        (dispatch) => ({
+            setTheme: (theme: ITheme) => dispatch(setThemeAction(theme)),
+        })
+    );
 
     const handleThemeChange = (checked: boolean) => {
-        app.setTheme(checked ? app.themes.light.name : app.themes.dark.name);
+        setTheme(checked ? defaultThemes.light : defaultThemes.dark);
     };
     return (
         <div style={{ display: "inline-block" }}>
