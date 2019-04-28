@@ -11,7 +11,7 @@ import en from "./i18n/en/en.json";
 import frLong from "./i18n/fr/fr-long.json";
 import fr from "./i18n/fr/fr.json";
 import { SESSION_KEYS } from "./config";
-import { IFonts, defaultFonts } from "./modules/CSS/fonts";
+import { IFonts, defaultFonts, IFont } from "./modules/CSS/fonts";
 
 export interface IRoute {
     name: string;
@@ -51,6 +51,12 @@ toast.configure({
     transition: Bounce,
 });
 
+const FALLBACK_FONT: IFont = {
+    family: "Arial",
+    subsets: "latin",
+    variants: "400",
+};
+
 class App {
     private static _instance = new App({});
     private static _hasInit = false;
@@ -61,7 +67,7 @@ class App {
     private static _history: ReturnType<
         typeof createBrowserHistory
     > = createBrowserHistory();
-    private static _fonts: IFonts; // TODO: Find a way to have intellisense on those
+    private static _fonts: IFonts;
 
     private constructor(options: IAppInitOptions) {
         const {
@@ -78,10 +84,21 @@ class App {
         App._routes = routes || [];
         App._socials = socials || [];
         App._history = createBrowserHistory(historyOptions);
-        App._fonts = {
-            ...defaultFonts,
-            ...fonts,
-        };
+        App._fonts = new Proxy(
+            {
+                ...defaultFonts,
+                ...(fonts || {}),
+            },
+            {
+                get(allFonts, font: string) {
+                    if (!allFonts[font]) {
+                        console.error(`Font ${font} is not an existing font.`);
+                        return FALLBACK_FONT;
+                    }
+                    return allFonts[font];
+                },
+            }
+        );
 
         // INIT I18N
         i18n.init({
