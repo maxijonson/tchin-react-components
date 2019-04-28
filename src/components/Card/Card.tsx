@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { fonts, ITheme } from "../../../src/modules/CSS";
+import { defaultFonts, ITheme } from "../../../src/modules/CSS";
 import { withCatcher } from "../Catcher/Catcher";
 import {
     defaultProps,
@@ -28,7 +28,7 @@ interface IThemeProps {
 
 const DTitle = styled.h1`
     font-size: 4rem;
-    font-family: ${fonts.roboto.family};
+    font-family: ${defaultFonts.roboto.family};
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
@@ -47,7 +47,7 @@ const DTitle = styled.h1`
 const DSubtitle = styled.h2`
     font-size: 2.25rem;
     color: ${({ theme: { theme } }: IThemeProps) => theme.colors.cardSubtitle};
-    font-family: ${fonts.openSans.family};
+    font-family: ${defaultFonts.openSans.family};
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
@@ -102,7 +102,7 @@ const DHeader = styled.div`
 // CARD BODY
 
 const DBody = styled.div`
-    font-family: "${fonts.openSans.family}";
+    font-family: "${defaultFonts.openSans.family}";
     @media (max-width: ${BREAKPOINTS.smpx}) {
         padding: 2% 3%;
     }
@@ -156,7 +156,7 @@ const DImage = styled.div`
 // Footer
 
 const DFooter = styled.div`
-    font-family: "${fonts.roboto.family}";
+    font-family: "${defaultFonts.roboto.family}";
     font-size: 1.6rem;
     color: ${({ theme: { theme } }: IThemeProps) => {
         const color = tinycolor(theme.colors.defaultText);

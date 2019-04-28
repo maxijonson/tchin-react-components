@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import chalk from "chalk";
 import express from "express";
 import gulp from "gulp";
@@ -6,7 +7,9 @@ import path from "path";
 import * as shell from "shelljs";
 import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
-import { DEV_SERVER } from "./gulpTasks.json";
+import rmrf from "rimraf";
+import fse from "fs-extra";
+import { DEV_SERVER, COMPILE } from "./gulpTasks.json";
 import getWebpackConfig from "./webpack.config";
 
 shell.config.silent = true;
@@ -76,6 +79,15 @@ gulp.task(
     })
 );
 
+gulp.task(
+    "init:prod",
+    gulp.series("init", (done) => {
+        process.env.NODE_ENV = "production";
+        showVariables();
+        done();
+    })
+);
+
 gulp.task(DEV_SERVER.task, () => {
     const webpackConfig = getWebpackConfig(process.env);
     if (!webpackConfig.plugins) {
@@ -120,3 +132,13 @@ gulp.task(DEV_SERVER.task, () => {
 });
 
 gulp.task("default", gulp.series("init:dev", DEV_SERVER.task));
+
+gulp.task(
+    COMPILE.task,
+    gulp.series("init:prod", (done) => {
+        rmrf.sync("./dist");
+        shell.exec("tsc");
+        fse.copySync("./src/styles", "./dist/src/styles");
+        done();
+    })
+);

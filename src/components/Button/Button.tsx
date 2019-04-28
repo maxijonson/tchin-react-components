@@ -3,7 +3,7 @@ import tinycolor from "tinycolor2";
 import styled, { ThemeProvider } from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { fonts, ITheme } from "../../../src/modules/CSS";
+import { defaultFonts, ITheme } from "../../../src/modules/CSS";
 
 const { useConnect } = Hooks;
 
@@ -69,12 +69,12 @@ const DButton = styled.button`
 `;
 
 const Title = styled.div`
-    font-family: ${fonts.roboto.family};
+    font-family: ${defaultFonts.roboto.family};
 `;
 
 const Subtitle = styled.div`
     font-size: 1rem;
-    font-family: ${fonts.openSans.family};
+    font-family: ${defaultFonts.openSans.family};
     margin: 0 1rem;
 `;
 

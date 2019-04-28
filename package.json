@@ -2,7 +2,7 @@
     "name": "tchin-react-components",
     "version": "1.0.6",
     "description": "Tristan Chin's own React components for reuse over future projects",
-    "main": "index.ts",
+    "main": "dist/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint src/**/*"
@@ -19,11 +19,13 @@
     ],
     "author": "Tristan Chin",
     "license": "ISC",
+    "types": "dist/index.d.ts",
     "bugs": {
         "url": "https://github.com/maxijonson/tchin-react-components/issues"
     },
     "homepage": "https://github.com/maxijonson/tchin-react-components#readme",
     "dependencies": {
+        "@babel/core": "^7.4.4",
         "@fortawesome/fontawesome-svg-core": "^1.2.17",
         "@fortawesome/free-brands-svg-icons": "^5.8.1",
         "@fortawesome/free-regular-svg-icons": "^5.8.1",
@@ -34,6 +36,7 @@
         "@types/dotenv": "^6.1.1",
         "@types/express": "^4.16.1",
         "@types/extract-text-webpack-plugin": "^3.0.4",
+        "@types/fs-extra": "^5.0.5",
         "@types/git-branch": "^2.0.1",
         "@types/gulp": "^4.0.6",
         "@types/i18next": "^12.1.0",
@@ -46,6 +49,7 @@
         "@types/react-router-dom": "^4.3.2",
         "@types/react-swipeable": "^4.3.0",
         "@types/react-toastify": "^4.0.2",
+        "@types/rimraf": "^2.0.2",
         "@types/shelljs": "^0.8.5",
         "@types/styled-components": "^4.1.14",
         "@types/tinycolor2": "^1.4.1",
@@ -53,6 +57,7 @@
         "@types/webpack-dev-server": "^3.1.5",
         "@typescript-eslint/eslint-plugin": "^1.7.0",
         "@typescript-eslint/parser": "^1.7.0",
+        "babel-loader": "^8.0.5",
         "babel-polyfill": "^6.26.0",
         "chalk": "^2.4.2",
         "circular-dependency-plugin": "^5.0.2",
@@ -71,6 +76,7 @@
         "express": "^4.16.4",
         "express-sslify": "^1.2.0",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "fs-extra": "^7.0.1",
         "git-branch": "^2.0.1",
         "gulp": "^4.0.1",
         "husky": "^2.1.0",
@@ -92,6 +98,7 @@
         "react-toastify": "^5.1.0",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
+        "rimraf": "^2.6.3",
         "sass-loader": "^7.1.0",
         "shelljs": "^0.8.3",
         "styled-components": "^4.2.0",

@@ -9,10 +9,11 @@ export { IColor, IColors, IPalette } from "./src/modules/CSS/colors";
 export { IShade } from "./src/modules/CSS/shades";
 export { ITheme, IThemes } from "./src/modules/CSS/themes";
 export {
-    IFontName,
     IFontSubsets,
     IFontVariants,
+    IFontName,
     IFonts,
+    IFont,
 } from "./src/modules/CSS/fonts";
 import * as Hooks from "./src/modules/hooks/hooks";
 export { Hooks };

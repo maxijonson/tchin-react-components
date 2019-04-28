@@ -20,7 +20,7 @@ const PageWrapperStyled = styled.div`
     overflow: auto;
 `;
 
-export default () => {
+export default ({ projectVersion }: { projectVersion?: string }) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     return (
         <Router history={app.history}>
@@ -43,7 +43,7 @@ export default () => {
                         )}
                     </Switch>
                 </PageWrapperStyled>
-                <Footer />
+                <Footer projectVersion={projectVersion} />
             </React.Fragment>
         </Router>
     );

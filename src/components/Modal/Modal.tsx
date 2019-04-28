@@ -7,7 +7,7 @@ import { THEME_TRANSITION_TIME, ZINDEX } from "../../../src/config";
 import { CSS, Hooks } from "../../../src/modules";
 
 const { useConnect, usePortal } = Hooks;
-const { fonts } = CSS;
+const { defaultFonts } = CSS;
 
 interface IPoseOptions {
     top?: boolean;
@@ -89,7 +89,7 @@ const Container = styled(
     max-height: 100%;
     overflow-y: auto;
     font-size: 2rem;
-    font-family: "${fonts.roboto.family}";
+    font-family: "${defaultFonts.roboto.family}";
 `;
 
 export default (props: IModalOwnProps) => {

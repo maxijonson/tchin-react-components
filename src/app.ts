@@ -33,6 +33,7 @@ interface IAppInitOptions {
     socials?: ISocial[];
     historyOptions?: BrowserHistoryBuildOptions;
     enforceSSL?: boolean;
+    translations?: { en: object; fr: object };
 }
 
 const DEFAULT_LNG = "en";
@@ -60,7 +61,13 @@ class App {
     > = createBrowserHistory();
 
     private constructor(options: IAppInitOptions) {
-        const { routes, socials, historyOptions, enforceSSL } = options;
+        const {
+            routes,
+            socials,
+            historyOptions,
+            enforceSSL,
+            translations,
+        } = options;
 
         if (enforceSSL) this.enforceSSL();
 
@@ -76,14 +83,17 @@ class App {
                     translation: {
                         ...{ long: enLong },
                         ...en,
+                        ...(translations ? translations.en : {}),
                     },
                 },
                 fr: {
                     translation: {
                         ...en,
                         ...{ long: enLong },
+                        ...(translations ? translations.en : {}),
                         ...{ long: frLong },
                         ...fr,
+                        ...(translations ? translations.fr : {}),
                     },
                 },
             },

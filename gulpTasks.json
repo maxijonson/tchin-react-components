@@ -2,5 +2,9 @@
     "DEV_SERVER": {
         "task": "server:dev",
         "hook": null
+    },
+    "COMPILE": {
+        "task": "compile",
+        "hook": null
     }
 }
