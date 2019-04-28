@@ -6,7 +6,7 @@ import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { ITheme } from "../../../src/modules/CSS";
+import { ITheme } from "../../../src/modules/themes";
 import { withCatcher } from "../Catcher/Catcher";
 import {
     defaultProps,

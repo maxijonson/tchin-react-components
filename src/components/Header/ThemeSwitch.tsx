@@ -2,13 +2,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
 import Switch from "react-switch";
+import { useTranslation } from "react-i18next";
 import { Hooks } from "../../../src/modules";
-import { setTheme as setThemeAction } from "../../../src/actions";
-import { defaultThemes, ITheme } from "../../../src/modules/CSS/themes";
+import { setThemeAction, defaultThemes, ITheme } from "../../modules/themes";
+import app from "../../app";
 
 const { useConnect } = Hooks;
 
 export default () => {
+    const { t } = useTranslation();
     const { theme, setTheme } = useConnect(
         ({ theme }) => ({ theme }),
         (dispatch) => ({
@@ -17,7 +19,13 @@ export default () => {
     );
 
     const handleThemeChange = (checked: boolean) => {
-        setTheme(checked ? defaultThemes.light : defaultThemes.dark);
+        const theme = checked ? defaultThemes.light : defaultThemes.dark;
+        app.notify(
+            `${t("notification.themeChange")}: ${t(
+                `header.theme.${theme.name}`
+            )}`
+        );
+        setTheme(theme);
     };
     return (
         <div style={{ display: "inline-block" }}>

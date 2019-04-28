@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { BREAKPOINTS } from "../../../src/config";
-import { ITheme } from "../../../src/modules/CSS";
+import { ITheme } from "../../../src/modules/themes";
 import app from "../../app";
 
 export default createGlobalStyle<{ theme: ITheme }>`

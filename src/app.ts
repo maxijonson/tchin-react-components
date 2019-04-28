@@ -3,15 +3,17 @@ import { initReactI18next } from "react-i18next";
 import markdownJsx from "i18next-markdown-jsx-plugin";
 import * as _ from "lodash";
 import moment from "moment";
+import { createStore, Store } from "redux";
 import { toast, ToastContent, ToastOptions, Bounce } from "react-toastify";
 import { createBrowserHistory, BrowserHistoryBuildOptions } from "history";
-import { store } from "./store/config";
 import enLong from "./i18n/en/en-long.json";
 import en from "./i18n/en/en.json";
 import frLong from "./i18n/fr/fr-long.json";
 import fr from "./i18n/fr/fr.json";
 import { SESSION_KEYS } from "./config";
 import { IFonts, defaultFonts, IFont } from "./modules/CSS/fonts";
+import { createRootReducers } from "./store/reducers";
+import { IStoreState } from "./store/types";
 
 export interface IRoute {
     name: string;
@@ -68,6 +70,7 @@ class App {
         typeof createBrowserHistory
     > = createBrowserHistory();
     private static _fonts: IFonts;
+    private static _store: Store<IStoreState>;
 
     private constructor(options: IAppInitOptions) {
         const {
@@ -99,6 +102,7 @@ class App {
                 },
             }
         );
+        App._store = createStore(createRootReducers());
 
         // INIT I18N
         i18n.init({
@@ -169,7 +173,7 @@ class App {
     }
 
     public get store() {
-        return store;
+        return App._store;
     }
 
     public get state() {

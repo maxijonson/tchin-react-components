@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { BREAKPOINTS, THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { ITheme } from "../../../src/modules/CSS";
+import { ITheme } from "../../../src/modules/themes";
 
 const { useConnect } = Hooks;
 

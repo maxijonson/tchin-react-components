@@ -4,6 +4,7 @@ import { Dispatch } from "redux";
 import app from "../../../src/app";
 import { BREAKPOINTS } from "../../../src/config";
 import * as Utils from "../Utils/utils";
+import { IStoreState } from "../../../src/store/types";
 
 export * from "./useStyled";
 

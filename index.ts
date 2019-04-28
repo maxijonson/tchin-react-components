@@ -7,7 +7,13 @@ import "./src/styles/styles.scss";
 ///----- MODULES
 export { IColor, IColors, IPalette } from "./src/modules/CSS/colors";
 export { IShade } from "./src/modules/CSS/shades";
-export { ITheme, IThemes } from "./src/modules/CSS/themes";
+export {
+    ITheme,
+    IThemes,
+    ISetThemeAction,
+    setThemeAction,
+    themeReducers,
+} from "./src/modules/themes";
 export {
     IFontSubsets,
     IFontVariants,
@@ -18,14 +24,6 @@ import * as Hooks from "./src/modules/hooks/hooks";
 export { Hooks };
 import * as Utils from "./src/modules/Utils/utils";
 export { Utils };
-
-///----- ACTIONS
-export {
-    ISetThemeAction,
-    IResetThemeAction,
-    setTheme,
-    resetTheme,
-} from "./src/actions/themes";
 
 ///----- COMPONENTS
 import * as CardsAnimated from "./src/components/Card/CardAnimated";
@@ -56,12 +54,6 @@ export * from "./src/config/constants";
 
 ///----- PAGES
 export { NotFoundPage } from "./src/pages";
-
-///----- REDUCERS
-export * from "./src/reducers/themes";
-
-///----- STORE
-export { store } from "./src/store/config";
 
 ///----- APP
 export { default as app } from "./src/app";
