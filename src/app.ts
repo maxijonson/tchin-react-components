@@ -11,6 +11,7 @@ import en from "./i18n/en/en.json";
 import frLong from "./i18n/fr/fr-long.json";
 import fr from "./i18n/fr/fr.json";
 import { SESSION_KEYS } from "./config";
+import { IFonts, defaultFonts } from "./modules/CSS/fonts";
 
 export interface IRoute {
     name: string;
@@ -34,6 +35,7 @@ interface IAppInitOptions {
     historyOptions?: BrowserHistoryBuildOptions;
     enforceSSL?: boolean;
     translations?: { en: object; fr: object };
+    fonts?: IFonts;
 }
 
 const DEFAULT_LNG = "en";
@@ -59,6 +61,7 @@ class App {
     private static _history: ReturnType<
         typeof createBrowserHistory
     > = createBrowserHistory();
+    private static _fonts: IFonts; // TODO: Find a way to have intellisense on those
 
     private constructor(options: IAppInitOptions) {
         const {
@@ -67,6 +70,7 @@ class App {
             historyOptions,
             enforceSSL,
             translations,
+            fonts,
         } = options;
 
         if (enforceSSL) this.enforceSSL();
@@ -74,6 +78,10 @@ class App {
         App._routes = routes || [];
         App._socials = socials || [];
         App._history = createBrowserHistory(historyOptions);
+        App._fonts = {
+            ...defaultFonts,
+            ...fonts,
+        };
 
         // INIT I18N
         i18n.init({
@@ -125,6 +133,10 @@ class App {
 
     public static get instance() {
         return this._instance;
+    }
+
+    public get fonts() {
+        return App._fonts;
     }
 
     public get routes() {

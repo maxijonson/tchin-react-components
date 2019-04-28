@@ -6,7 +6,8 @@ import tinycolor from "tinycolor2";
 import Tooltip from "../Tooltip/Tooltip";
 import { BREAKPOINTS, THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { defaultFonts, ITheme } from "../../../src/modules/CSS";
+import { ITheme } from "../../../src/modules/CSS";
+import app from "../../app";
 
 const { useConnect, useCurrentBreakpoint } = Hooks;
 const SLIDE_TIME = 1000;
@@ -130,7 +131,7 @@ const Content = styled.div`
     grid-area: content;
     text-align: justify;
     margin: auto 0;
-    font-family: "${defaultFonts.openSans.family}";
+    font-family: "${app.fonts.openSans.family}";
 `;
 
 const Indicator = styled.div<{ active: boolean; theme: ITheme }>`

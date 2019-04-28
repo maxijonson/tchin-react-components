@@ -1,19 +1,14 @@
 export type IFontVariants = "400" | "400i" | "700" | "700i";
 export type IFontSubsets = "latin" | "latin-ext";
 
-export type IFontName =
-    | "oswald"
-    | "roboto"
-    | "bitter"
-    | "openSans"
-    | "exo"
-    | "Kaushan";
-export type IFonts = { [name in IFontName]: IFont };
-
 export interface IFont {
     family: string;
     variants?: IFontVariants;
     subsets?: IFontSubsets;
+}
+
+export interface IFonts {
+    [name: string]: IFont;
 }
 
 export const defaultFonts: IFonts = {
@@ -34,5 +29,8 @@ export const defaultFonts: IFonts = {
     },
     Kaushan: {
         family: "Kaushan Script",
+    },
+    test: {
+        family: "asdf",
     },
 };

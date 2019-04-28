@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
 import { version } from "../../../package.json";
-import { defaultFonts } from "../../modules/CSS";
+import app from "../../app";
 
 const { useConnect } = Hooks;
 
@@ -22,7 +22,7 @@ const Footer = styled.footer`
     padding-bottom: 1%;
     transition: all ${THEME_TRANSITION_TIME}s;
     background-color: ${({ theme }) => theme.colors.pageBackground};
-    font-family: ${defaultFonts.oswald.family};
+    font-family: ${app.fonts.oswald.family};
     width: 100%;
 `;
 

@@ -11,6 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { app, APP_ROOT, NotFoundPage, TRCRouter } from "..";
 
 app.init({
+    fonts: {
+        testFont: {
+            family: "test",
+        },
+    },
     routes: [
         {
             name: "Not Found",

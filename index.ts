@@ -11,7 +11,6 @@ export { ITheme, IThemes } from "./src/modules/CSS/themes";
 export {
     IFontSubsets,
     IFontVariants,
-    IFontName,
     IFonts,
     IFont,
 } from "./src/modules/CSS/fonts";

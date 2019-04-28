@@ -4,10 +4,10 @@ import posed from "react-pose";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import { THEME_TRANSITION_TIME, ZINDEX } from "../../../src/config";
-import { CSS, Hooks } from "../../../src/modules";
+import { Hooks } from "../../../src/modules";
+import app from "../../app";
 
 const { useConnect, usePortal } = Hooks;
-const { defaultFonts } = CSS;
 
 interface IPoseOptions {
     top?: boolean;
@@ -89,7 +89,7 @@ const Container = styled(
     max-height: 100%;
     overflow-y: auto;
     font-size: 2rem;
-    font-family: "${defaultFonts.roboto.family}";
+    font-family: "${app.fonts.roboto.family}";
 `;
 
 export default (props: IModalOwnProps) => {

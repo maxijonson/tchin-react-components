@@ -1,12 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 import { BREAKPOINTS } from "../../../src/config";
-import { defaultFonts, ITheme } from "../../../src/modules/CSS";
+import { ITheme } from "../../../src/modules/CSS";
+import app from "../../app";
 
 export default createGlobalStyle<{ theme: ITheme }>`
     .toast {
         background: ${({ theme }) => theme.colors.toastBackground};
         color: ${({ theme }) => theme.colors.defaultText};
-        font-family: "${defaultFonts.openSans.family}";
+        font-family: "${app.fonts.openSans.family}";
         font-size: 3rem;
         @media (min-width: ${BREAKPOINTS.smpx}) {
             font-size: 1.3rem;
