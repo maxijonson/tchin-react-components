@@ -1,6 +1,6 @@
 {
     "name": "tchin-react-components",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Tristan Chin's own React components for reuse over future projects",
     "main": "dist/index.js",
     "scripts": {
@@ -106,6 +106,7 @@
         "ts-node": "^8.1.0",
         "typescript": "^3.4.5",
         "webpack": "^4.30.0",
+        "webpack-cli": "^3.3.1",
         "webpack-dev-server": "^3.3.1"
     }
 }

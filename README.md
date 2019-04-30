@@ -1,13 +1,80 @@
-# MaxiJonson's Website
+# tchin-react-components
 
-## 4th edition
+### TRC
 
-This is the public repository for my website, which is available to view [here](www.maxijonson.com). The website is written mainly in Typescript and uses React as front-end library. It is mostly my playground to experience with React's features, but it also my programming portfolio to showcase.
+My reusable React components.
 
-### Roadmap
+TRC uses a singleton `app` to manage the core of the application, such as routes, translations and in my project's case, themes. It also manages the whole Redux store which you can provide its reducers on initialization.
 
-You can check out [Trello](https://trello.com/b/9iho7pi4) to see the features that are planned, in progress, done and deployed to Heroku. The cards numbers (e.g.: MJ-26) refer to commits related to the task. If a commit doesn't have any number, it is probably because the commit was not particularly associated to a task.
+On top of the `app` singleton, TRC comes with a set of components I plan to use across all my React projects. Most of them were created during my [website's](https://www.chintristan.io/) development, so it is expected that they may not fit all designs. However, TRC also comes with a premade AppRouter (TRCRouter) which comes with basic functionality.
 
-### Partial Repo
+TRC also comes with a variety of hooks, including `useConnect` hook which is used to access the Redux store. This hook was created before Redux announced their own set of hooks and may or may not change, because the pattern slightly differs from theirs.
 
-Some files do not appear in this repo either for security purposes or simply to reduce the size with libraries used like OverlayScrollbars. The point of this repo is not to showcase a full version of the website, but for you to use it as reference in case you are curious as to how it works behind the scenes and maybe suggest enhancements! Doing this is particularly difficult as the same repo is used to deploy to Heroku. If you are interested in knowing how I manage to keep a full version on Heroku whilst sharing a partial version to Github, I used [Heroku + Github + Sensitive Data](https://gist.github.com/jczaplew/8307225) to get an idea and then made a `post-commit` [script](https://gist.github.com/maxijonson/a1470f10d0af78effcf74842780b095b) to automate the process which has been working good so far, even if it messes the git history...But, being the JavaScript/Typescript lover that I am, I rewrote it using `Gulp.js` and `Husky.js` which you can find in the root of the project.
+Finally, TRC comes with all dev-dependencies listed as dependencies. This was decided so I can simply install this package without spending much time typing NPM commands to install more dependencies at the cost of a large bundle.
+
+## Disclaimer
+
+Please note that this library is being developed for my personal use and should not be used directly in your projects. You can, however, use it as a reference if you're aiming towards the solution TRC is delivering to me. At **ANY** time, drastic changes could come to the library with no deprecation notice. Use with caution.
+
+## Installation
+
+Use the package manager [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) to install tchin-react-components.
+
+```bash
+npm i -S tchin-react-components
+```
+
+## Usage
+
+```typescript
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { app, APP_ROOT, NotFoundPage, TRCRouter } from "..";
+
+app.init({
+    enforceSSL: true /* If you want to force HTTPS */,
+    routes: [
+        /* your routes here */
+        {
+            name: "Not Found",
+            key: "notFound",
+            path: "",
+            component: () => <NotFoundPage />,
+            hidden: true,
+            Icon: () => <span>NF</span>, // Displayed in <Header />.
+        },
+    ],
+    socials: [
+        /* Social links displayed in the footer of <Header /> */
+        {
+            name: "Github",
+            url: "https://github.com/maxijonson",
+            Icon: () => (
+                <FontAwesomeIcon
+                    icon={faGithub}
+                    color={app.state.theme.colors.defaultText}
+                />
+            ),
+        },
+    ],
+    translations: {
+        /* A set of translations. Only supports FR and EN. */
+    },
+    reducers: {
+        /* your reducers here */
+    },
+    /* More options available... */
+});
+
+ReactDOM.render(
+    <Provider store={app.store}>
+        <TRCRouter />
+    </Provider>,
+    document.getElementById(APP_ROOT)
+);
+```
+
+## License
+
+[ISC](https://choosealicense.com/licenses/isc/)
