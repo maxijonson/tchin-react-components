@@ -9,7 +9,19 @@ import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
 import rmrf from "rimraf";
 import fse from "fs-extra";
-import { DEV_SERVER, COMPILE } from "./gulpTasks.json";
+import {
+    DEV_SERVER,
+    COMPILE,
+    PUBLISH,
+    PUBLISH_MINOR,
+    PUBLISH_MAJOR,
+    BUMP_START,
+    BUMP_END,
+    BUMP_PATCH,
+    BUMP_MINOR,
+    BUMP_MAJOR,
+} from "./gulpTasks.json";
+import pkg from "./package.json";
 import getWebpackConfig from "./webpack.config";
 
 shell.config.silent = true;
@@ -131,14 +143,100 @@ gulp.task(DEV_SERVER.task, () => {
     });
 });
 
+const [major, minor, patch] = pkg.version.split(".");
+let newVersion: string;
+
+gulp.task(
+    BUMP_START.task,
+    gulp.series((done) => {
+        console.log(chalk.blue("Bumping version..."));
+        done();
+    })
+);
+gulp.task(
+    BUMP_END.task,
+    gulp.series((done) => {
+        const newPkg = Object.assign({}, pkg, { version: newVersion }); // update version
+        fse.writeFileSync("./package.json", JSON.stringify(newPkg, null, 4));
+
+        console.log(
+            chalk.green("Package Version Updated"),
+            chalk.bold.white(pkg.version),
+            chalk.green("->"),
+            chalk.bold.white(newVersion)
+        );
+        done();
+    })
+);
+
+gulp.task(
+    BUMP_PATCH.task,
+    gulp.series(
+        BUMP_START.task,
+        (done) => {
+            newVersion = `${major}.${minor}.${parseInt(patch) + 1}`;
+            done();
+        },
+        BUMP_END.task
+    )
+);
+
+gulp.task(
+    BUMP_MINOR.task,
+    gulp.series(
+        BUMP_START.task,
+        (done) => {
+            newVersion = `${major}.${parseInt(minor) + 1}.${0}`;
+            done();
+        },
+        BUMP_END.task
+    )
+);
+
+gulp.task(
+    BUMP_MAJOR.task,
+    gulp.series(
+        BUMP_START.task,
+        (done) => {
+            newVersion = `${parseInt(major) + 1}.${0}.${0}`;
+            done();
+        },
+        BUMP_END.task
+    )
+);
+
 gulp.task("default", gulp.series("init:dev", DEV_SERVER.task));
 
 gulp.task(
     COMPILE.task,
     gulp.series("init:prod", (done) => {
+        console.log(chalk.blue("Compiling..."));
         rmrf.sync("./dist");
         shell.exec("tsc");
         fse.copySync("./src/styles", "./dist/src/styles");
+        console.log(chalk.green("Compiled!"));
+        done();
+    })
+);
+
+gulp.task(
+    PUBLISH.task,
+    gulp.series(BUMP_PATCH.task, COMPILE.task, (done) => {
+        shell.exec("npm publish");
+        done();
+    })
+);
+gulp.task(
+    PUBLISH_MINOR.task,
+    gulp.series(BUMP_MINOR.task, COMPILE.task, (done) => {
+        shell.exec("npm publish");
+        done();
+    })
+);
+gulp.task(
+    PUBLISH_MAJOR.task,
+    gulp.series(BUMP_MAJOR.task, COMPILE.task, (done) => {
+        shell.exec("npm publish");
         done();
     })
 );
