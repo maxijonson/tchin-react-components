@@ -1,27 +1,19 @@
-import { Reducer } from "redux";
-import moment from "moment";
-import { IThemeActions, IThemeActionTypes, IThemeState } from "./types";
-import { defaultThemes } from "./themes";
+import { ITheme } from "./models";
 import { SESSION_KEYS } from "../../config";
+import { creators, types } from "./actions";
 
-const format = "H";
-const night = {
-    start: 19,
-    end: 5,
-};
-const now = Number(moment().format(format));
-const isNight = now > night.start || now < night.end;
+declare global {
+    interface IStoreState {
+        theme: ITheme;
+    }
+}
 
-export const initialThemeState: IThemeState = isNight
-    ? defaultThemes.dark
-    : defaultThemes.light;
-
-export const themeReducers: Reducer<IThemeState, IThemeActions> = (
-    state = initialThemeState,
-    action
+export const makeThemeReducer = (initialState: ITheme) => (
+    state: ITheme = initialState,
+    action: ActionsUnion<typeof creators>
 ) => {
     switch (action.type) {
-        case IThemeActionTypes.SET_THEME:
+        case types.SET_THEME:
             window.sessionStorage.setItem(
                 SESSION_KEYS.theme,
                 action.payload.name

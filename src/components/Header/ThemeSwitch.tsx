@@ -4,7 +4,7 @@ import * as React from "react";
 import Switch from "react-switch";
 import { useTranslation } from "react-i18next";
 import { Hooks } from "../../../src/modules";
-import { setThemeAction, defaultThemes, ITheme } from "../../modules/themes";
+import { creators as themeActions, ITheme } from "../../modules/themes";
 import app from "../../app";
 
 const { useConnect } = Hooks;
@@ -14,12 +14,12 @@ export default () => {
     const { theme, setTheme } = useConnect(
         ({ theme }) => ({ theme }),
         (dispatch) => ({
-            setTheme: (theme: ITheme) => dispatch(setThemeAction(theme)),
+            setTheme: (theme: ITheme) => dispatch(themeActions.setTheme(theme)),
         })
     );
 
     const handleThemeChange = (checked: boolean) => {
-        const theme = checked ? defaultThemes.light : defaultThemes.dark;
+        const theme = checked ? app.themes.light : app.themes.dark;
         app.notify(
             `${t("notification.themeChange")}: ${t(
                 `header.theme.${theme.name}`

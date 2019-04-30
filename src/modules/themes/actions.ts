@@ -1,5 +1,10 @@
-import { ISetThemeAction, ITheme, IThemeActionTypes } from "./types";
-import { createPayloadAction } from "../../store/actions";
+import { ITheme } from "./models";
+import { createAction } from "../Utils";
 
-export const setThemeAction = (theme: ITheme): ISetThemeAction =>
-    createPayloadAction(IThemeActionTypes.SET_THEME, theme);
+export enum types {
+    SET_THEME = "SET_THEME",
+}
+
+export const creators = {
+    setTheme: (theme: ITheme) => createAction(types.SET_THEME, theme),
+};

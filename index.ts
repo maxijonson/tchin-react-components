@@ -7,13 +7,7 @@ import "./src/styles/styles.scss";
 ///----- MODULES
 export { IColor, IColors, IPalette } from "./src/modules/CSS/colors";
 export { IShade } from "./src/modules/CSS/shades";
-export {
-    ITheme,
-    IThemes,
-    ISetThemeAction,
-    setThemeAction,
-    themeReducers,
-} from "./src/modules/themes";
+export { ITheme, IThemes } from "./src/modules/themes";
 export {
     IFontSubsets,
     IFontVariants,

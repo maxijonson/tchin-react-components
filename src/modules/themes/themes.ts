@@ -1,4 +1,4 @@
-import { IThemes } from "./types";
+import { IThemes } from "./models";
 import { colors } from "../CSS/colors";
 
 export const defaultThemes: IThemes = {

@@ -3,7 +3,14 @@ import { initReactI18next } from "react-i18next";
 import markdownJsx from "i18next-markdown-jsx-plugin";
 import * as _ from "lodash";
 import moment from "moment";
-import { createStore, Store } from "redux";
+import {
+    createStore,
+    Store,
+    combineReducers,
+    compose,
+    applyMiddleware,
+} from "redux";
+import thunk from "redux-thunk";
 import { toast, ToastContent, ToastOptions, Bounce } from "react-toastify";
 import { createBrowserHistory, BrowserHistoryBuildOptions } from "history";
 import enLong from "./i18n/en/en-long.json";
@@ -12,8 +19,13 @@ import frLong from "./i18n/fr/fr-long.json";
 import fr from "./i18n/fr/fr.json";
 import { SESSION_KEYS } from "./config";
 import { IFonts, defaultFonts, IFont } from "./modules/CSS/fonts";
-import { createRootReducers } from "./store/reducers";
-import { IStoreState } from "./store/types";
+import {
+    makeThemeReducer,
+    defaultThemes,
+    IThemes,
+    IThemeName,
+    ISection,
+} from "./modules/themes";
 
 export interface IRoute {
     name: string;
@@ -38,6 +50,11 @@ interface IAppInitOptions {
     enforceSSL?: boolean;
     translations?: { en: object; fr: object };
     fonts?: IFonts;
+    themes?: { [name in IThemeName]: ISection };
+    reducers?: {
+        [name: string]: (state: any, action: any) => any;
+    };
+    defaultState?: IStoreState;
 }
 
 const DEFAULT_LNG = "en";
@@ -60,7 +77,12 @@ const FALLBACK_FONT: IFont = {
 };
 
 class App {
-    private static _instance = new App({});
+    private static _instance = new App({
+        themes: {
+            light: defaultThemes.light.colors,
+            dark: defaultThemes.dark.colors,
+        },
+    });
     private static _hasInit = false;
 
     private static _creation = moment().format("h:mm:ss a");
@@ -71,6 +93,7 @@ class App {
     > = createBrowserHistory();
     private static _fonts: IFonts;
     private static _store: Store<IStoreState>;
+    private static _themes: IThemes;
 
     private constructor(options: IAppInitOptions) {
         const {
@@ -78,8 +101,11 @@ class App {
             socials,
             historyOptions,
             enforceSSL,
-            translations,
+            translations = { fr: {}, en: {} },
             fonts,
+            themes = { light: {}, dark: {} },
+            reducers = {},
+            defaultState = {},
         } = options;
 
         if (enforceSSL) this.enforceSSL();
@@ -102,7 +128,50 @@ class App {
                 },
             }
         );
-        App._store = createStore(createRootReducers());
+
+        // INIT THEMES
+        App._themes = {
+            light: {
+                name: defaultThemes.light.name,
+                colors: {
+                    ...defaultThemes.light.colors,
+                    ...themes.light,
+                },
+            },
+            dark: {
+                name: defaultThemes.dark.name,
+                colors: {
+                    ...defaultThemes.dark.colors,
+                    ...themes.dark,
+                },
+            },
+        };
+        const format = "H";
+        const night = {
+            start: 19,
+            end: 5,
+        };
+        const now = Number(moment().format(format));
+        const isNight = now > night.start || now < night.end;
+        const themeReducer = makeThemeReducer(
+            isNight ? App._themes.dark : App._themes.light
+        );
+
+        // INIT STORE
+        const composeEnhancers =
+            process.env.NODE_ENV === "production" &&
+            typeof window === "object" &&
+            (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+                ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+                : compose;
+        App._store = createStore(
+            combineReducers({
+                theme: themeReducer,
+                ...reducers,
+            }),
+            defaultState,
+            composeEnhancers(applyMiddleware(thunk))
+        );
 
         // INIT I18N
         i18n.init({
@@ -112,17 +181,17 @@ class App {
                     translation: {
                         ...{ long: enLong },
                         ...en,
-                        ...(translations ? translations.en : {}),
+                        ...translations.en,
                     },
                 },
                 fr: {
                     translation: {
                         ...en,
                         ...{ long: enLong },
-                        ...(translations ? translations.en : {}),
+                        ...translations.en,
                         ...{ long: frLong },
                         ...fr,
-                        ...(translations ? translations.fr : {}),
+                        ...translations.fr,
                     },
                 },
             },
@@ -170,6 +239,10 @@ class App {
 
     public get creation() {
         return App._creation;
+    }
+
+    public get themes() {
+        return App._themes;
     }
 
     public get store() {

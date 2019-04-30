@@ -16,6 +16,7 @@ const PageWrapperStyled = styled.div`
     width: auto;
     min-height: 98.45250474vh;
     transition: all ${THEME_TRANSITION_TIME}s;
+    font-family: ${app.fonts.oswald.family};
     flex: 1 0 auto;
     overflow: auto;
 `;
