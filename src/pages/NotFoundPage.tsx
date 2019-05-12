@@ -155,7 +155,9 @@ const CodeLine = ({ line }: { line: string }) => {
 export default ({ background }: { background?: string }) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     return (
-        <ViewportContainer background={background || "/assets/notFound-bg.jpg"}>
+        <ViewportContainer
+            background={background || "/assets/images/notFound-bg.jpg"}
+        >
             <Container theme={theme}>
                 <Code theme={theme}>
                     <h1 style={{ textAlign: "center" }}>404 - Not Found</h1>
