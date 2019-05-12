@@ -38,5 +38,9 @@
     "PUBLISH_MAJOR": {
         "task": "publish:major",
         "hook": null
+    },
+    "PUBLISH_DONE": {
+        "task": "publish-done",
+        "hook": null
     }
 }

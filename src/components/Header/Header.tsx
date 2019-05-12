@@ -3,7 +3,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import * as _ from "lodash";
 import React from "react";
 import styled from "styled-components";
-import app from "../../../src/app";
+import app, { IVisibleRoute } from "../../../src/app";
 import Modal from "../Modal/Modal";
 import Card from "../Card/Card";
 import { ZINDEX } from "../../../src/config";
@@ -128,10 +128,10 @@ export default () => {
                 >
                     {_.map(
                         app.routes,
-                        ({ hidden, component, ...route }) =>
-                            !hidden && (
+                        (route) =>
+                            !route.hidden && (
                                 <Nav
-                                    {...route}
+                                    {...route as IVisibleRoute}
                                     onPathChange={handlePathChange}
                                 />
                             )

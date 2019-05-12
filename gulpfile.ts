@@ -15,6 +15,7 @@ import {
     PUBLISH,
     PUBLISH_MINOR,
     PUBLISH_MAJOR,
+    PUBLISH_DONE,
     BUMP_START,
     BUMP_END,
     BUMP_PATCH,
@@ -220,23 +221,51 @@ gulp.task(
 );
 
 gulp.task(
-    PUBLISH.task,
-    gulp.series(BUMP_PATCH.task, COMPILE.task, (done) => {
-        shell.exec("npm publish");
+    PUBLISH_DONE.task,
+    gulp.series((done) => {
+        console.log(
+            chalk.green("✔ succesfully published TRC"),
+            chalk.white(
+                "( https://www.npmjs.com/package/tchin-react-components )"
+            )
+        );
+        rmrf.sync("./dist");
         done();
     })
+);
+gulp.task(
+    PUBLISH.task,
+    gulp.series(
+        BUMP_PATCH.task,
+        COMPILE.task,
+        (done) => {
+            shell.exec("npm publish");
+            done();
+        },
+        PUBLISH_DONE.task
+    )
 );
 gulp.task(
     PUBLISH_MINOR.task,
-    gulp.series(BUMP_MINOR.task, COMPILE.task, (done) => {
-        shell.exec("npm publish");
-        done();
-    })
+    gulp.series(
+        BUMP_MINOR.task,
+        COMPILE.task,
+        (done) => {
+            shell.exec("npm publish");
+            done();
+        },
+        PUBLISH_DONE.task
+    )
 );
 gulp.task(
     PUBLISH_MAJOR.task,
-    gulp.series(BUMP_MAJOR.task, COMPILE.task, (done) => {
-        shell.exec("npm publish");
-        done();
-    })
+    gulp.series(
+        BUMP_MAJOR.task,
+        COMPILE.task,
+        (done) => {
+            shell.exec("npm publish");
+            done();
+        },
+        PUBLISH_DONE.task
+    )
 );

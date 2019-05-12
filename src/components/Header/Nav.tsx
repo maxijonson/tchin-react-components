@@ -5,14 +5,11 @@ import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
+import { IVisibleRoute } from "../../app";
 
 const { useConnect } = Hooks;
 
-interface INavProps {
-    name: string;
-    path: string;
-    exact?: boolean;
-    Icon: () => JSX.Element;
+interface INavProps extends IVisibleRoute {
     onPathChange?: (e: React.MouseEvent, path: string) => void;
 }
 

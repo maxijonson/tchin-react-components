@@ -13,6 +13,7 @@ import {
 import thunk from "redux-thunk";
 import { toast, ToastContent, ToastOptions, Bounce } from "react-toastify";
 import { createBrowserHistory, BrowserHistoryBuildOptions } from "history";
+import { RouteComponentProps } from "react-router-dom";
 import enLong from "./i18n/en/en-long.json";
 import en from "./i18n/en/en.json";
 import frLong from "./i18n/fr/fr-long.json";
@@ -27,15 +28,21 @@ import {
     ISection,
 } from "./modules/themes";
 
-export interface IRoute {
-    name: string;
+interface IRouteAbstract {
     key: string;
-    component: () => JSX.Element;
-    hidden?: boolean;
     path: string;
+    component:
+        | React.ComponentType<RouteComponentProps<any>>
+        | React.ComponentType<any>;
+    hidden?: boolean;
     exact?: boolean;
+}
+export interface IVisibleRoute extends IRouteAbstract {
+    hidden: false | undefined;
+    name: string;
     Icon: () => JSX.Element;
 }
+export type IRoute = IVisibleRoute | IRouteAbstract;
 
 export interface ISocial {
     url: string;
@@ -88,9 +95,7 @@ class App {
     private static _creation = moment().format("h:mm:ss a");
     private static _routes: IRoute[] = [];
     private static _socials: ISocial[] = [];
-    private static _history: ReturnType<
-        typeof createBrowserHistory
-    > = createBrowserHistory();
+    private static _history = createBrowserHistory();
     private static _fonts: IFonts;
     private static _store: Store<IStoreState>;
     private static _themes: IThemes;
@@ -271,24 +276,6 @@ class App {
     ) {
         return i18n.t(key, options);
     }
-
-    // public setTheme(theme: "light" | "dark") {
-    //     switch (theme) {
-    //         case "light":
-    //             this.dispatch(actions.setTheme(this._themes.light));
-    //             break;
-    //         case "dark":
-    //             this.dispatch(actions.setTheme(this._themes.dark));
-    //             break;
-    //         default:
-    //             return console.warn(`${theme} is not a valid theme`);
-    //     }
-    //     this.notify(
-    //         `${this.t("notification.themeChange")}: ${i18n.t(
-    //             `header.theme.${this.state.theme.name}`
-    //         )}`
-    //     );
-    // }
 
     public setLanguage(lang: "en" | "fr") {
         if (lang !== "en" && lang !== "fr") {
