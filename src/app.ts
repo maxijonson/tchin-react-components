@@ -158,8 +158,19 @@ class App {
         };
         const now = Number(moment().format(format));
         const isNight = now > night.start || now < night.end;
+        const sessionTheme = window.sessionStorage.getItem(SESSION_KEYS.theme);
         const themeReducer = makeThemeReducer(
-            isNight ? App._themes.dark : App._themes.light
+            sessionTheme &&
+                _.includes(
+                    [defaultThemes.dark.name, defaultThemes.light.name],
+                    sessionTheme
+                )
+                ? sessionTheme == defaultThemes.light.name
+                    ? App._themes.light
+                    : App._themes.dark
+                : isNight
+                ? App._themes.dark
+                : App._themes.light
         );
 
         // INIT STORE
