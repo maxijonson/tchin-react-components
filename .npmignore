@@ -1,9 +1,3 @@
 public
 server
-.eslintignore
-.eslintrc.json
-gulpfile.ts
-gulpTasks.json
-tsconfig.json
-webpack.config.ts
 .vscode
