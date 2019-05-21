@@ -78,7 +78,7 @@ export default () => {
             window.removeEventListener(SCROLLBAR_EVENT, updateDocHeight);
             window.removeEventListener(SCROLLBAR_EVENT, updatePosition);
         };
-    }, [document.body.scrollHeight]);
+    });
 
     return breakpoint <= BREAKPOINTS.md || sbHeight == 100 ? null : (
         <Container children={<Scrollbar pos={sbPos} height={sbHeight} />} />

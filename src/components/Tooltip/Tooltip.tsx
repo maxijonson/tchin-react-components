@@ -201,14 +201,15 @@ export default (props: ITooltipProps) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     const [visibility, setVisibility] = React.useState<IVisibility>("hidden");
     const screen = useCurrentBreakpoint("screen");
-    let timeout: number;
+
+    let timeout = 0;
     React.useEffect(
         () => () => {
             if (timeout) {
                 window.clearTimeout(timeout);
             }
         },
-        []
+        [timeout]
     );
 
     const hide = () => {

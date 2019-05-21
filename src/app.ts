@@ -298,6 +298,8 @@ class App {
     }
 
     public enforceSSL() {
+        // NOTE: Only works if domain is chintristan or maxijonson.
+        // TODO: Make this work for any domain, except localhost
         if (
             !_.some(["tristan", "maxijonson"], (name) =>
                 _.includes(window.location.hostname, name)

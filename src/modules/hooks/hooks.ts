@@ -5,8 +5,6 @@ import app from "../../app";
 import { BREAKPOINTS } from "../../config";
 import * as Utils from "../Utils/utils";
 
-export * from "./useStyled";
-
 export const useForceUpdate = () => {
     const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
     return () => forceUpdate({});
@@ -41,7 +39,7 @@ const useMapState = <S extends {}>(mapState: (state: IStoreState) => S) => {
             hasUnsubbed = true;
             unsubscribe();
         };
-    }, []);
+    }, [forceUpdate, mapState]);
 
     if (error.current) {
         throw error.current;
@@ -61,8 +59,8 @@ export const useConnect = <S extends {}, D extends {}>(
     mapState?: (state: IStoreState) => S,
     mapDispatch?: (dispatch: Dispatch<any>) => D
 ) => {
-    const stateProps = mapState ? useMapState(mapState) : {};
-    const dispatchProps = mapDispatch ? useMapDispatch(mapDispatch) : {};
+    const stateProps = useMapState(mapState || (() => ({})));
+    const dispatchProps = useMapDispatch(mapDispatch || (() => ({})));
     return {
         ...stateProps,
         ...dispatchProps,
@@ -70,46 +68,46 @@ export const useConnect = <S extends {}, D extends {}>(
 };
 
 export const usePortal = (parent: HTMLElement, className?: string) => {
-    const el = React.useRef(document.createElement("div"));
-    el.current.className = className || "";
+    const elRef = React.useRef(document.createElement("div"));
+    elRef.current.className = className || "";
     React.useEffect(() => {
-        parent.appendChild(el.current);
-
-        return () => el.current.remove();
-    }, []);
-    return el.current;
+        parent.appendChild(elRef.current);
+        const el = elRef.current;
+        return () => el.remove();
+    }, [parent]);
+    return elRef.current;
 };
 
 export const useSetInterval = (cb: () => void, time: number = 1000) => {
-    let interval: number;
+    let interval = React.useRef(0);
     React.useEffect(() => {
-        interval = window.setInterval(cb, time);
+        interval.current = window.setInterval(cb, time);
         return () => {
-            if (interval) {
-                window.clearInterval(interval);
+            if (interval.current) {
+                window.clearInterval(interval.current);
             }
         };
     });
     return () => {
-        if (interval) {
-            window.clearInterval(interval);
+        if (interval.current) {
+            window.clearInterval(interval.current);
         }
     };
 };
 
 export const useSetTimeout = (cb: () => void, time: number = 1000) => {
-    let timeout: number;
+    let timeout = React.useRef(0);
     React.useEffect(() => {
-        timeout = window.setTimeout(cb, time);
+        timeout.current = window.setTimeout(cb, time);
         return () => {
-            if (timeout) {
-                window.clearTimeout(timeout);
+            if (timeout.current) {
+                window.clearTimeout(timeout.current);
             }
         };
     });
     return () => {
-        if (timeout) {
-            window.clearTimeout(timeout);
+        if (timeout.current) {
+            window.clearTimeout(timeout.current);
         }
     };
 };
@@ -156,16 +154,15 @@ export const useCurrentBreakpoint = (mode: IBreakpointMode = "window") => {
         getCurrentBreakpoint()
     );
 
-    const onWindowResize = () => {
-        setBreakpoint(getCurrentBreakpoint());
-    };
-
     React.useLayoutEffect(() => {
+        const onWindowResize = () => {
+            setBreakpoint(getCurrentBreakpoint());
+        };
         window.addEventListener("resize", onWindowResize);
         return () => {
             window.removeEventListener("resize", onWindowResize);
         };
-    }, []);
+    }, [getCurrentBreakpoint]);
 
     return breakpoint;
 };
