@@ -17,9 +17,16 @@
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
+        },
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "typescript": {}
         },
         "ecmaVersion": 2018,
         "project": "./tsconfig.json",
@@ -27,7 +34,7 @@
         "tsconfigRootDir": ".",
         "useJSXTextNode": true
     },
-    "plugins": ["react", "react-hooks", "@typescript-eslint"],
+    "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
@@ -60,7 +67,7 @@
             }
         ],
         "prettier/prettier": [
-            "error",
+            "warn",
             {
                 "arrowParens": "always",
                 "semi": true,
