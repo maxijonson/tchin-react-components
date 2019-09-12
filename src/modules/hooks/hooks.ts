@@ -1,70 +1,30 @@
 import * as _ from "lodash";
 import * as React from "react";
 import { Dispatch } from "redux";
-import app from "../../app";
+import { useSelector, useDispatch } from "react-redux";
 import { BREAKPOINTS } from "../../config";
-import * as Utils from "../Utils/utils";
 
 export const useForceUpdate = () => {
     const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
     return () => forceUpdate({});
 };
 
-// NOTE: Hard to test performance since we only have 1 state (theme)
-const useMapState = <S extends {}>(mapState: (state: IStoreState) => S) => {
-    const error = React.useRef(null);
-    const derivedState = React.useRef<S>(mapState(app.state));
-    const forceUpdate = useForceUpdate();
-
-    React.useLayoutEffect(() => {
-        let hasUnsubbed = false;
-
-        const unsubscribe = app.store.subscribe(() => {
-            if (hasUnsubbed) {
-                return;
-            }
-            try {
-                const newState = mapState(app.state);
-                if (!Utils.shallowEqual(newState, derivedState.current)) {
-                    derivedState.current = newState;
-                    forceUpdate();
-                }
-            } catch (e) {
-                error.current = e;
-                forceUpdate();
-            }
-        });
-
-        return () => {
-            hasUnsubbed = true;
-            unsubscribe();
-        };
-    }, [forceUpdate, mapState]);
-
-    if (error.current) {
-        throw error.current;
-    }
-
-    return derivedState.current;
-};
-
-const useMapDispatch = <D>(mapDispatch: (dispatch: Dispatch<any>) => D) => {
-    const initialDispatch = React.useRef(mapDispatch(app.dispatch));
-    const dispatchProps = React.useRef(initialDispatch.current);
-
-    return dispatchProps.current;
-};
-
+// TODO: Benchmark immutability
 export const useConnect = <S extends {}, D extends {}>(
     mapState?: (state: IStoreState) => S,
-    mapDispatch?: (dispatch: Dispatch<any>) => D
+    mapDispatch?: (dispatch: Dispatch<any>) => D,
+    mapStateDeep?: boolean
 ) => {
-    const stateProps = useMapState(mapState || (() => ({})));
-    const dispatchProps = useMapDispatch(mapDispatch || (() => ({})));
+    const stateProps = useSelector(
+        mapState || (() => ({})),
+        mapStateDeep ? _.isEqual : undefined
+    ) as S;
+    const dispatch = useDispatch();
+    const dispatchProps = (mapDispatch ? mapDispatch(dispatch) : {}) as D;
     return {
         ...stateProps,
         ...dispatchProps,
-    } as S & D;
+    };
 };
 
 export const usePortal = (parent: HTMLElement, className?: string) => {
