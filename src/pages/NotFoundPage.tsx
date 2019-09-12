@@ -1,5 +1,5 @@
-import * as _ from "lodash";
-import * as React from "react";
+import _ from "lodash";
+import React from "react";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import { Tooltip, ViewportContainer } from "../../src/components";
@@ -103,13 +103,26 @@ const Keyword = styled.span<{ color: string }>`
 
 const Special = styled.span`
     border-bottom: 0.25rem solid #ea4646;
+    cursor: pointer;
 `;
 
-const CodeLine = ({ line }: { line: string }) => {
+const redirect = (url: string) => (window.location.href = url);
+
+const CodeLine = ({
+    line,
+    redirectUrl,
+}: {
+    line: string;
+    redirectUrl?: string;
+}) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     const isImport = line.startsWith("import");
     const url = window.location.href.substring(
         window.location.protocol.length + 2
+    );
+    const onSpecialClick = React.useCallback(
+        () => redirect(redirectUrl || "/"),
+        [redirectUrl]
     );
     let inBrackets = false;
     if (line == special) {
@@ -133,7 +146,7 @@ const CodeLine = ({ line }: { line: string }) => {
                             activeOnMobile
                             tip={`'${word}' is not assignable to type 'IExistingLink'. ts(404)`}
                         >
-                            <Special children={word} />
+                            <Special children={word} onClick={onSpecialClick} />
                         </Tooltip>
                     );
                 }
@@ -152,7 +165,13 @@ const CodeLine = ({ line }: { line: string }) => {
     );
 };
 
-export default ({ background }: { background?: string }) => {
+export default ({
+    background,
+    redirectUrl,
+}: {
+    background?: string;
+    redirectUrl?: string;
+}) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     return (
         <ViewportContainer
@@ -162,7 +181,11 @@ export default ({ background }: { background?: string }) => {
                 <Code theme={theme}>
                     <h1 style={{ textAlign: "center" }}>404 - Not Found</h1>
                     {_.map(lines, (line, i) => (
-                        <CodeLine line={line} key={i} />
+                        <CodeLine
+                            line={line}
+                            key={i}
+                            redirectUrl={redirectUrl}
+                        />
                     ))}
                 </Code>
             </Container>
