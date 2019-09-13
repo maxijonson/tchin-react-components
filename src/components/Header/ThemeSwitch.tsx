@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
-import * as React from "react";
+import React from "react";
 import Switch from "react-switch";
 import { useTranslation } from "react-i18next";
 import { Hooks } from "../../../src/modules";

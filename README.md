@@ -27,8 +27,8 @@ npm i -S tchin-react-components
 ## Usage
 
 ```typescript
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { app, APP_ROOT, NotFoundPage, TRCRouter } from "..";
 

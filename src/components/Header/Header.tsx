@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import * as _ from "lodash";
+import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 import app, { IVisibleRoute } from "../../../src/app";

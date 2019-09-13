@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import posed from "react-pose";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";

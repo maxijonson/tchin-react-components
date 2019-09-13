@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import Switch from "react-switch";
 import app from "../../../src/app";

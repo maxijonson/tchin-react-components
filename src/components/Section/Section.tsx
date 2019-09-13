@@ -1,5 +1,5 @@
-import * as _ from "lodash";
-import * as React from "react";
+import _ from "lodash";
+import React from "react";
 import { useSwipeable } from "react-swipeable";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import tinycolor from "tinycolor2";
 import styled, { ThemeProvider } from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";

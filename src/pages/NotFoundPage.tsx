@@ -56,7 +56,7 @@ const keywords: IKeywords = {
 const special = `SPECIAL`;
 
 const lines = [
-    `import * as React from "react";`,
+    `import React from "react";`,
     `import { Page } from "src/components";`,
     `import app from "src/app";`,
     `import { IExistingLink } from "src/models"`,

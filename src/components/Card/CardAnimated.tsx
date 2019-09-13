@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 
 import * as Reveal from "react-reveal";
 // @ts-ignore:noImplicitAny

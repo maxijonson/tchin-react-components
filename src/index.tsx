@@ -1,6 +1,6 @@
 // This file is the entry point to start the website. It should not be imported by any other projects. It is only there to test that the project compiles.
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import {
     faGithub,

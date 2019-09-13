@@ -2,7 +2,7 @@
 import chalk from "chalk";
 import express from "express";
 import gulp from "gulp";
-import * as _ from "lodash";
+import _ from "lodash";
 import path from "path";
 import * as shell from "shelljs";
 import webpack from "webpack";

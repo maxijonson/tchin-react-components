@@ -1,5 +1,5 @@
-import * as _ from "lodash";
-import * as React from "react";
+import _ from "lodash";
+import React from "react";
 import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
 import { BREAKPOINTS } from "../../config";

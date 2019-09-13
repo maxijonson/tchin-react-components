@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import markdownJsx from "i18next-markdown-jsx-plugin";
-import * as _ from "lodash";
+import _ from "lodash";
 import moment from "moment";
 import {
     createStore,
