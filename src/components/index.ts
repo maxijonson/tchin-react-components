@@ -1,8 +1,8 @@
-import * as CardsBase from "./Card/Card";
+import * as CardsBase from "./Card/AdvancedCard";
 import * as CardsAnimated from "./Card/CardAnimated";
 
-export { default as Card } from "./Card/Card";
-export const Cards = { ...CardsBase, ...CardsAnimated };
+export { default as AdvancedCard } from "./Card/AdvancedCard";
+export const AdvancedCards = { ...CardsBase, ...CardsAnimated };
 export { default as Background } from "./Background/Background";
 export { default as Button } from "./Button/Button";
 export { default as Catcher } from "./Catcher/Catcher";
@@ -17,3 +17,4 @@ export { default as Tooltip } from "./Tooltip/Tooltip";
 export {
     default as ViewportContainer,
 } from "./ViewportContainer/ViewportContainer";
+export { default as Block } from "./Block/Block";

@@ -7,11 +7,28 @@ import {
     faTwitch,
     faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { faToolbox } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { app, APP_ROOT, NotFoundPage, TRCRouter } from "..";
+import { app, APP_ROOT, NotFoundPage, TRCRouter, KitPage } from "..";
 
 app.init({
     routes: [
+        {
+            key: "kit",
+            path: "/kit",
+            component: KitPage,
+            hidden: false,
+            exact: true,
+            Icon: () => <FontAwesomeIcon icon={faToolbox} />,
+            name: "Kit",
+        },
+        {
+            key: "home",
+            path: "/",
+            component: KitPage,
+            hidden: true,
+            exact: true,
+        },
         {
             key: "notFound",
             path: "",

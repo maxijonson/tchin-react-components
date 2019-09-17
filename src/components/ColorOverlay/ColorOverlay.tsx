@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Hooks } from "../../../src/modules";
-import { ITheme } from "../../../src/modules/themes";
 
 const { useConnect } = Hooks;
 
@@ -11,7 +10,7 @@ interface IColorOverlayProps {
     kClassName?: string;
 }
 
-const ColorOverlay = styled.div<{ theme: ITheme } & IColorOverlayProps>`
+const ColorOverlay = styled.div<ISCThemeProp & IColorOverlayProps>`
     width: 100%;
     height: 100%;
     opacity: ${({ opacity }) => opacity || 0.5};

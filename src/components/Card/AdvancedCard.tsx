@@ -4,9 +4,8 @@ import styled, { ThemeProvider } from "styled-components";
 import tinycolor from "tinycolor2";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
-import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../../src/config";
-import { Hooks } from "../../../src/modules";
-import { ITheme } from "../../../src/modules/themes";
+import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../config";
+import { Hooks } from "../../modules";
 import { withCatcher } from "../Catcher/Catcher";
 import {
     defaultProps,
@@ -19,10 +18,7 @@ import app from "../../app";
 const { useConnect } = Hooks;
 
 interface IThemeProps {
-    theme: ICardInternalProps &
-        ICardProps & {
-            theme: ITheme;
-        };
+    theme: ICardInternalProps & ICardProps & ISCThemeProp;
 }
 
 // CARD TITLE

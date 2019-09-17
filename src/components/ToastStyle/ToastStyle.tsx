@@ -1,9 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import { BREAKPOINTS } from "../../../src/config";
-import { ITheme } from "../../../src/modules/themes";
 import app from "../../app";
 
-export default createGlobalStyle<{ theme: ITheme }>`
+export default createGlobalStyle<ISCThemeProp>`
     .toast {
         background: ${({ theme }) => theme.colors.toastBackground};
         color: ${({ theme }) => theme.colors.defaultText};

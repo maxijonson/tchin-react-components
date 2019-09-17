@@ -5,7 +5,7 @@ import React from "react";
 import styled from "styled-components";
 import app, { IVisibleRoute } from "../../../src/app";
 import Modal from "../Modal/Modal";
-import Card from "../Card/Card";
+import AdvancedCard from "../Card/AdvancedCard";
 import { ZINDEX } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
 import { SCROLLBAR_EVENT } from "../Scrollbar/Scrollbar";
@@ -85,7 +85,7 @@ export default () => {
                 containerClassName="header--modal-container"
                 parent={document.getElementById("app")}
             >
-                <Card
+                <AdvancedCard
                     subtitle={
                         <div
                             style={{
@@ -136,7 +136,7 @@ export default () => {
                                 />
                             )
                     )}
-                </Card>
+                </AdvancedCard>
             </Modal>
         </Header>
     );

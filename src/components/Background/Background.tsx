@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { BREAKPOINTS, THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { ITheme } from "../../../src/modules/themes";
 
 const { useConnect } = Hooks;
 
@@ -11,7 +10,7 @@ interface IViewportContainerProps {
     kClassName?: string;
 }
 
-const Background = styled.div<{ background: string; theme: ITheme }>`
+const Background = styled.div<{ background: string } & ISCThemeProp>`
     position: absolute;
     width: 100%;
     height: 100%;

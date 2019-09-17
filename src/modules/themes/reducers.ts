@@ -6,6 +6,11 @@ declare global {
     interface IStoreState {
         theme: ITheme;
     }
+
+    // Used to type StyledComponents props
+    interface ISCThemeProp {
+        theme: ITheme;
+    }
 }
 
 export const makeThemeReducer = (initialState: ITheme) => (

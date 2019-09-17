@@ -24,7 +24,7 @@ import RevealTada from "react-reveal/Tada";
 // @ts-ignore:noImplicitAny
 import RevealWobble from "react-reveal/Wobble";
 import { IAnimatedCardProps } from "./model";
-import { CardCatched as Card } from "./Card";
+import { CardCatched as AdvancedCard } from "./AdvancedCard";
 
 export const Fade = (props: IAnimatedCardProps) => {
     const [hasRevealed, setHasRevealed] = React.useState(false);
@@ -33,7 +33,7 @@ export const Fade = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.Fade {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -50,7 +50,7 @@ export const Flip = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.Flip {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -67,7 +67,7 @@ export const Rotate = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.Rotate {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -84,7 +84,7 @@ export const Zoom = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.Zoom {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -101,7 +101,7 @@ export const Bounce = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.Bounce {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -118,7 +118,7 @@ export const Slide = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.Slide {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -135,7 +135,7 @@ export const Roll = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.Roll {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -152,7 +152,7 @@ export const LightSpeed = (props: IAnimatedCardProps) => {
 
     return (
         <Reveal.LightSpeed {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -169,7 +169,7 @@ export const Jump = (props: IAnimatedCardProps) => {
 
     return (
         <RevealJump {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -186,7 +186,7 @@ export const Flash = (props: IAnimatedCardProps) => {
 
     return (
         <RevealFlash {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -203,7 +203,7 @@ export const HeadShake = (props: IAnimatedCardProps) => {
 
     return (
         <RevealHeadShake {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -220,7 +220,7 @@ export const Jello = (props: IAnimatedCardProps) => {
 
     return (
         <RevealJello {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -237,7 +237,7 @@ export const Pulse = (props: IAnimatedCardProps) => {
 
     return (
         <RevealPulse {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -254,7 +254,7 @@ export const RubberBand = (props: IAnimatedCardProps) => {
 
     return (
         <RevealRubberBand {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -271,7 +271,7 @@ export const Shake = (props: IAnimatedCardProps) => {
 
     return (
         <RevealShake {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -288,7 +288,7 @@ export const Spin = (props: IAnimatedCardProps) => {
 
     return (
         <RevealSpin {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -305,7 +305,7 @@ export const Swing = (props: IAnimatedCardProps) => {
 
     return (
         <RevealSwing {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -322,7 +322,7 @@ export const Tada = (props: IAnimatedCardProps) => {
 
     return (
         <RevealTada {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}
@@ -339,7 +339,7 @@ export const Wobble = (props: IAnimatedCardProps) => {
 
     return (
         <RevealWobble {...props} onReveal={onReveal}>
-            <Card
+            <AdvancedCard
                 {...props}
                 bodyAlignment={props.alt ? "right" : "left"}
                 hasRevealed={hasRevealed}

@@ -6,7 +6,6 @@ import tinycolor from "tinycolor2";
 import Tooltip from "../Tooltip/Tooltip";
 import { BREAKPOINTS, THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { ITheme } from "../../../src/modules/themes";
 import app from "../../app";
 
 const { useConnect, useCurrentBreakpoint } = Hooks;
@@ -27,7 +26,7 @@ interface ISectionProps {
     kClassName?: string;
 }
 
-const Wrapper = styled.div<{ theme: ITheme }>`
+const Wrapper = styled.div<ISCThemeProp>`
     transition: all ${THEME_TRANSITION_TIME}s;
     user-select: none;
     position: relative;
@@ -134,7 +133,7 @@ const Content = styled.div`
     font-family: "${app.fonts.openSans.family}";
 `;
 
-const Indicator = styled.div<{ active: boolean; theme: ITheme }>`
+const Indicator = styled.div<{ active: boolean } & ISCThemeProp>`
     width: 2rem;
     height: 2rem;
     margin: 0 2rem;

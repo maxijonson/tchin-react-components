@@ -21,11 +21,15 @@ export { Utils };
 
 ///----- COMPONENTS
 import * as CardsAnimated from "./src/components/Card/CardAnimated";
-import Card, * as CardsBase from "./src/components/Card/Card";
+import AdvancedCard, * as AdvancedCardBase from "./src/components/Card/AdvancedCard";
 export { default as Background } from "./src/components/Background/Background";
 export { default as Button } from "./src/components/Button/Button";
-const Cards = { ...CardsAnimated, Alt: CardsBase.Alt, Base: CardsBase.default };
-export { Cards, Card };
+const Cards = {
+    ...CardsAnimated,
+    Alt: AdvancedCardBase.Alt,
+    Base: AdvancedCardBase.default,
+};
+export { Cards, AdvancedCard };
 export { default as Catcher } from "./src/components/Catcher/Catcher";
 export {
     default as ColorOverlay,
@@ -47,7 +51,7 @@ export {
 export * from "./src/config/constants";
 
 ///----- PAGES
-export { NotFoundPage } from "./src/pages";
+export { NotFoundPage, KitPage } from "./src/pages";
 
 ///----- APP
 export { default as app } from "./src/app";

@@ -3,7 +3,6 @@ import tinycolor from "tinycolor2";
 import styled, { ThemeProvider } from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
-import { ITheme } from "../../../src/modules/themes";
 import app from "../../app";
 
 const { useConnect } = Hooks;
@@ -39,9 +38,7 @@ interface IButtonOwnProps {
 }
 
 interface IThemeProvider {
-    theme: IButtonOwnProps & {
-        theme: ITheme;
-    };
+    theme: IButtonOwnProps & ISCThemeProp;
 }
 
 const DButton = styled.button`

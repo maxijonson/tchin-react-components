@@ -4,7 +4,6 @@ import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import { Tooltip, ViewportContainer } from "../../src/components";
 import { Hooks } from "../../src/modules";
-import { ITheme } from "../../src/modules/themes";
 
 const { useConnect } = Hooks;
 
@@ -78,7 +77,7 @@ const Container = styled.div`
     width: 100%;
 `;
 
-const Code = styled.pre<{ theme: ITheme }>`
+const Code = styled.pre<ISCThemeProp>`
     width: 75%;
     margin: 0 auto;
     box-shadow: 0 0 1rem ${({ theme }) => theme.colors.cardShadow};
