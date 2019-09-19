@@ -30,3 +30,13 @@ export const SESSION_KEYS = {
 };
 
 export const TRC_VERSION = version;
+
+declare global {
+    type IContextState =
+        | "warn"
+        | "danger"
+        | "info"
+        | "primary"
+        | "secondary"
+        | "success";
+}
