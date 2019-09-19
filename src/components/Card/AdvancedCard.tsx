@@ -1,6 +1,7 @@
+// TODO: Move out of TRC, too complex
 import React from "react";
 import * as Reveal from "react-reveal";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
@@ -17,9 +18,7 @@ import app from "../../app";
 
 const { useConnect } = Hooks;
 
-interface IThemeProps {
-    theme: ICardInternalProps & ICardProps & ISCThemeProp;
-}
+type IThemeProps = ICardInternalProps & ICardProps & ISCThemeProp;
 
 // CARD TITLE
 
@@ -29,12 +28,12 @@ const DTitle = styled.h1`
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
-        padding-left: ${({ theme: { bodyAlignment } }: IThemeProps) =>
+        padding-left: ${({ bodyAlignment }: IThemeProps) =>
             bodyAlignment == "right" && "50%"};
-        padding-right: ${({ theme: { bodyAlignment } }: IThemeProps) =>
+        padding-right: ${({ bodyAlignment }: IThemeProps) =>
             bodyAlignment == "left" && "50%"};
         z-index: 2;
-        text-align: ${({ theme: { bodyAlignment } }: IThemeProps) =>
+        text-align: ${({ bodyAlignment }: IThemeProps) =>
             bodyAlignment == "left" ? "left" : "right"};
     }
 `;
@@ -43,17 +42,17 @@ const DTitle = styled.h1`
 
 const DSubtitle = styled.h2`
     font-size: 2.25rem;
-    color: ${({ theme: { theme } }: IThemeProps) => theme.colors.cardSubtitle};
+    color: ${({ theme }: IThemeProps) => theme.colors.cardSubtitle};
     font-family: ${app.fonts.openSans.family};
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
-        padding-left: ${({ theme: { bodyAlignment } }: IThemeProps) =>
+        padding-left: ${({ bodyAlignment }: IThemeProps) =>
             bodyAlignment == "right" && "25%"};
-        padding-right: ${({ theme: { bodyAlignment } }: IThemeProps) =>
+        padding-right: ${({ bodyAlignment }: IThemeProps) =>
             bodyAlignment == "left" && "25%"};
         z-index: 2;
-        text-align: ${({ theme: { bodyAlignment } }: IThemeProps) =>
+        text-align: ${({ bodyAlignment }: IThemeProps) =>
             bodyAlignment == "left" ? "left" : "right"};
     }
 `;
@@ -61,9 +60,7 @@ const DSubtitle = styled.h2`
 // CARD HEADER HIDER
 
 const DHeaderHider = styled.div`
-    ${({
-        theme: { imageUrl, background, theme, bodyAlignment },
-    }: IThemeProps) =>
+    ${({ imageUrl, background, theme, bodyAlignment }: IThemeProps) =>
         imageUrl &&
         `@media (max-width: ${BREAKPOINTS.smpx}) {
         background: ${background || theme.colors.card};
@@ -120,9 +117,9 @@ const DContent = styled.div`
 // CARD IMAGE HIDER
 
 const DImageHider = styled.div`
-    background: ${({ theme: { theme, background } }: IThemeProps) =>
+    background: ${({ theme, background }: IThemeProps) =>
         background || theme.colors.card};
-    transform: ${({ theme: { bodyAlignment, hasRevealed } }: IThemeProps) =>
+    transform: ${({ bodyAlignment, hasRevealed }: IThemeProps) =>
         hasRevealed &&
         (bodyAlignment == "left"
             ? "skew(10deg) translateX(-70%) scale(1.1)"
@@ -131,7 +128,7 @@ const DImageHider = styled.div`
     width: 100%;
     height: 100%;
     box-shadow: 0 0 1.5rem
-        ${({ theme: { theme } }: IThemeProps) => theme.colors.cardShadow};
+        ${({ theme }: IThemeProps) => theme.colors.cardShadow};
 `;
 
 // CARD IMAGE
@@ -145,7 +142,7 @@ const DImage = styled.div`
     transition-delay: 0.25s;
     overflow: hidden;
     background:
-        url("${({ theme: { imageUrl } }: IThemeProps) => imageUrl}")
+        url("${({ imageUrl }: IThemeProps) => imageUrl}")
         center center / cover no-repeat;
     }
 `;
@@ -155,7 +152,7 @@ const DImage = styled.div`
 const DFooter = styled.div`
     font-family: "${app.fonts.roboto.family}";
     font-size: 1.6rem;
-    color: ${({ theme: { theme } }: IThemeProps) => {
+    color: ${({ theme }: IThemeProps) => {
         const color = tinycolor(theme.colors.defaultText);
         theme.name == "light" ? color.lighten(25) : color.darken(25);
         return color.toRgbString();
@@ -164,15 +161,15 @@ const DFooter = styled.div`
 
 // Card container
 const Card = styled.div`
-    background: ${({ theme: { background, theme } }: IThemeProps) =>
+    background: ${({ theme, background }: IThemeProps) =>
         background || theme.colors.card};
     width: 75%;
     display: grid;
     margin: 5% auto;
     box-shadow: 0 0.25rem 0.5rem
-        ${({ theme: { theme } }: IThemeProps) => theme.colors.cardShadow};
+        ${({ theme }: IThemeProps) => theme.colors.cardShadow};
     border-radius: 0.25em;
-    color: ${({ theme: { theme } }: IThemeProps) => theme.colors.defaultText};
+    color: ${({ theme }: IThemeProps) => theme.colors.defaultText};
     transition: all ${THEME_TRANSITION_TIME}s;
     text-align: justify;
     overflow: hidden;
@@ -182,9 +179,7 @@ const Card = styled.div`
     @media (min-width: ${BREAKPOINTS.smpx}) {
         font-size: 1.8rem;
         grid-gap: 0 1rem;
-        grid-template-columns: ${({
-            theme: { bodyAlignment, imageUrl },
-        }: IThemeProps) => {
+        grid-template-columns: ${({ bodyAlignment, imageUrl }: IThemeProps) => {
             if (!imageUrl) {
                 return "[body] 100%";
             }
@@ -278,8 +273,6 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
         footer,
     } = props;
 
-    const { theme } = useConnect(({ theme }) => ({ theme }));
-
     // Extra state to control the revealing ourselves for things that aren't in react-reveal's scope
     // e.g: changing language or theme would be considered like a change and re-fire the animations, we don't want that!
     const [fallbackHasRevealed, setFallbackHasRevealed] = React.useState(false);
@@ -329,97 +322,95 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
     const ImageHider = ImageHiderRenderer || DImageHider;
 
     return (
-        <ThemeProvider theme={{ ...props, hasRevealed, theme }}>
-            <AnimateContext.Provider
-                value={{
-                    animate,
-                    bodyAlignment,
-                    hasRevealed,
-                    fallbackHasRevealed,
-                    baseDelay,
-                }}
-            >
-                <Card className={`card ${kClassName}`}>
-                    {bodyAlignment == "right" && (
-                        <Image className="card-image card-bodyAlignment-right">
-                            <ImageHider className="card-image-hider  card-bodyAlignment-right" />
-                        </Image>
-                    )}
-                    <Content className="card-content">
-                        {renderHeader && (
-                            <Header className="card-header">
-                                <AnimateSide
-                                    cascade
-                                    onReveal={
-                                        !children
-                                            ? () => onRevealTrigger(1750)
-                                            : () => {}
-                                    }
-                                >
-                                    <div>
-                                        {title && (
-                                            <Title
-                                                children={title}
-                                                className="card-title"
-                                            />
-                                        )}
-                                        {subtitle && (
-                                            <Subtitle
-                                                children={subtitle}
-                                                className="card-subtitle"
-                                            />
-                                        )}
-                                    </div>
-                                </AnimateSide>
-                                <HeaderHider className="card-header-hider" />
-                            </Header>
-                        )}
-                        {renderHeader &&
-                            children &&
-                            (headerSeparator || (
-                                <AnimateSide
-                                    delay={250}
-                                    children={<hr className="card-hr header" />}
-                                />
-                            ))}
-
-                        {children && (
+        <AnimateContext.Provider
+            value={{
+                animate,
+                bodyAlignment,
+                hasRevealed,
+                fallbackHasRevealed,
+                baseDelay,
+            }}
+        >
+            <Card className={`card ${kClassName}`}>
+                {bodyAlignment == "right" && (
+                    <Image className="card-image card-bodyAlignment-right">
+                        <ImageHider className="card-image-hider  card-bodyAlignment-right" />
+                    </Image>
+                )}
+                <Content className="card-content">
+                    {renderHeader && (
+                        <Header className="card-header">
                             <AnimateSide
-                                delay={500}
-                                onReveal={onRevealTrigger}
-                                children={
-                                    <Body
-                                        children={children}
-                                        className="card-body"
-                                    />
+                                cascade
+                                onReveal={
+                                    !children
+                                        ? () => onRevealTrigger(1750)
+                                        : () => {}
                                 }
-                            />
-                        )}
-
-                        {children &&
-                            footer &&
-                            (footerSeparator || (
-                                <AnimateSide
-                                    delay={750}
-                                    children={<hr className="card-hr footer" />}
-                                />
-                            ))}
-
-                        {footer && (
-                            <AnimateSide
-                                delay={1000}
-                                children={<Footer children={footer} />}
-                            />
-                        )}
-                    </Content>
-                    {bodyAlignment == "left" && (
-                        <Image className="card-image card-bodyAlignment-left">
-                            <ImageHider className="card-image-hider card-bodyAlignment-left" />
-                        </Image>
+                            >
+                                <div>
+                                    {title && (
+                                        <Title
+                                            children={title}
+                                            className="card-title"
+                                        />
+                                    )}
+                                    {subtitle && (
+                                        <Subtitle
+                                            children={subtitle}
+                                            className="card-subtitle"
+                                        />
+                                    )}
+                                </div>
+                            </AnimateSide>
+                            <HeaderHider className="card-header-hider" />
+                        </Header>
                     )}
-                </Card>
-            </AnimateContext.Provider>
-        </ThemeProvider>
+                    {renderHeader &&
+                        children &&
+                        (headerSeparator || (
+                            <AnimateSide
+                                delay={250}
+                                children={<hr className="card-hr header" />}
+                            />
+                        ))}
+
+                    {children && (
+                        <AnimateSide
+                            delay={500}
+                            onReveal={onRevealTrigger}
+                            children={
+                                <Body
+                                    children={children}
+                                    className="card-body"
+                                />
+                            }
+                        />
+                    )}
+
+                    {children &&
+                        footer &&
+                        (footerSeparator || (
+                            <AnimateSide
+                                delay={750}
+                                children={<hr className="card-hr footer" />}
+                            />
+                        ))}
+
+                    {footer && (
+                        <AnimateSide
+                            delay={1000}
+                            children={<Footer children={footer} />}
+                        />
+                    )}
+                </Content>
+                {bodyAlignment == "left" && (
+                    <Image className="card-image card-bodyAlignment-left">
+                        <ImageHider className="card-image-hider card-bodyAlignment-left" />
+                    </Image>
+                )}
+            </Card>
+        </AnimateContext.Provider>
     );
 };
 

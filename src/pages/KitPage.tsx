@@ -1,20 +1,21 @@
 import React from "react";
-import styled, { ThemeProvider } from "styled-components";
-import { Block } from "../components";
-import { Hooks } from "../modules";
-
-const { useConnect } = Hooks;
+import styled from "styled-components";
+import { Block, AdvancedCard } from "../components";
 
 const AltBlock = styled(Block)`
-    background: ${({ theme }: ISCThemeProp) => theme.colors.altPageBackground};
-    color: ${({ theme }: ISCThemeProp) => theme.colors.defaultText};
+    background: ${({ theme }) => theme.colors.altPageBackground};
+    color: ${({ theme }) => theme.colors.defaultText};
 `;
 
 export default () => {
-    const theme = useConnect(({ theme }) => theme);
     return (
-        <ThemeProvider theme={theme}>
-            <AltBlock>Kit Page</AltBlock>
-        </ThemeProvider>
+        <AltBlock>
+            <AdvancedCard title="KitPage">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum,
+                quod. Architecto, facere. Vitae nobis mollitia voluptates maxime
+                quis enim ad delectus veritatis maiores voluptas. Reiciendis
+                quaerat vel mollitia sunt accusamus.
+            </AdvancedCard>
+        </AltBlock>
     );
 };

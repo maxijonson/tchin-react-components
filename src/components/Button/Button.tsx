@@ -1,11 +1,8 @@
 import React from "react";
 import tinycolor from "tinycolor2";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
-import { Hooks } from "../../../src/modules";
 import app from "../../app";
-
-const { useConnect } = Hooks;
 
 interface IButtonOwnProps {
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -37,22 +34,20 @@ interface IButtonOwnProps {
     kClassName?: string;
 }
 
-interface IThemeProvider {
-    theme: IButtonOwnProps & ISCThemeProp;
-}
-
-const DButton = styled.button`
-    background: ${({ theme: { background, theme } }: IThemeProvider) =>
+const DButton = styled.button<IButtonOwnProps>`
+    background: ${({ theme, background }) =>
         background || theme.colors.buttonBg};
-    color: ${({ theme: { textColor, theme } }: IThemeProvider) =>
-        textColor || theme.colors.buttonText};
-    border: none;
+    color: ${({ theme, textColor }) => textColor || theme.colors.buttonText};
+    border: ${(props) => {
+        console.warn("props", props);
+        return "none";
+    }};
     border-radius: 0.5rem;
     padding: 0.75rem;
     transition: all ${THEME_TRANSITION_TIME}s;
 
     &:hover {
-        background: ${({ theme: { background, theme } }: IThemeProvider) =>
+        background: ${({ theme, background }) =>
             tinycolor(background || theme.colors.buttonBg)
                 .darken()
                 .toHexString()};
@@ -84,24 +79,27 @@ export default (props: IButtonOwnProps) => {
         subtitle,
         ButtonRenderer,
         kClassName = "",
+        background,
+        textColor,
     } = props;
-
-    const { theme } = useConnect(({ theme }) => ({ theme }));
 
     const Button = ButtonRenderer || DButton;
 
     return (
         (!children && !title && !subtitle && null) || (
-            <ThemeProvider theme={{ theme, ...props }}>
-                <Button onClick={onClick} className={`button ${kClassName}`}>
-                    {children || (
-                        <>
-                            {title && <Title children={title} />}
-                            {subtitle && <Subtitle children={subtitle} />}
-                        </>
-                    )}
-                </Button>
-            </ThemeProvider>
+            <Button
+                onClick={onClick}
+                className={`button ${kClassName}`}
+                background={background}
+                textColor={textColor}
+            >
+                {children || (
+                    <>
+                        {title && <Title children={title} />}
+                        {subtitle && <Subtitle children={subtitle} />}
+                    </>
+                )}
+            </Button>
         )
     );
 };
