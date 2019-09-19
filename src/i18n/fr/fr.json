@@ -2,11 +2,9 @@
     "footer": {
         "copyright": "Tous droits réservés."
     },
-    "header": {
+    "menu": {
         "changeLang": "Changer la langue",
         "changeTheme": "Changer le thème",
-        "home": "Accueil",
-        "portfolio": "Portfolio",
         "theme": {
             "dark": "foncé",
             "light": "clair"

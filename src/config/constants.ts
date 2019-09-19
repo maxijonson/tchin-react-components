@@ -18,7 +18,7 @@ export const BREAKPOINTS = {
 export const ZINDEX = {
     tooltip: 10,
     scrollbar: 50,
-    header: 100,
+    menu: 100,
     modal: 200,
 };
 

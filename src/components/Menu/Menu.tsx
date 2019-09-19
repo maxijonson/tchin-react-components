@@ -3,11 +3,11 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
-import app, { IVisibleRoute } from "../../../src/app";
+import app, { IVisibleRoute } from "../../app";
 import Modal from "../Modal/Modal";
 import AdvancedCard from "../Card/AdvancedCard";
-import { ZINDEX } from "../../../src/config";
-import { Hooks } from "../../../src/modules";
+import { ZINDEX } from "../../config";
+import { Hooks } from "../../modules";
 import { SCROLLBAR_EVENT } from "../Scrollbar/Scrollbar";
 import LangSwitch from "./LangSwitch";
 import Nav from "./Nav";
@@ -15,14 +15,14 @@ import ThemeSwitch from "./ThemeSwitch";
 
 const { useConnect } = Hooks;
 
-const Header = styled.div`
+const Menu = styled.div`
     position: fixed;
     top: 0;
     left: 0;
     font-size: 3.6rem;
     margin: 1.5rem 0 0 2rem;
     cursor: pointer;
-    z-index: ${ZINDEX.header};
+    z-index: ${ZINDEX.menu};
 `;
 
 export default () => {
@@ -69,8 +69,8 @@ export default () => {
     });
 
     return (
-        <Header className={`header ${menuVisible ? "active" : ""}`}>
-            <div className="header--button" onClick={onMenuClick}>
+        <Menu className={`menu ${menuVisible ? "active" : ""}`}>
+            <div className="menu--button" onClick={onMenuClick}>
                 <FontAwesomeIcon
                     icon={faBars}
                     color={theme.colors.defaultText}
@@ -81,8 +81,8 @@ export default () => {
                 onRequestClose={onRequestClose}
                 visible={menuVisible}
                 left
-                overlayClassName="header--modal-overlay"
-                containerClassName="header--modal-container"
+                overlayClassName="menu--modal-overlay"
+                containerClassName="menu--modal-container"
                 parent={document.getElementById("app")}
             >
                 <AdvancedCard
@@ -124,7 +124,7 @@ export default () => {
                             ))}
                         </div>
                     }
-                    kClassName="header--card"
+                    kClassName="menu--card"
                 >
                     {_.map(
                         app.routes,
@@ -138,6 +138,6 @@ export default () => {
                     )}
                 </AdvancedCard>
             </Modal>
-        </Header>
+        </Menu>
     );
 };

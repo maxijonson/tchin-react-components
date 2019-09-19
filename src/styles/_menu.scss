@@ -3,15 +3,15 @@ $sm-size: 40%;
 $md-size: 30%;
 $lg-size: 20%;
 $bump: 1.5%;
-.header--modal-overlay.header--modal-overlay {
+.menu--modal-overlay.menu--modal-overlay {
     padding: 0;
 }
 
-.header.header {
+.menu.menu {
     transition: all 0.15s;
 }
 
-.header.header.active {
+.menu.menu.active {
     left: $default-size + $bump;
 
     @media (min-width: $sm-breakpoint) {
@@ -25,7 +25,7 @@ $bump: 1.5%;
     }
 }
 
-.header--modal-container.header--modal-container {
+.menu--modal-container.menu--modal-container {
     margin: 0 0 auto 0;
     width: $default-size;
 
@@ -40,7 +40,7 @@ $bump: 1.5%;
     }
 }
 
-.header--card.header--card.header--card {
+.menu--card.menu--card.menu--card {
     margin: 0;
     width: 100%;
     height: auto;

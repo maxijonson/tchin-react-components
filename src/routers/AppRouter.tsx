@@ -4,7 +4,7 @@ import { Route, Router, Switch } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 import app from "../app";
-import { Footer, Header, Scrollbar, ToastStyle } from "../components";
+import { Footer, Menu, Scrollbar, ToastStyle } from "../components";
 import { THEME_TRANSITION_TIME } from "../config";
 import { Hooks } from "../modules";
 
@@ -30,7 +30,7 @@ export default ({ projectVersion }: { projectVersion?: string }) => {
                     <PageWrapperStyled theme={theme}>
                         <Scrollbar />
                         <ToastStyle theme={theme} />
-                        <Header />
+                        <Menu />
                         <Switch>
                             {_.map(
                                 app.routes,

@@ -41,12 +41,11 @@ app.init({
             key: "notFound",
             path: "",
             component: () => <NotFoundPage />,
-            hidden: true,
-            Icon: () => <span>NF</span>, // Displayed in <Header />.
+            hidden: true
         },
     ],
     socials: [
-        /* Social links displayed in the footer of <Header /> */
+        /* Social links displayed in the footer of <Menu /> */
         {
             name: "Github",
             url: "https://github.com/maxijonson",

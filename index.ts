@@ -35,9 +35,9 @@ export {
     default as ColorOverlay,
 } from "./src/components/ColorOverlay/ColorOverlay";
 export { default as Footer } from "./src/components/Footer/Footer";
-export { default as Header } from "./src/components/Header/Header";
-export { default as LangSwitch } from "./src/components/Header/LangSwitch";
-export { default as ThemeSwitch } from "./src/components/Header/ThemeSwitch";
+export { default as Menu } from "./src/components/Menu/Menu";
+export { default as LangSwitch } from "./src/components/Menu/LangSwitch";
+export { default as ThemeSwitch } from "./src/components/Menu/ThemeSwitch";
 export { default as Modal } from "./src/components/Modal/Modal";
 export { default as Scrollbar } from "./src/components/Scrollbar/Scrollbar";
 export { default as Section } from "./src/components/Section/Section";

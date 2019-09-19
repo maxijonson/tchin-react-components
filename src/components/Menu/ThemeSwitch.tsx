@@ -21,9 +21,7 @@ export default () => {
     const handleThemeChange = (checked: boolean) => {
         const theme = checked ? app.themes.light : app.themes.dark;
         app.notify(
-            `${t("notification.themeChange")}: ${t(
-                `header.theme.${theme.name}`
-            )}`
+            `${t("notification.themeChange")}: ${t(`menu.theme.${theme.name}`)}`
         );
         setTheme(theme);
     };
