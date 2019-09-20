@@ -1,7 +1,7 @@
-import * as CardsBase from "./Card/AdvancedCard";
-import * as CardsAnimated from "./Card/CardAnimated";
+import * as CardsBase from "./AdvancedCard/AdvancedCard";
+import * as CardsAnimated from "./AdvancedCard/CardAnimated";
 
-export { default as AdvancedCard } from "./Card/AdvancedCard";
+export { default as AdvancedCard } from "./AdvancedCard/AdvancedCard";
 export const AdvancedCards = { ...CardsBase, ...CardsAnimated };
 export { default as Background } from "./Background/Background";
 export { default as Button } from "./Button/Button";

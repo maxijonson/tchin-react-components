@@ -5,7 +5,7 @@ import React from "react";
 import styled from "styled-components";
 import app, { IVisibleRoute } from "../../app";
 import Modal from "../Modal/Modal";
-import AdvancedCard from "../Card/AdvancedCard";
+import AdvancedCard from "../AdvancedCard/AdvancedCard";
 import { ZINDEX } from "../../config";
 import { Hooks } from "../../modules";
 import { SCROLLBAR_EVENT } from "../Scrollbar/Scrollbar";

@@ -226,20 +226,12 @@ gulp.task(
     gulp.series(BUMP_PATCH.task, COMPILE.task, publish, publishDone)
 );
 
-const publishMinor = (done: IGulpTaskDoneFn) => {
-    shell.exec("npm publish");
-    done();
-};
 gulp.task(
     PUBLISH_MINOR.task,
-    gulp.series(BUMP_MINOR.task, COMPILE.task, publishMinor, publishDone)
+    gulp.series(BUMP_MINOR.task, COMPILE.task, publish, publishDone)
 );
 
-const publishMajor = (done: IGulpTaskDoneFn) => {
-    shell.exec("npm publish");
-    done();
-};
 gulp.task(
     PUBLISH_MAJOR.task,
-    gulp.series(BUMP_MAJOR.task, COMPILE.task, publishMajor, publishDone)
+    gulp.series(BUMP_MAJOR.task, COMPILE.task, publish, publishDone)
 );
