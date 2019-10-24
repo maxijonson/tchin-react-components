@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
-import { THEME_TRANSITION_TIME } from "../../../src/config";
+import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
 import { IVisibleRoute } from "../../app";
 
@@ -17,10 +17,10 @@ const Nav = styled(NavLink)`
     transition: all ${THEME_TRANSITION_TIME}s;
     width: 100%;
     display: grid;
-    grid-template-columns: 2fr 8fr;
+    grid-template-columns: 1fr 4fr;
     font-weight: 100;
     color: ${({ theme }) => theme.colors.defaultText};
-    font-size: 3rem;
+    font-size: 1.6em;
     padding: 3% 0 3% 2%;
     border-radius: none;
     text-align: left;
@@ -41,6 +41,9 @@ const Nav = styled(NavLink)`
             theme.name == "light" ? color.darken(50) : color.lighten(50);
             return color.toRgbString();
         }};
+    }
+    @media (max-width: ${BREAKPOINTS.smpx}) {
+        font-size: 0.7em;
     }
 `;
 
@@ -64,7 +67,7 @@ export default ({ path, exact, name, Icon, onPathChange }: INavProps) => {
             <div style={{ textAlign: "center", margin: "auto 0" }}>
                 <Icon />
             </div>
-            <div>{t(name).toUpperCase()}</div>
+            <div style={{ paddingLeft: "5%" }}>{t(name).toUpperCase()}</div>
         </Nav>
     );
 };

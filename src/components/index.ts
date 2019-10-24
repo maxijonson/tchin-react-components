@@ -1,9 +1,14 @@
 import * as CardsBase from "./AdvancedCard/AdvancedCard";
 import * as CardsAnimated from "./AdvancedCard/CardAnimated";
+import * as Layouts from "./Layout/Layout";
 
+export { Layouts };
 export { default as AdvancedCard } from "./AdvancedCard/AdvancedCard";
 export const AdvancedCards = { ...CardsBase, ...CardsAnimated };
-export { default as Background } from "./Background/Background";
+export {
+    default as Background,
+    IBackgroundOptions,
+} from "./Background/Background";
 export { default as Button } from "./Button/Button";
 export { default as Catcher } from "./Catcher/Catcher";
 export { default as ColorOverlay } from "./ColorOverlay/ColorOverlay";

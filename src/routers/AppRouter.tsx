@@ -16,9 +16,11 @@ const PageWrapperStyled = styled.div`
     width: auto;
     min-height: 98.45250474vh;
     transition: all ${THEME_TRANSITION_TIME}s;
-    font-family: ${app.fonts.oswald.family};
+    font-family: ${app.fonts.roboto.family};
+    font-size: 1.6em;
     flex: 1 0 auto;
     overflow: auto;
+    color: ${({ theme }) => theme.colors.defaultText};
 `;
 
 export default ({ projectVersion }: { projectVersion?: string }) => {

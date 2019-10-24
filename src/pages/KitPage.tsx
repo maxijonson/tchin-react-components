@@ -1,21 +1,40 @@
 import React from "react";
 import styled from "styled-components";
-import { Block, AdvancedCard } from "../components";
+import { Layouts } from "../components";
+import { Hooks } from "../modules";
 
-const AltBlock = styled(Block)`
-    background: ${({ theme }) => theme.colors.altPageBackground};
-    color: ${({ theme }) => theme.colors.defaultText};
+const { Viewport, Center, MarginV, Flex } = Layouts;
+const { useBackground } = Hooks;
+
+const Card = styled.div`
+    width: 20%;
+    background: lightgray;
+    border: 1px solid black;
+    border-radius: 0.15em;
+    padding: 1%;
+    height: 200px;
 `;
 
 export default () => {
+    const BGViewport = useBackground(Viewport, "assets/images/notfound-bg.jpg");
+    const BGCard = useBackground(Card, "assets/images/notfound-bg.jpg", {
+        parallax: false,
+        blurAmount: 0,
+    });
     return (
-        <AltBlock>
-            <AdvancedCard title="KitPage">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum,
-                quod. Architecto, facere. Vitae nobis mollitia voluptates maxime
-                quis enim ad delectus veritatis maiores voluptas. Reiciendis
-                quaerat vel mollitia sunt accusamus.
-            </AdvancedCard>
-        </AltBlock>
+        <>
+            <BGViewport>
+                <Center>Kit</Center>
+            </BGViewport>
+            <MarginV />
+            <Flex>
+                <BGCard>
+                    <Center>BGCard</Center>
+                </BGCard>
+                <BGCard>
+                    <Center>BGCard</Center>
+                </BGCard>
+            </Flex>
+        </>
     );
 };

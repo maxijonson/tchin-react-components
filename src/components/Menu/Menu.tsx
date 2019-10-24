@@ -19,7 +19,7 @@ const Menu = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    font-size: 3.6rem;
+    font-size: 2em;
     margin: 1.5rem 0 0 2rem;
     cursor: pointer;
     z-index: ${ZINDEX.menu};

@@ -23,20 +23,8 @@
 }
 
 html {
-    font-size: 21%;
+    font-size: 62.5%;
     text-rendering: optimizeLegibility;
-    @media (min-width: $sm-breakpoint) {
-        font-size: 32.5%;
-    }
-    @media (min-width: $md-breakpoint) {
-        font-size: 50%;
-    }
-    @media (min-width: $lg-breakpoint) {
-        font-size: 62.5%;
-    }
-    @media (min-width: $xl-breakpoint) {
-        font-size: 70%;
-    }
 }
 
 html,
