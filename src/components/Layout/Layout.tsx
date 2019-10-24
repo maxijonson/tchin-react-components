@@ -5,45 +5,57 @@ const BaseLayout = styled.div<{ noHeight?: boolean }>`
 `;
 
 export const Viewport = styled.div<{ width?: number; height?: number }>`
-    width: ${({ width }) => width || 100}vw;
-    height: ${({ height }) => height || 100}vh;
+    width: ${({ width }) => (width == undefined ? 100 : width)}vw;
+    height: ${({ height }) => (height == undefined ? 100 : height)}vh;
 `;
 
-export const MarginH = styled(BaseLayout)`
-    margin-right: 5%;
-    margin-left: 5%;
+export const MarginH = styled(BaseLayout)<{ amount?: number }>`
+    margin-right: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
+    margin-left: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
     max-height: 100%;
     overflow-y: scroll;
 `;
 
-export const MarginV = styled(BaseLayout)`
-    margin-top: 2.5%;
-    margin-bottom: 2.5%;
+export const MarginV = styled(BaseLayout)<{ amount?: number }>`
+    margin-top: ${({ amount }) => (amount == undefined ? 2.5 : amount)}%;
+    margin-bottom: ${({ amount }) => (amount == undefined ? 2.5 : amount)}%;
     max-height: 90%;
     overflow-y: scroll;
 `;
 
-export const Margin = styled(BaseLayout)`
-    margin: 2.5% 5%;
+export const Margin = styled(BaseLayout)<{
+    amountH?: number;
+    amountV?: number;
+}>`
+    margin-top: ${({ amountV }) => (amountV == undefined ? 2.5 : amountV)}%;
+    margin-bottom: ${({ amountV }) => (amountV == undefined ? 2.5 : amountV)}%;
+    margin-left: ${({ amountH }) => (amountH == undefined ? 5 : amountH)}%;
+    margin-right: ${({ amountH }) => (amountH == undefined ? 5 : amountH)}%;
     max-height: 90%;
     overflow-y: scroll;
 `;
 
-export const PaddingH = styled(BaseLayout)`
-    padding-right: 5%;
-    padding-left: 5%;
+export const PaddingH = styled(BaseLayout)<{ amount?: number }>`
+    padding-right: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
+    padding-left: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
     max-height: 100%;
     overflow-y: scroll;
 `;
 
-export const PaddingV = styled(BaseLayout)`
-    padding-top: 2.5%;
-    padding-bottom: 2.5%;
+export const PaddingV = styled(BaseLayout)<{ amount?: number }>`
+    padding-top: ${({ amount }) => (amount == undefined ? 2.5 : amount)}%;
+    padding-bottom: ${({ amount }) => (amount == undefined ? 2.5 : amount)}%;
     overflow-y: scroll;
 `;
 
-export const Padding = styled(BaseLayout)`
-    padding: 2.5% 5%;
+export const Padding = styled(BaseLayout)<{
+    amountH?: number;
+    amountV?: number;
+}>`
+    padding-top: ${({ amountV }) => (amountV == undefined ? 2.5 : amountV)}%;
+    padding-bottom: ${({ amountV }) => (amountV == undefined ? 2.5 : amountV)}%;
+    padding-left: ${({ amountH }) => (amountH == undefined ? 5 : amountH)}%;
+    padding-right: ${({ amountH }) => (amountH == undefined ? 5 : amountH)}%;
     max-height: 95%;
     overflow-y: scroll;
 `;
