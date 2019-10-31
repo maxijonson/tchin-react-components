@@ -3,7 +3,6 @@ import React from "react";
 import * as Reveal from "react-reveal";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
-import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../config";
 import { Hooks } from "../../modules";
@@ -419,9 +418,9 @@ const CardCatcher = ({ errorReport }: { errorReport: IErrorReport }) => {
 
     const [modalVisible, setModalVisible] = React.useState(false);
 
-    const handleClick = () => {
-        setModalVisible(true);
-    };
+    // const handleClick = () => {
+    //     setModalVisible(true);
+    // };
 
     const onModalRequestClose = () => setModalVisible(false);
 
@@ -454,11 +453,6 @@ const CardCatcher = ({ errorReport }: { errorReport: IErrorReport }) => {
                         An unexpected error happened and this message was
                         rendered as fallback to prevent the rest from crashing!
                     </p>
-                    <Button
-                        title="Debug"
-                        subtitle="see the cryptic stuff"
-                        onClick={handleClick}
-                    />
                 </div>
             </Base>
             <Modal visible={modalVisible} onRequestClose={onModalRequestClose}>

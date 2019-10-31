@@ -1,15 +1,16 @@
 import * as CardsBase from "./AdvancedCard/AdvancedCard";
 import * as CardsAnimated from "./AdvancedCard/CardAnimated";
 import * as Layouts from "./Layout/Layout";
+import * as TextStyles from "./TextStyles/TextStyles";
 
-export { Layouts };
+export { Layouts, TextStyles };
 export { default as AdvancedCard } from "./AdvancedCard/AdvancedCard";
 export const AdvancedCards = { ...CardsBase, ...CardsAnimated };
 export {
     default as Background,
     IBackgroundOptions,
 } from "./Background/Background";
-export { default as Button } from "./Button/Button";
+export { default as Button } from "./Buttons/Buttons";
 export { default as Catcher } from "./Catcher/Catcher";
 export { default as ColorOverlay } from "./ColorOverlay/ColorOverlay";
 export { default as Footer } from "./Footer/Footer";
@@ -22,4 +23,5 @@ export { default as Tooltip } from "./Tooltip/Tooltip";
 export {
     default as ViewportContainer,
 } from "./ViewportContainer/ViewportContainer";
-export { default as Block } from "./Block/Block";
+export { default as CodeSnippet } from "./CodeSnippet/CodeSnippet";
+export { default as Table, ITableProps, ITableField } from "./Table/Table";

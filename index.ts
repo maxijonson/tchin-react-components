@@ -23,7 +23,7 @@ export { Utils };
 import * as CardsAnimated from "./src/components/AdvancedCard/CardAnimated";
 import AdvancedCard, * as AdvancedCardBase from "./src/components/AdvancedCard/AdvancedCard";
 export { default as Background } from "./src/components/Background/Background";
-export { default as Button } from "./src/components/Button/Button";
+export { default as Button } from "./src/components/Buttons/Buttons";
 const Cards = {
     ...CardsAnimated,
     Alt: AdvancedCardBase.Alt,

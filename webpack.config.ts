@@ -60,6 +60,10 @@ const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
                     use: ["ts-loader", "eslint-loader"],
                     exclude: /node_modules/,
                 },
+                {
+                    test: /\.txt$/i,
+                    use: "raw-loader",
+                },
             ],
         },
         resolve: {

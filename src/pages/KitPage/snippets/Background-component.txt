@@ -1,0 +1,12 @@
+import { Background, Card } from "tchin-react-components";
+
+const Example = () => (
+    <Card>
+        <Background
+            background="path/to/image.jpg"
+            parallax={false}
+            blurAmount={2}
+        />
+        This is a card.
+    </Card>
+);
