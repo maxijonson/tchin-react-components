@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+type ICommonCSS = "inherit" | "initial" | "unset";
+
 const BaseLayout = styled.div<{ noHeight?: boolean }>`
     height: ${({ noHeight }) => !noHeight && "100%"};
 `;
@@ -60,28 +62,50 @@ export const Padding = styled(BaseLayout)<{
     overflow-y: scroll;
 `;
 
-export const TextCenter = styled.div`
-    text-align: center;
-`;
-
-export const TextJustify = styled.div`
-    text-align: justify;
-`;
-
-export const TextLeft = styled.div`
-    text-align: left;
-`;
-
-export const TextRight = styled.div`
-    text-align: right;
-`;
-
-export const Flex = styled.div`
+type IFlexDirection =
+    | ICommonCSS
+    | "colum"
+    | "column-revers"
+    | "row"
+    | "row-reverse";
+type IFlexWrap = "nowrap" | "unset" | "wrap" | "wrap-reverse";
+type IFlexAlignItems =
+    | ICommonCSS
+    | "center"
+    | "flex-end"
+    | "flex-start"
+    | "stretch";
+type IFlexAlignContent = IFlexAlignItems | "space-around" | "space-between";
+type IFlexJustifyContent =
+    | IFlexAlignContent
+    | "baseline"
+    | "end"
+    | "first baseline"
+    | "last baseline"
+    | "left"
+    | "right"
+    | "safe"
+    | "space-evenly"
+    | "start"
+    | "unsafe";
+export const Flex = styled.div<{
+    itemMaxWidth?: string;
+    direction?: IFlexDirection;
+    wrap?: IFlexWrap;
+    alignItems?: IFlexAlignItems;
+    alignContent?: IFlexAlignContent;
+    justifyContent?: IFlexJustifyContent;
+}>`
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-    align-content: flex-start;
+    flex-direction: ${({ direction }) => direction || "row"};
+    flex-wrap: ${({ wrap }) => wrap || "wrap"};
+    justify-content: ${({ justifyContent }) => justifyContent || "flex-start"};
+    align-items: ${({ alignItems }) => alignItems || "stretch"};
+    align-content: ${({ alignContent }) => alignContent || "flex-start"};
+
+    & > * {
+        max-width: ${({ itemMaxWidth }) => itemMaxWidth || "auto"};
+    }
 `;
 
 export const CenterV = styled.div`

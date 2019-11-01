@@ -55,25 +55,31 @@ export default class Catcher extends React.Component<
         });
     }
 
-    public retry() {
-        this.setState({ errorReport: null });
-    }
-
     public render() {
         const { errorReport } = this.state;
         const { children, Fallback, wrappedProps } = this.props;
+        const retry = () => {
+            this.setState({ errorReport: null });
+        };
 
         if (errorReport) {
             return Fallback ? (
                 <Fallback
                     errorReport={errorReport}
-                    retry={this.retry}
+                    retry={retry}
                     {...wrappedProps}
                 />
             ) : (
                 <p {...wrappedProps}>
                     Something went wrong rendering this part of the page... Have
-                    you tried turning it off and on again?
+                    you tried{" "}
+                    <u
+                        style={{ cursor: "pointer", fontWeight: "bolder" }}
+                        onClick={retry}
+                    >
+                        turning it off and on again
+                    </u>
+                    ?
                 </p>
             );
         }
@@ -81,6 +87,7 @@ export default class Catcher extends React.Component<
     }
 }
 
+// TODO: Type props so that required props appear required from the Catcher HOC too.
 /**
  * Catcher HOC
  * @param WrappedComponent - The component that is prone to error

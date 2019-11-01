@@ -5,10 +5,7 @@ import { THEME_TRANSITION_TIME } from "../../config";
 
 const Table = styled.table`
     max-width: 100%;
-    overflow-x: scroll;
-    filter: drop-shadow(
-        0 0.12em 0.07em ${({ theme }) => theme.colors.defaultShadow}
-    );
+    filter: drop-shadow(0 2px 1px ${({ theme }) => theme.colors.defaultShadow});
     border-radius: 5px;
     border-spacing: 0;
     transition: all ${THEME_TRANSITION_TIME}s;
@@ -44,29 +41,31 @@ export interface ITableProps<T extends {}> {
 
 export default <T extends {}>({ fields, hideHeader, data }: ITableProps<T>) => {
     return (
-        <Table>
-            {!hideHeader && (
-                <thead>
-                    <tr>
-                        {_.map(fields, ({ name }) => (
-                            <th children={name} key={name} />
-                        ))}
-                    </tr>
-                </thead>
-            )}
-            <tbody>
-                {_.map(data, (d, i) => (
-                    <tr key={i}>
-                        {_.map(fields, ({ render, name }) => (
-                            <td key={name}>
-                                {typeof render === "function"
-                                    ? render(d)
-                                    : d[render]}
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-            </tbody>
-        </Table>
+        <div style={{ overflowX: "auto", padding: "1%" }}>
+            <Table>
+                {!hideHeader && (
+                    <thead>
+                        <tr>
+                            {_.map(fields, ({ name }) => (
+                                <th children={name} key={name} />
+                            ))}
+                        </tr>
+                    </thead>
+                )}
+                <tbody>
+                    {_.map(data, (d, i) => (
+                        <tr key={i}>
+                            {_.map(fields, ({ render, name }) => (
+                                <td key={name}>
+                                    {typeof render === "function"
+                                        ? render(d)
+                                        : d[render]}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </div>
     );
 };
