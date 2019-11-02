@@ -9,7 +9,9 @@ export default () => {
     });
     return (
         <BGViewport>
-            <Center>Viewport container with background</Center>
+            <div style={{ position: "relative" }}>
+                This text has a background
+            </div>
         </BGViewport>
     );
 };

@@ -134,7 +134,7 @@ export const useCurrentBreakpoint = (mode: IBreakpointMode = "window") => {
 export const useBackground = (
     Component: React.ElementType,
     url: string,
-    options: IBackgroundOptions = { parallax: true, blurAmount: 3 }
+    options: IBackgroundOptions = { parallax: false, blurAmount: 3 }
 ) => {
     const StyledComponent = React.useMemo(
         () => styled(Component)`
@@ -143,7 +143,7 @@ export const useBackground = (
         `,
         [Component]
     );
-    return ({ children }: { children: React.ReactElement }) => (
+    return ({ children }: { children: React.ReactNode }) => (
         <StyledComponent>
             <Background background={url} {...options} />
             {children}

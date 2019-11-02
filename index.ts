@@ -43,9 +43,6 @@ export { default as Scrollbar } from "./src/components/Scrollbar/Scrollbar";
 export { default as Section } from "./src/components/Section/Section";
 export { default as ToastStyle } from "./src/components/ToastStyle/ToastStyle";
 export { default as Tooltip } from "./src/components/Tooltip/Tooltip";
-export {
-    default as ViewportContainer,
-} from "./src/components/ViewportContainer/ViewportContainer";
 
 ///----- CONFIG
 export * from "./src/config/constants";

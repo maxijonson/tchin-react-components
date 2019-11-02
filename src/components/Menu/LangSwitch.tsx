@@ -7,7 +7,7 @@ import { Hooks } from "../../../src/modules";
 const { useConnect } = Hooks;
 
 export default () => {
-    const { i18n } = useTranslation();
+    const [, i18n] = useTranslation();
 
     const { theme } = useConnect(({ theme }) => ({ theme }));
 
@@ -19,7 +19,7 @@ export default () => {
         <div style={{ display: "inline-block" }}>
             <Switch
                 activeBoxShadow={theme.colors.defaultText}
-                checked={i18n.language == "en"}
+                checked={(i18n as any).language == "en"} // FIXME: i18n does not have language when not ready.
                 onChange={handleLangChange}
                 handleDiameter={15}
                 offColor={

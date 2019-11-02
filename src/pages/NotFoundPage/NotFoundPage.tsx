@@ -2,10 +2,11 @@ import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
-import { Tooltip, ViewportContainer } from "../../components";
+import { Tooltip, Layouts } from "../../components";
 import { Hooks } from "../../modules";
 
-const { useConnect } = Hooks;
+const { useConnect, useBackground } = Hooks;
+const { Viewport } = Layouts;
 
 interface IKeywords {
     [keyword: string]: { color: string };
@@ -172,10 +173,12 @@ export default ({
     redirectUrl?: string;
 }) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
+    const BGViewport = useBackground(
+        Viewport,
+        background || "/assets/images/notFound-bg.jpg"
+    );
     return (
-        <ViewportContainer
-            background={background || "/assets/images/notFound-bg.jpg"}
-        >
+        <BGViewport>
             <Container theme={theme}>
                 <Code theme={theme}>
                     <h1 style={{ textAlign: "center" }}>404 - Not Found</h1>
@@ -188,6 +191,6 @@ export default ({
                     ))}
                 </Code>
             </Container>
-        </ViewportContainer>
+        </BGViewport>
     );
 };

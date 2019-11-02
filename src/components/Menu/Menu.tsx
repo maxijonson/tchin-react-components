@@ -131,7 +131,7 @@ export default () => {
                         (route) =>
                             !route.hidden && (
                                 <Nav
-                                    {...route as IVisibleRoute}
+                                    {...(route as IVisibleRoute)}
                                     onPathChange={handlePathChange}
                                 />
                             )

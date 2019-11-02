@@ -21,8 +21,5 @@ export { default as Scrollbar } from "./Scrollbar/Scrollbar";
 export { default as Section } from "./Section/Section";
 export { default as ToastStyle } from "./ToastStyle/ToastStyle";
 export { default as Tooltip } from "./Tooltip/Tooltip";
-export {
-    default as ViewportContainer,
-} from "./ViewportContainer/ViewportContainer";
 export { default as CodeSnippet } from "./CodeSnippet/CodeSnippet";
 export { default as Table, ITableProps, ITableField } from "./Table/Table";

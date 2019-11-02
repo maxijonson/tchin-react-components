@@ -13,6 +13,7 @@ import {
     Card,
     Catcher,
     withCatcher,
+    Background,
 } from "../../components";
 import { Hooks } from "../../modules";
 
@@ -39,7 +40,7 @@ const backgroundProps = [
         prop: "parallax",
         definition: "parallax effect on image",
         type: "boolean",
-        default: "true",
+        default: "false",
         required: false,
     },
     {
@@ -152,6 +153,7 @@ const propsTableFields: ITableField<{
     },
 ];
 
+// EXAMPLE COMPONENTS
 const ErrorSimulator = ({
     children,
 }: {
@@ -166,7 +168,32 @@ const ErrorSimulator = ({
 
     return children(crash);
 };
-
+const Buttons = ({
+    variant,
+    disabled,
+}: {
+    variant?: React.ComponentProps<typeof Button>["variant"];
+    disabled?: React.ComponentProps<typeof Button>["disabled"];
+}) => (
+    <>
+        <Button disabled={disabled}>Default</Button>
+        <Button disabled={disabled} state="primary" variant={variant}>
+            Primary
+        </Button>
+        <Button disabled={disabled} state="secondary" variant={variant}>
+            Secondary
+        </Button>
+        <Button disabled={disabled} state="warn" variant={variant}>
+            Warn
+        </Button>
+        <Button disabled={disabled} state="danger" variant={variant}>
+            Danger
+        </Button>
+        <Button disabled={disabled} state="info" variant={variant}>
+            Info
+        </Button>
+    </>
+);
 const CatcherCard = ({ title }: { title: string }) => (
     <ErrorSimulator>
         {(crash) => (
@@ -183,7 +210,6 @@ const CatcherCard = ({ title }: { title: string }) => (
         )}
     </ErrorSimulator>
 );
-
 const CardCatched = styled(
     ({ className, retry }: { className: string; retry: () => void }) => (
         <Card className={className}>
@@ -206,7 +232,12 @@ const CardCatched = styled(
 `;
 
 export default () => {
-    const BGViewport = useBackground(Viewport, "assets/images/notfound-bg.jpg");
+    const BGViewport = useBackground(
+        Viewport,
+        "assets/images/notfound-bg.jpg",
+        { parallax: true }
+    );
+    const BGCard = useBackground(Card, "assets/images/example-background.jpg");
     const CatcherHOCDefault = withCatcher(CatcherCard);
     const CatcherHOCCustom = withCatcher(CatcherCard, {
         Fallback: CardCatched,
@@ -233,7 +264,10 @@ export default () => {
                 </p>
                 <hr />
                 <h1 id="bg">Background</h1>
-                <p>Add background to a div.</p>
+                <p>
+                    Add background to a div. The background also has a{" "}
+                    <CodeSpan>ColorOverlay</CodeSpan>.
+                </p>
                 <h3>Usage</h3>
                 <p>
                     There are two ways of using this component: using a React{" "}
@@ -241,9 +275,14 @@ export default () => {
                 </p>
                 <h5>Using the component</h5>
                 <p>
-                    Add the <CodeSpan>&lt;Background /&gt;</CodeSpan> as the
-                    first child of the component you want to add the background
-                    to.
+                    Although it is not recommended you use the component
+                    directly, you can add the{" "}
+                    <CodeSpan>&lt;Background /&gt;</CodeSpan> as the first child
+                    of the component you want to add the background to. Note
+                    that the parent needs to have{" "}
+                    <CodeSpan>overflow: hidden</CodeSpan> and both the parent
+                    and children need <CodeSpan>position: relative</CodeSpan>{" "}
+                    for this to work.
                 </p>
                 <CodeSnippet>{rawBackgroundComponent}</CodeSnippet>
                 <h5>Using the hook</h5>
@@ -251,11 +290,44 @@ export default () => {
                     Use the <CodeSpan>useBackground</CodeSpan> hook. Pass
                     optional props as an object. Behind the scenes, the hook
                     just does the component method shown above and returns the
-                    resulting component.
+                    resulting component. The children must have{" "}
+                    <CodeSpan>position: relative</CodeSpan> set for this to
+                    work.
                 </p>
                 <CodeSnippet>{rawBackgroundHook}</CodeSnippet>
+                <h3>Examples</h3>
+                {/* TODO: Editable test component with form elements */}
+                <Flex itemMaxWidth="35%" justifyContent="center">
+                    <Card style={{ position: "relative", overflow: "hidden" }}>
+                        <Background background="assets/images/example-background.jpg" />
+                        <div style={{ position: "relative" }}>
+                            <h5>Default props (component)</h5>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Non fuga, enim, iste aut laborum magnam
+                            voluptate voluptatibus iure itaque nulla ducimus
+                            reiciendis rerum? Ex est officia sint, at voluptate
+                            molestias?
+                        </div>
+                    </Card>
+                    <BGCard>
+                        <div style={{ position: "relative" }}>
+                            <h5>Default props (hook)</h5>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Non fuga, enim, iste aut laborum magnam
+                            voluptate voluptatibus iure itaque nulla ducimus
+                            reiciendis rerum? Ex est officia sint, at voluptate
+                            molestias?
+                        </div>
+                    </BGCard>
+                </Flex>
+
                 <h3>Props</h3>
                 <Table data={backgroundProps} fields={propsTableFields} />
+                <i>
+                    Note: in addition to the props shown above, the{" "}
+                    <CodeSpan>ColorOverlay</CodeSpan> component props apply as
+                    well.
+                </i>
                 <br />
                 <hr />
 
@@ -268,109 +340,25 @@ export default () => {
                 <h3>Examples</h3>
                 <h5>Default</h5>
                 <div>
-                    <Button>Default</Button>
-                    <Button state="primary">Primary</Button>
-                    <Button state="secondary">Secondary</Button>
-                    <Button state="warn">Warn</Button>
-                    <Button state="danger">Danger</Button>
-                    <Button state="info">Info</Button>
+                    <Buttons />
                 </div>
                 <h5>Outlined</h5>
                 <div>
-                    <Button variant="outlined">Default</Button>
-                    <Button variant="outlined" state="primary">
-                        Primary
-                    </Button>
-                    <Button variant="outlined" state="secondary">
-                        Secondary
-                    </Button>
-                    <Button variant="outlined" state="warn">
-                        Warn
-                    </Button>
-                    <Button variant="outlined" state="danger">
-                        Danger
-                    </Button>
-                    <Button variant="outlined" state="info">
-                        Info
-                    </Button>
+                    <Buttons variant="outlined" />
                 </div>
                 <h5>Text</h5>
                 <div>
-                    <Button variant="text">Default</Button>
-                    <Button variant="text" state="primary">
-                        Primary
-                    </Button>
-                    <Button variant="text" state="secondary">
-                        Secondary
-                    </Button>
-                    <Button variant="text" state="warn">
-                        Warn
-                    </Button>
-                    <Button variant="text" state="danger">
-                        Danger
-                    </Button>
-                    <Button variant="text" state="info">
-                        Info
-                    </Button>
+                    <Buttons variant="text" />
                 </div>
                 <h5>Disabled</h5>
                 <div>
-                    <Button disabled>Default</Button>
-                    <Button disabled state="primary">
-                        Primary
-                    </Button>
-                    <Button disabled state="secondary">
-                        Secondary
-                    </Button>
-                    <Button disabled state="warn">
-                        Warn
-                    </Button>
-                    <Button disabled state="danger">
-                        Danger
-                    </Button>
-                    <Button disabled state="info">
-                        Info
-                    </Button>
+                    <Buttons disabled />
                 </div>
                 <div>
-                    <Button disabled variant="outlined">
-                        Default
-                    </Button>
-                    <Button disabled variant="outlined" state="primary">
-                        Primary
-                    </Button>
-                    <Button disabled variant="outlined" state="secondary">
-                        Secondary
-                    </Button>
-                    <Button disabled variant="outlined" state="warn">
-                        Warn
-                    </Button>
-                    <Button disabled variant="outlined" state="danger">
-                        Danger
-                    </Button>
-                    <Button disabled variant="outlined" state="info">
-                        Info
-                    </Button>
+                    <Buttons variant="outlined" disabled />
                 </div>
                 <div>
-                    <Button disabled variant="text">
-                        Default
-                    </Button>
-                    <Button disabled variant="text" state="primary">
-                        Primary
-                    </Button>
-                    <Button disabled variant="text" state="secondary">
-                        Secondary
-                    </Button>
-                    <Button disabled variant="text" state="warn">
-                        Warn
-                    </Button>
-                    <Button disabled variant="text" state="danger">
-                        Danger
-                    </Button>
-                    <Button disabled variant="text" state="info">
-                        Info
-                    </Button>
+                    <Buttons variant="text" disabled />
                 </div>
                 <h3>Props</h3>
                 <Table fields={propsTableFields} data={buttonProps} />

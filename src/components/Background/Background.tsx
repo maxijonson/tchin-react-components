@@ -1,4 +1,6 @@
+import React from "react";
 import styled from "styled-components";
+import ColorOverlay, { IColorOverlayProps } from "../ColorOverlay/ColorOverlay";
 import { BREAKPOINTS, THEME_TRANSITION_TIME } from "../../../src/config";
 
 export interface IBackgroundOptions {
@@ -6,9 +8,11 @@ export interface IBackgroundOptions {
     blurAmount?: number;
 }
 
-export default styled.div<
-    { background: string } & ISCThemeProp & IBackgroundOptions
->`
+interface IBackgroundProps extends IBackgroundOptions, IColorOverlayProps {
+    background: string;
+}
+
+const Background = styled.div<IBackgroundProps>`
     position: absolute;
     top: 0;
     left: 0;
@@ -24,13 +28,33 @@ export default styled.div<
     filter: ${({ theme, blurAmount }) =>
         theme.name == "light"
             ? `blur(${
-                  blurAmount == undefined ? 3 : blurAmount
-              }px) brightness(90%)`
+                  blurAmount == undefined
+                      ? 3
+                      : blurAmount /* TODO: Nullish coalescing in TS 3.7 */
+              }px)`
             : `blur(${
-                  blurAmount == undefined ? 3 : blurAmount
-              }px) brightness(30%)`};
+                  blurAmount == undefined
+                      ? 3
+                      : blurAmount /* TODO: Nullish coalescing in TS 3.7 */
+              }px)`};
     @media (max-width: ${BREAKPOINTS.lgpx}) {
         background-attachment: scroll !important;
         background-size: cover !important;
     }
 `;
+
+export default ({
+    background,
+    parallax,
+    blurAmount,
+    ...colorOverlayProps
+}: IBackgroundProps) => (
+    <>
+        <Background
+            background={background}
+            parallax={parallax}
+            blurAmount={blurAmount}
+        />
+        <ColorOverlay {...colorOverlayProps} />
+    </>
+);
