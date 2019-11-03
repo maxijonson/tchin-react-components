@@ -286,6 +286,3 @@ const publishTest = (done: IGulpTaskDoneFn) => {
 };
 
 exports[PUBLISH_TEST.task] = gulp.series(exports[COMPILE.task], publishTest);
-
-export const _blank = () =>
-    console.log("this task is just to allow task exports");
