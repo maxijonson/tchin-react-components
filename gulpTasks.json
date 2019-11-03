@@ -39,6 +39,10 @@
         "task": "publish:major",
         "hook": null
     },
+    "PUBLISH_TEST": {
+        "task": "publish:test",
+        "hook": null
+    },
     "PUBLISH_DONE": {
         "task": "publish-done",
         "hook": null
