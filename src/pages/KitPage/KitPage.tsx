@@ -176,7 +176,9 @@ const Buttons = ({
     disabled?: React.ComponentProps<typeof Button>["disabled"];
 }) => (
     <>
-        <Button disabled={disabled}>Default</Button>
+        <Button disabled={disabled} variant={variant}>
+            Default
+        </Button>
         <Button disabled={disabled} state="primary" variant={variant}>
             Primary
         </Button>
