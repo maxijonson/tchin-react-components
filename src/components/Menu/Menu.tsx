@@ -4,33 +4,53 @@ import { motion, useCycle } from "framer-motion";
 import { ZINDEX } from "../../config";
 import { Hooks } from "../../modules";
 
-const { useConnect } = Hooks;
+const { useConnect, useGetDimensions } = Hooks;
 
-const overlay = {
-    open: {
-        clipPath: `circle(250vh at 0px 0px)`,
-        transition: {
-            type: "spring",
-            stiffness: 50,
-            restDelta: 2,
-        },
-    },
+type IVariants = React.ComponentProps<typeof motion.div>["variants"];
+
+// https://css-tricks.com/svg-path-syntax-illustrated-guide/
+// const overlay: IVariants = {
+//     open: ({ width, height }: ReturnType<typeof useGetDimensions>) => ({
+//         clipPath: `circle(${Math.sqrt(
+//             Math.pow(width, 2) + Math.pow(height, 2)
+//         )}px at 0px 0px)`,
+//         transition: {
+//             type: "tween",
+//         },
+//     }),
+//     closed: {
+//         clipPath: "circle(0px at 0px 0px)",
+//         transition: {
+//             type: "tween",
+//         },
+//     },
+// };
+const overlay: IVariants = {
+    open: ({ width, height }: ReturnType<typeof useGetDimensions>) => ({
+        d: `M 0 0
+            L ${width} 0
+            C ${width * 2} 0 ${width} ${height} 0 ${height * 2}
+            z`,
+    }),
     closed: {
-        clipPath: "circle(0vh at 0px 0px)",
-        transition: {
-            delay: 0.5,
-            type: "spring",
-            stiffness: 400,
-            damping: 40,
-        },
+        d: `M 0 0
+            L 0 0
+            C 0 0 0 0 0 0
+            z`,
     },
 };
-const backdrop = {
+const backdrop: IVariants = {
     open: {
-        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        transition: {
+            type: "tween",
+        },
     },
     closed: {
-        clipPath: "polygon(0 0, 0 0, 0 0, 0 0)",
+        clipPath: "polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%)",
+        transition: {
+            type: "tween",
+        },
     },
 };
 
@@ -58,14 +78,13 @@ const ToggleButton = styled(motion.button)`
     background: transparent;
 `;
 
-const Overlay = styled(motion.div)`
+const Overlay = styled(motion.path)`
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 100vw;
     background: ${({ theme }) => theme.colors.pageBackground};
-    opacity: 0.8;
+    opacity: 0.6;
 `;
 
 const Backdrop = styled(motion.div)`
@@ -74,7 +93,7 @@ const Backdrop = styled(motion.div)`
     left: 0;
     bottom: 0;
     width: 100vw;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px);
 `;
 
 const Path = (props: React.ComponentProps<typeof motion.path>) => {
@@ -92,10 +111,23 @@ const Path = (props: React.ComponentProps<typeof motion.path>) => {
 
 export default () => {
     const [open, toggleOpen] = useCycle(false, true);
+    const theme = useConnect(({ theme }) => theme);
+    const dimensions = useGetDimensions();
     return (
         <Menu initial={false} animate={open ? "open" : "closed"}>
-            <Backdrop variants={backdrop} />
-            <Overlay variants={overlay} />
+            {/* <Backdrop variants={backdrop} /> */}
+            {/* <Overlay variants={overlay} custom={dimensions} /> */}
+            <svg
+                width={open ? dimensions.width : 0}
+                height={open ? dimensions.height : 0}
+                viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+            >
+                <Overlay
+                    variants={overlay}
+                    fill={theme.colors.pageBackground}
+                    custom={dimensions}
+                />
+            </svg>
             <ToggleButton onClick={() => toggleOpen()}>
                 <svg width="23" height="23" viewBox="0 0 23 23">
                     <Path

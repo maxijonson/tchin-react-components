@@ -76,6 +76,32 @@ export const useSetTimeout = (cb: () => void, time: number = 1000) => {
     };
 };
 
+export const useGetDimensions = () => {
+    const getCurrentDimensions = React.useCallback(
+        _.throttle(
+            () => ({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            }),
+            500
+        ),
+        []
+    );
+    const [dimensions, setDimensions] = React.useState(getCurrentDimensions());
+
+    React.useLayoutEffect(() => {
+        const onWindowResize = () => {
+            setDimensions(getCurrentDimensions());
+        };
+        window.addEventListener("resize", onWindowResize);
+        return () => {
+            window.removeEventListener("resize", onWindowResize);
+        };
+    }, [getCurrentDimensions]);
+
+    return dimensions;
+};
+
 enum IBreakpoint {
     "xs" = BREAKPOINTS.xs,
     "sm" = BREAKPOINTS.sm,
