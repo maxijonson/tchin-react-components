@@ -1,5 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
+import { motion } from "framer-motion";
 import { THEME_TRANSITION_TIME } from "../../config";
 
 interface IButtonProps {
@@ -7,61 +9,85 @@ interface IButtonProps {
     variant?: "outlined" | "text";
 }
 
-const disabledAlpha = 0.5;
+type IMotionProps = React.ComponentProps<typeof motion.button>;
 
-export default styled.button<IButtonProps>`
+const defaultMotionProps: IMotionProps = {
+    transition: { type: "spring", mass: 0.5, stiffness: 200, damping: 9 },
+};
+
+const Button = ({
+    state,
+    variant,
+    ...motionProps
+}: IMotionProps & IButtonProps) => {
+    const { disabled } = motionProps;
+    const whileHover = React.useMemo<IMotionProps["whileHover"]>(
+        () =>
+            !disabled
+                ? {
+                      scale: 1.035,
+                  }
+                : undefined,
+        [disabled]
+    );
+    const whileTap = React.useMemo<IMotionProps["whileTap"]>(
+        () =>
+            !disabled
+                ? {
+                      scale: 0.97,
+                  }
+                : undefined,
+        [disabled]
+    );
+
+    return (
+        <motion.button
+            {...defaultMotionProps}
+            whileHover={whileHover}
+            whileTap={whileTap}
+            {...motionProps}
+        />
+    );
+};
+
+export default styled(Button)`
     border: none;
     outline: none;
     border-radius: 5px;
     padding: 0.5em 0.75em;
     margin: 0.3em 0.5em;
-    transition: all ${THEME_TRANSITION_TIME}s;
+    transition: color ${THEME_TRANSITION_TIME}s,
+        background ${THEME_TRANSITION_TIME}s,
+        border-color ${THEME_TRANSITION_TIME}s;
     cursor: ${({ disabled }) => (!disabled ? "pointer" : "not-allowed")};
-    color: #${({ theme, variant, state, disabled }) => {
-            let color;
-            switch (variant) {
-                case "outlined":
-                case "text":
-                    color = tinycolor(theme.colors[state || "defaultText"]);
-                    return disabled
-                        ? color.setAlpha(disabledAlpha).toHex8()
-                        : color.toHex();
-                default:
-                    color = tinycolor(theme.colors.buttonText);
-                    return disabled
-                        ? color.setAlpha(disabledAlpha).toHex8()
-                        : color.toHex();
-            }
-        }};
-    background: ${({ theme, state, variant, disabled }) => {
-        let color;
+    color: ${({ theme, variant, state }) => {
+        switch (variant) {
+            case "outlined":
+            case "text":
+                return theme.colors[state || "defaultText"];
+            default:
+                return theme.colors.buttonText;
+        }
+    }};
+    background: ${({ theme, state, variant }) => {
         switch (variant) {
             case "text":
             case "outlined":
                 return "none";
             default:
-                color = tinycolor(theme.colors[state || "buttonBg"]);
-                return `#${
-                    disabled
-                        ? color.setAlpha(disabledAlpha).toHex8()
-                        : color.toHex()
-                }`;
+                return theme.colors[state || "buttonBg"];
         }
     }};
-    border: ${({ theme, state, variant, disabled }) => {
-        let color;
+    border: ${({ theme, state, variant }) => {
         switch (variant) {
             case "text":
                 return "2px solid transparent";
             default:
-                color = tinycolor(theme.colors[state || "buttonBg"]);
-                return `2px solid #${
-                    disabled
-                        ? color.setAlpha(disabledAlpha - 0.4).toHex8()
-                        : color.toHex()
-                }`;
+                return `2px solid ${theme.colors[state || "buttonBg"]}`;
         }
     }};
+
+    opacity: ${({ disabled }) => (disabled ? 0.35 : 1)};
 
     &:hover {
         background: ${({ theme, state, variant, disabled }) => {

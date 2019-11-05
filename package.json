@@ -3,6 +3,7 @@
     "version": "1.1.7",
     "description": "Tristan Chin's own React components for reuse over future projects",
     "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint src/**/*"
@@ -19,7 +20,6 @@
     ],
     "author": "Tristan Chin",
     "license": "ISC",
-    "types": "dist/index.d.ts",
     "bugs": {
         "url": "https://github.com/maxijonson/tchin-react-components/issues"
     },
@@ -49,7 +49,6 @@
         "@types/react-swipeable": "^4.3.0",
         "@types/react-syntax-highlighter": "^11.0.1",
         "@types/react-toastify": "^4.1.0",
-        "@types/redux": "^3.6.0",
         "@types/rimraf": "^2.0.3",
         "@types/shelljs": "^0.8.6",
         "@types/styled-components": "^4.1.20",
@@ -78,6 +77,7 @@
         "express": "^4.17.1",
         "express-sslify": "^1.2.0",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "framer-motion": "^1.6.15",
         "fs-extra": "^7.0.1",
         "git-branch": "^2.0.1",
         "gulp": "^4.0.2",

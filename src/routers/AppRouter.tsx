@@ -32,7 +32,6 @@ export default ({ projectVersion }: { projectVersion?: string }) => {
                     <PageWrapperStyled theme={theme}>
                         <Scrollbar />
                         <ToastStyle theme={theme} />
-                        <Menu />
                         <Switch>
                             {_.map(
                                 app.routes,
@@ -48,6 +47,7 @@ export default ({ projectVersion }: { projectVersion?: string }) => {
                         </Switch>
                     </PageWrapperStyled>
                     <Footer projectVersion={projectVersion} />
+                    <Menu />
                 </>
             </Router>
         </ThemeProvider>

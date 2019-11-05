@@ -245,41 +245,21 @@ exports[PUBLISH_MAJOR.task] = gulp.series(
 
 const publishTest = (done: IGulpTaskDoneFn) => {
     const TRC = "trc";
-    const copies = [
-        "src",
-        "types",
-        ".eslintignore",
-        ".eslintrc.json",
-        "gulpfile.ts",
-        "gulpTasks.json",
-        "index.ts",
-        "package.json",
-        "README.md",
-        "tsconfig.json",
-        "webpack.config.ts",
-    ];
-    console.log(chalk.blue("preparing files..."));
 
-    console.log(`rm -rf ${TRC}`);
-    rmrf.sync(`./${TRC}`);
+    console.log(`rm -rf ${TRC}.tgz`);
+    fse.removeSync(`${TRC}.tgz`);
 
-    console.log(`mkdir ${TRC}`);
-    fse.mkdir(TRC);
+    console.log(chalk.blue("packaging TRC..."));
+    shell.exec("npm pack");
+    fse.renameSync(`tchin-react-components-${pkg.version}.tgz`, `${TRC}.tgz`);
+    console.log(chalk.green("✔ succesfully packaged TRC"));
 
-    console.log(`mv dist ${TRC}`);
-    fse.moveSync("dist", `${TRC}/dist`);
+    console.log(chalk.blue("removing dist"));
+    rmrf.sync("./dist");
 
-    _.forEach(copies, (copy) => {
-        console.log(`cp ${copy} ${TRC}`);
-        fse.copySync(copy, `${TRC}/${copy}`);
-    });
-
-    console.log(chalk.blue("Linking TRC..."));
-    shell.exec(`cd ${TRC} && npm link`);
-    console.log(chalk.green("✔ succesfully linked TRC"));
     console.log(
         chalk.white("use"),
-        chalk.blue("npm link tchin-react-components"),
+        chalk.blue(`npm i path/to/${TRC}.tgz`),
         chalk.white("to install it")
     );
     done();
