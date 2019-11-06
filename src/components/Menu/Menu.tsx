@@ -9,27 +9,11 @@ const { useConnect, useGetDimensions } = Hooks;
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
 // https://css-tricks.com/svg-path-syntax-illustrated-guide/
-// const overlay: IVariants = {
-//     open: ({ width, height }: ReturnType<typeof useGetDimensions>) => ({
-//         clipPath: `circle(${Math.sqrt(
-//             Math.pow(width, 2) + Math.pow(height, 2)
-//         )}px at 0px 0px)`,
-//         transition: {
-//             type: "tween",
-//         },
-//     }),
-//     closed: {
-//         clipPath: "circle(0px at 0px 0px)",
-//         transition: {
-//             type: "tween",
-//         },
-//     },
-// };
 const overlay: IVariants = {
     open: ({ width, height }: ReturnType<typeof useGetDimensions>) => ({
         d: `M 0 0
             L ${width} 0
-            C ${width * 2} 0 ${width} ${height} 0 ${height * 2}
+            C ${width * 2.2} 0 ${width} ${height} 0 ${height * 2.2}
             z`,
     }),
     closed: {
@@ -37,6 +21,9 @@ const overlay: IVariants = {
             L 0 0
             C 0 0 0 0 0 0
             z`,
+        transition: {
+            delay: 0.8,
+        },
     },
 };
 const backdrop: IVariants = {
@@ -50,6 +37,7 @@ const backdrop: IVariants = {
         clipPath: "polygon(0% 0%, 0% 0%, 0% 0%, 0% 0%)",
         transition: {
             type: "tween",
+            delay: 0.8,
         },
     },
 };
@@ -109,17 +97,22 @@ const Path = (props: React.ComponentProps<typeof motion.path>) => {
     );
 };
 
+const Svg = styled.svg<ReturnType<typeof useGetDimensions> & { open: boolean }>`
+    width: ${({ width, open }) => (open ? width : 0)};
+    height: ${({ height, open }) => (open ? height : 0)};
+    transition: ${({ open }) => (open ? 0 : "0.75s 0.8s")};
+`;
+
 export default () => {
     const [open, toggleOpen] = useCycle(false, true);
     const theme = useConnect(({ theme }) => theme);
     const dimensions = useGetDimensions();
     return (
         <Menu initial={false} animate={open ? "open" : "closed"}>
-            {/* <Backdrop variants={backdrop} /> */}
-            {/* <Overlay variants={overlay} custom={dimensions} /> */}
-            <svg
-                width={open ? dimensions.width : 0}
-                height={open ? dimensions.height : 0}
+            <Backdrop variants={backdrop} />
+            <Svg
+                {...dimensions}
+                open={open}
                 viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
             >
                 <Overlay
@@ -127,7 +120,7 @@ export default () => {
                     fill={theme.colors.pageBackground}
                     custom={dimensions}
                 />
-            </svg>
+            </Svg>
             <ToggleButton onClick={() => toggleOpen()}>
                 <svg width="23" height="23" viewBox="0 0 23 23">
                     <Path
