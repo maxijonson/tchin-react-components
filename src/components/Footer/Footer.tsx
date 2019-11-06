@@ -4,11 +4,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
-import { Hooks } from "../../../src/modules";
 import { version } from "../../../package.json";
 import app from "../../app";
-
-const { useConnect } = Hooks;
 
 interface IFooterProps {
     kClassName?: string;
@@ -27,11 +24,10 @@ const Footer = styled.footer`
 `;
 
 export default ({ kClassName = "", projectVersion }: IFooterProps) => {
-    const { theme } = useConnect(({ theme }) => ({ theme }));
     const { t } = useTranslation();
 
     return (
-        <Footer theme={theme} className={`footer ${kClassName}`}>
+        <Footer className={`footer ${kClassName}`}>
             Copyright <FontAwesomeIcon icon={faCopyright} />{" "}
             {new Date().getFullYear()} Tristan Chin. {t("footer.copyright")}
             <br />
