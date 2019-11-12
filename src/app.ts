@@ -28,7 +28,7 @@ import {
     ISection,
 } from "./modules/themes";
 
-interface IRouteAbstract {
+interface IRouteBase {
     key: string;
     path: string;
     component:
@@ -37,12 +37,15 @@ interface IRouteAbstract {
     hidden?: boolean;
     exact?: boolean;
 }
-export interface IVisibleRoute extends IRouteAbstract {
+export interface IHiddenRoute extends IRouteBase {
+    hidden: true;
+}
+export interface IVisibleRoute extends IRouteBase {
     hidden: false | undefined;
     name: string;
     Icon: () => JSX.Element;
 }
-export type IRoute = IVisibleRoute | IRouteAbstract;
+export type IRoute = IVisibleRoute | IHiddenRoute;
 
 export interface ISocial {
     url: string;

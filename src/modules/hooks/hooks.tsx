@@ -76,28 +76,37 @@ export const useSetTimeout = (cb: () => void, time: number = 1000) => {
     };
 };
 
-export const useGetDimensions = () => {
+export const useGetDimensions = (options?: { throttle: number }) => {
     const getCurrentDimensions = React.useCallback(
         _.throttle(
             () => ({
                 width: window.innerWidth,
                 height: window.innerHeight,
             }),
-            500
+            options ? options.throttle || 500 : 500 // TODO: null coalescing and optional chaining
         ),
         []
     );
     const [dimensions, setDimensions] = React.useState(getCurrentDimensions());
 
     React.useLayoutEffect(() => {
+        let timeout: number;
         const onWindowResize = () => {
+            if (timeout) window.clearTimeout(timeout);
+            timeout = window.setTimeout(
+                () => {
+                    setDimensions(getCurrentDimensions());
+                },
+                options ? options.throttle || 500 : 500
+            );
             setDimensions(getCurrentDimensions());
         };
         window.addEventListener("resize", onWindowResize);
         return () => {
+            if (timeout) window.clearTimeout(timeout);
             window.removeEventListener("resize", onWindowResize);
         };
-    }, [getCurrentDimensions]);
+    }, [getCurrentDimensions, options]);
 
     return dimensions;
 };

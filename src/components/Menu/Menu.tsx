@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { motion, useCycle } from "framer-motion";
+import _ from "lodash";
 import { ZINDEX } from "../../config";
 import { Hooks } from "../../modules";
+import app from "../../app";
 
 const { useConnect, useGetDimensions } = Hooks;
 
@@ -41,6 +43,30 @@ const backdrop: IVariants = {
         },
     },
 };
+const navigation: IVariants = {
+    open: {
+        transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+    },
+    closed: {
+        transition: { staggerChildren: 0.05, staggerDirection: -1 },
+    },
+};
+const routes: IVariants = {
+    open: {
+        x: 0,
+        opacity: 1,
+        transition: {
+            x: { stiffness: 1000, velocity: -100 },
+        },
+    },
+    closed: {
+        x: -50,
+        opacity: 0,
+        transition: {
+            x: { stiffness: 1000 },
+        },
+    },
+};
 
 const Menu = styled(motion.nav)`
     position: fixed;
@@ -50,6 +76,9 @@ const Menu = styled(motion.nav)`
     z-index: ${ZINDEX.menu};
 `;
 
+const TOGGLE_BUTTON_TOP = "2vw";
+const TOGGLE_BUTTON_HEIGHT = "18";
+const TOGGLE_BUTTON_PADDING = "5px";
 const ToggleButton = styled(motion.button)`
     outline: none;
     border: none;
@@ -58,10 +87,9 @@ const ToggleButton = styled(motion.button)`
     -ms-user-select: none;
     cursor: pointer;
     position: absolute;
-    top: 1vw;
-    left: 1vw;
-    width: 1vw;
-    height: 1vw;
+    top: ${TOGGLE_BUTTON_TOP};
+    left: 2vw;
+    padding: ${TOGGLE_BUTTON_PADDING};
     border-radius: 50%;
     background: transparent;
 `;
@@ -103,10 +131,53 @@ const Svg = styled.svg<ReturnType<typeof useGetDimensions> & { open: boolean }>`
     transition: ${({ open }) => (open ? 0 : "0.75s 0.8s")};
 `;
 
+const Navigation = styled(motion.ul)`
+    margin: 0;
+    padding: 0;
+    padding: 20px 0 0 2vw;
+    position: absolute;
+    left: 0;
+    top: calc(
+        ${TOGGLE_BUTTON_TOP} + ${TOGGLE_BUTTON_HEIGHT}px +
+            (${TOGGLE_BUTTON_PADDING} * 2)
+    );
+`;
+
+const ICON_HEIGHT = 30;
+const Route = styled(motion.li)`
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-bottom: ${ICON_HEIGHT / 2}px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+`;
+
+const Icon = styled.div`
+    height: ${ICON_HEIGHT}px;
+    flex: 4em 0;
+    margin-right: 2em;
+
+    & > svg.svg-inline--fa.fa-w-16 {
+        width: 100%;
+        height: 100%;
+    }
+`;
+
+const Text = styled.div`
+    font-family: ${app.fonts.openSans.family};
+    font-size: ${ICON_HEIGHT}px;
+    height: ${ICON_HEIGHT}px;
+    flex: 1;
+`;
+
 export default () => {
     const [open, toggleOpen] = useCycle(false, true);
     const theme = useConnect(({ theme }) => theme);
-    const dimensions = useGetDimensions();
+    const dimensions = useGetDimensions({ throttle: 100 });
+
     return (
         <Menu initial={false} animate={open ? "open" : "closed"}>
             <Backdrop variants={backdrop} />
@@ -121,16 +192,39 @@ export default () => {
                     custom={dimensions}
                 />
             </Svg>
+            <Navigation variants={navigation}>
+                {_.map(
+                    app.routes,
+                    (route) =>
+                        !route.hidden && (
+                            <Route
+                                variants={routes}
+                                whileHover={{ x: ICON_HEIGHT / 2 }}
+                                whileTap={{ scale: 0.97, x: 5 }}
+                                key={route.key}
+                            >
+                                <Icon>
+                                    <route.Icon />
+                                </Icon>
+                                <Text>{route.name}</Text>
+                            </Route>
+                        )
+                )}
+            </Navigation>
             <ToggleButton onClick={() => toggleOpen()}>
-                <svg width="23" height="23" viewBox="0 0 23 23">
+                <svg
+                    width="20"
+                    height={TOGGLE_BUTTON_HEIGHT}
+                    viewBox={`0 0 20 ${TOGGLE_BUTTON_HEIGHT}`}
+                >
                     <Path
                         variants={{
-                            closed: { d: "M 2 2.5 L 20 2.5" },
-                            open: { d: "M 3 16.5 L 17 2.5" },
+                            closed: { d: "M 2 2 L 18 2" },
+                            open: { d: "M 2 16 L 18 2" },
                         }}
                     />
                     <Path
-                        d="M 2 9.423 L 20 9.423"
+                        d="M 2 9 L 18 9"
                         variants={{
                             closed: { opacity: 1 },
                             open: { opacity: 0 },
@@ -139,8 +233,8 @@ export default () => {
                     />
                     <Path
                         variants={{
-                            closed: { d: "M 2 16.346 L 20 16.346" },
-                            open: { d: "M 3 2.5 L 17 16.346" },
+                            closed: { d: "M 2 16 L 18 16" },
+                            open: { d: "M 2 2 L 18 16" },
                         }}
                     />
                 </svg>

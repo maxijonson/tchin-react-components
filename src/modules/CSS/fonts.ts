@@ -27,10 +27,7 @@ export const defaultFonts: IFonts = {
     exo: {
         family: "Exo 2",
     },
-    Kaushan: {
+    kaushan: {
         family: "Kaushan Script",
-    },
-    test: {
-        family: "asdf",
     },
 };
