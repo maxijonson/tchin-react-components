@@ -53,6 +53,7 @@ const navigation: IVariants = {
 };
 const routes: IVariants = {
     open: {
+        display: "flex",
         x: 0,
         opacity: 1,
         transition: {
@@ -64,6 +65,9 @@ const routes: IVariants = {
         opacity: 0,
         transition: {
             x: { stiffness: 1000 },
+        },
+        transitionEnd: {
+            display: "none",
         },
     },
 };
@@ -145,7 +149,6 @@ const Navigation = styled(motion.ul)`
 
 const ICON_HEIGHT = 30;
 const Route = styled(motion.li)`
-    display: inline-block;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -156,8 +159,8 @@ const Route = styled(motion.li)`
 `;
 
 const Icon = styled.div`
+    width: ${ICON_HEIGHT}px;
     height: ${ICON_HEIGHT}px;
-    flex: 4em 0;
     margin-right: 2em;
 
     & > svg.svg-inline--fa.fa-w-16 {
@@ -170,7 +173,6 @@ const Text = styled.div`
     font-family: ${app.fonts.openSans.family};
     font-size: ${ICON_HEIGHT}px;
     height: ${ICON_HEIGHT}px;
-    flex: 1;
 `;
 
 export default () => {
