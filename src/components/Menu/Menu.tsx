@@ -45,7 +45,7 @@ const backdrop: IVariants = {
         },
     },
 };
-const navigation: IVariants = {
+const stagger: IVariants = {
     open: {
         transition: { staggerChildren: 0.07, delayChildren: 0.2 },
     },
@@ -53,7 +53,7 @@ const navigation: IVariants = {
         transition: { staggerChildren: 0.05, staggerDirection: -1 },
     },
 };
-const routes: IVariants = {
+const staggerChildren: IVariants = {
     open: {
         display: "flex",
         x: 0,
@@ -65,11 +65,12 @@ const routes: IVariants = {
     closed: {
         x: -50,
         opacity: 0,
+        display: "none",
         transition: {
+            display: { delay: 1 },
             x: { stiffness: 1000 },
         },
         transitionEnd: {
-            display: "none",
             x: 50,
         },
     },
@@ -90,31 +91,6 @@ const hrs: IVariants = {
         transitionEnd: {
             width: "0%",
             x: 100,
-        },
-    },
-};
-
-const switches: IVariants = {
-    open: {
-        display: "inline-block",
-        x: 0,
-        opacity: 1,
-        transition: {
-            delay: 0.5,
-            display: { delay: 0 },
-            x: { stiffness: 1000, velocity: -100 },
-        },
-    },
-    closed: {
-        x: -50,
-        opacity: 0,
-        transition: {
-            x: { stiffness: 1000 },
-            delay: 0.25,
-        },
-        transitionEnd: {
-            display: "none",
-            x: 50,
         },
     },
 };
@@ -237,9 +213,10 @@ const Text = styled.div`
 `;
 
 const Switches = styled(motion.div)`
-    text-align: right;
+    display: flex;
     width: 100%;
     font-family: ${app.fonts.openSans.family};
+    flex-direction: row-reverse;
     & > * {
         margin-left: 7.5%;
     }
@@ -265,19 +242,23 @@ export default () => {
                 />
             </Svg>
             <NavContainer>
-                <Switches variants={switches}>
-                    <LangSwitch />
-                    <ThemeSwitch />
+                <Switches variants={stagger}>
+                    <motion.div variants={staggerChildren}>
+                        <LangSwitch />
+                    </motion.div>
+                    <motion.div variants={staggerChildren}>
+                        <ThemeSwitch />
+                    </motion.div>
                 </Switches>
                 <motion.hr variants={hrs} />
                 <div>
-                    <Navigation variants={navigation}>
+                    <Navigation variants={stagger}>
                         {_.map(
                             app.routes,
                             (route) =>
                                 !route.hidden && (
                                     <Route
-                                        variants={routes}
+                                        variants={staggerChildren}
                                         whileHover={{ x: ICON_HEIGHT / 2 }}
                                         whileTap={{ scale: 0.97, x: 5 }}
                                         key={route.key}
@@ -292,6 +273,15 @@ export default () => {
                     </Navigation>
                 </div>
                 <motion.hr variants={hrs} />
+                {/* {_.map(app.socials, ({ Icon: SocialIcon, name, url }) => (
+                    <a
+                        style={{ margin: "0 4%" }}
+                        href={url}
+                        key={name}
+                        title={name}
+                        children={<SocialIcon />}
+                    />
+                ))} */}
             </NavContainer>
             <ToggleButton onClick={() => toggleOpen()}>
                 <svg
