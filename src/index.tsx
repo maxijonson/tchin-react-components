@@ -6,6 +6,7 @@ import {
     faGithub,
     faTwitch,
     faTwitter,
+    faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 import { faToolbox } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -110,6 +111,16 @@ app.init({
             Icon: () => (
                 <FontAwesomeIcon
                     icon={faGithub}
+                    color={app.state.theme.colors.defaultText}
+                />
+            ),
+        },
+        {
+            name: "LinkedIn",
+            url: "https://www.linkedin.com/in/tristan-chin",
+            Icon: () => (
+                <FontAwesomeIcon
+                    icon={faLinkedin}
                     color={app.state.theme.colors.defaultText}
                 />
             ),

@@ -175,7 +175,7 @@ const NavContainer = styled(motion.div)`
     }
 
     & > div {
-        max-height: 90%;
+        max-height: 85%;
         overflow-y: scroll;
         padding-right: ${ICON_HEIGHT / 2}px;
     }
