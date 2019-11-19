@@ -160,6 +160,7 @@ const Svg = styled.svg<ReturnType<typeof useGetDimensions> & { open: boolean }>`
     transition: ${({ open }) => (open ? 0 : "0.75s 0.8s")};
 `;
 
+const ICON_HEIGHT = 25;
 const NavContainer = styled(motion.div)`
     width: 80%;
     height: 80%;
@@ -176,7 +177,7 @@ const NavContainer = styled(motion.div)`
     & > div {
         max-height: 90%;
         overflow-y: scroll;
-        overflow-x: visible;
+        padding-right: ${ICON_HEIGHT / 2}px;
     }
 `;
 
@@ -186,7 +187,6 @@ const Navigation = styled(motion.ul)`
     padding-left: 10px;
 `;
 
-const ICON_HEIGHT = 25;
 const Route = styled(motion.li)`
     margin: 0;
     padding: 0;
