@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { motion, useCycle } from "framer-motion";
 import _ from "lodash";
-import { ZINDEX, BREAKPOINTS } from "../../config";
+import { ZINDEX, BREAKPOINTS, THEME_TRANSITION_TIME } from "../../config";
 import { Hooks } from "../../modules";
+import LangSwitch from "./LangSwitch";
+import ThemeSwitch from "./ThemeSwitch";
 import app from "../../app";
 
 const { useConnect, useGetDimensions } = Hooks;
@@ -68,6 +70,7 @@ const routes: IVariants = {
         },
         transitionEnd: {
             display: "none",
+            x: 50,
         },
     },
 };
@@ -82,10 +85,36 @@ const hrs: IVariants = {
         },
     },
     closed: {
-        x: 100,
+        x: -100,
         opacity: 0,
         transitionEnd: {
             width: "0%",
+            x: 100,
+        },
+    },
+};
+
+const switches: IVariants = {
+    open: {
+        display: "inline-block",
+        x: 0,
+        opacity: 1,
+        transition: {
+            delay: 0.5,
+            display: { delay: 0 },
+            x: { stiffness: 1000, velocity: -100 },
+        },
+    },
+    closed: {
+        x: -50,
+        opacity: 0,
+        transition: {
+            x: { stiffness: 1000 },
+            delay: 0.25,
+        },
+        transitionEnd: {
+            display: "none",
+            x: 50,
         },
     },
 };
@@ -96,6 +125,8 @@ const Menu = styled(motion.nav)`
     left: 0;
     bottom: 0;
     z-index: ${ZINDEX.menu};
+    transition: color ${THEME_TRANSITION_TIME}s;
+    color: ${({ theme }) => theme.colors.defaultText};
 `;
 
 const TOGGLE_BUTTON_TOP = "2vw";
@@ -205,6 +236,15 @@ const Text = styled.div`
     font-size: ${ICON_HEIGHT}px;
 `;
 
+const Switches = styled(motion.div)`
+    text-align: right;
+    width: 100%;
+    font-family: ${app.fonts.openSans.family};
+    & > * {
+        margin-left: 7.5%;
+    }
+`;
+
 export default () => {
     const [open, toggleOpen] = useCycle(false, true);
     const theme = useConnect(({ theme }) => theme);
@@ -225,6 +265,10 @@ export default () => {
                 />
             </Svg>
             <NavContainer>
+                <Switches variants={switches}>
+                    <LangSwitch />
+                    <ThemeSwitch />
+                </Switches>
                 <motion.hr variants={hrs} />
                 <div>
                     <Navigation variants={navigation}>
