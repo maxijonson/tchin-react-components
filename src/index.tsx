@@ -50,6 +50,16 @@ app.init({
             name:
                 "PORTFOLIO asdlkfjasldfjalksdjf lkasdjflasjdf lkasdjf laskjdf ",
         },
+        {
+            key: "pf3",
+            path: "/kit",
+            component: KitPage,
+            hidden: false,
+            exact: true,
+            Icon: () => <FontAwesomeIcon icon={faToolbox} />,
+            name:
+                "PORTFOLIO asdlkfjasldfjalksdjf lkasdjflasjdf lkasdjf laskjdf ",
+        },
         // {
         //     key: "asdf",
         //     path: "/not-found",

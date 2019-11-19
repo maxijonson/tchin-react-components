@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { motion, useCycle } from "framer-motion";
 import _ from "lodash";
-import { ZINDEX } from "../../config";
+import { ZINDEX, BREAKPOINTS } from "../../config";
 import { Hooks } from "../../modules";
 import app from "../../app";
 
@@ -71,6 +71,24 @@ const routes: IVariants = {
         },
     },
 };
+const hrs: IVariants = {
+    open: {
+        width: "100%",
+        x: 0,
+        opacity: 1,
+        transition: {
+            delay: 0.5,
+            width: { delay: 0, duration: 0 },
+        },
+    },
+    closed: {
+        x: 100,
+        opacity: 0,
+        transitionEnd: {
+            width: "0%",
+        },
+    },
+};
 
 const Menu = styled(motion.nav)`
     position: fixed;
@@ -135,19 +153,32 @@ const Svg = styled.svg<ReturnType<typeof useGetDimensions> & { open: boolean }>`
     transition: ${({ open }) => (open ? 0 : "0.75s 0.8s")};
 `;
 
-const Navigation = styled(motion.ul)`
-    margin: 0;
-    padding: 0;
-    padding: 20px 0 0 2vw;
+const NavContainer = styled.div`
+    width: 80%;
+    height: 80%;
     position: absolute;
     left: 0;
     top: calc(
         ${TOGGLE_BUTTON_TOP} + ${TOGGLE_BUTTON_HEIGHT}px +
             (${TOGGLE_BUTTON_PADDING} * 2)
     );
+    @media (min-width: ${BREAKPOINTS.mdpx}) {
+        width: 30%;
+    }
+
+    & > div {
+        max-height: 90%;
+        overflow-y: scroll;
+    }
 `;
 
-const ICON_HEIGHT = 30;
+const Navigation = styled(motion.ul)`
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+`;
+
+const ICON_HEIGHT = 25;
 const Route = styled(motion.li)`
     margin: 0;
     padding: 0;
@@ -155,24 +186,23 @@ const Route = styled(motion.li)`
     margin-bottom: ${ICON_HEIGHT / 2}px;
     display: flex;
     align-items: center;
+    word-break: break-word;
     cursor: pointer;
 `;
 
 const Icon = styled.div`
-    width: ${ICON_HEIGHT}px;
+    width: ${ICON_HEIGHT}px !important;
     height: ${ICON_HEIGHT}px;
     margin-right: 2em;
-
     & > svg.svg-inline--fa.fa-w-16 {
-        width: 100%;
-        height: 100%;
+        width: ${ICON_HEIGHT}px;
+        height: ${ICON_HEIGHT}px;
     }
 `;
 
 const Text = styled.div`
     font-family: ${app.fonts.openSans.family};
     font-size: ${ICON_HEIGHT}px;
-    height: ${ICON_HEIGHT}px;
 `;
 
 export default () => {
@@ -194,25 +224,31 @@ export default () => {
                     custom={dimensions}
                 />
             </Svg>
-            <Navigation variants={navigation}>
-                {_.map(
-                    app.routes,
-                    (route) =>
-                        !route.hidden && (
-                            <Route
-                                variants={routes}
-                                whileHover={{ x: ICON_HEIGHT / 2 }}
-                                whileTap={{ scale: 0.97, x: 5 }}
-                                key={route.key}
-                            >
-                                <Icon>
-                                    <route.Icon />
-                                </Icon>
-                                <Text>{route.name}</Text>
-                            </Route>
-                        )
-                )}
-            </Navigation>
+            <NavContainer>
+                <motion.hr variants={hrs} />
+                <div>
+                    <Navigation variants={navigation}>
+                        {_.map(
+                            app.routes,
+                            (route) =>
+                                !route.hidden && (
+                                    <Route
+                                        variants={routes}
+                                        whileHover={{ x: ICON_HEIGHT / 2 }}
+                                        whileTap={{ scale: 0.97, x: 5 }}
+                                        key={route.key}
+                                    >
+                                        <Icon>
+                                            <route.Icon />
+                                        </Icon>
+                                        <Text>{route.name}</Text>
+                                    </Route>
+                                )
+                        )}
+                    </Navigation>
+                </div>
+                <motion.hr variants={hrs} />
+            </NavContainer>
             <ToggleButton onClick={() => toggleOpen()}>
                 <svg
                     width="20"
