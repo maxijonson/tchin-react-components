@@ -160,7 +160,7 @@ const Svg = styled.svg<ReturnType<typeof useGetDimensions> & { open: boolean }>`
     transition: ${({ open }) => (open ? 0 : "0.75s 0.8s")};
 `;
 
-const NavContainer = styled.div`
+const NavContainer = styled(motion.div)`
     width: 80%;
     height: 80%;
     position: absolute;
@@ -176,6 +176,7 @@ const NavContainer = styled.div`
     & > div {
         max-height: 90%;
         overflow-y: scroll;
+        overflow-x: visible;
     }
 `;
 
@@ -241,8 +242,8 @@ export default () => {
                     custom={dimensions}
                 />
             </Svg>
-            <NavContainer>
-                <Switches variants={stagger}>
+            <NavContainer variants={stagger}>
+                <Switches>
                     <motion.div variants={staggerChildren}>
                         <LangSwitch />
                     </motion.div>
@@ -252,7 +253,7 @@ export default () => {
                 </Switches>
                 <motion.hr variants={hrs} />
                 <div>
-                    <Navigation variants={stagger}>
+                    <Navigation>
                         {_.map(
                             app.routes,
                             (route) =>
@@ -273,15 +274,18 @@ export default () => {
                     </Navigation>
                 </div>
                 <motion.hr variants={hrs} />
-                {/* {_.map(app.socials, ({ Icon: SocialIcon, name, url }) => (
-                    <a
-                        style={{ margin: "0 4%" }}
-                        href={url}
-                        key={name}
-                        title={name}
-                        children={<SocialIcon />}
-                    />
-                ))} */}
+                <Switches style={{ justifyContent: "center" }}>
+                    {_.map(app.socials, ({ Icon: SocialIcon, name, url }) => (
+                        <motion.a
+                            style={{ margin: "0 4%" }}
+                            href={url}
+                            key={name}
+                            title={name}
+                            children={<SocialIcon />}
+                            variants={staggerChildren}
+                        />
+                    ))}
+                </Switches>
             </NavContainer>
             <ToggleButton onClick={() => toggleOpen()}>
                 <svg
