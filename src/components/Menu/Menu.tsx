@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { motion, useCycle, TapInfo } from "framer-motion";
+import { motion, useCycle } from "framer-motion";
 import _ from "lodash";
+import { NavLink } from "react-router-dom";
 import { ZINDEX, BREAKPOINTS, THEME_TRANSITION_TIME } from "../../config";
 import { Hooks } from "../../modules";
 import LangSwitch from "./LangSwitch";
@@ -19,6 +20,10 @@ const overlay: IVariants = {
             L ${width} 0
             C ${width * 2.2} 0 ${width} ${height} 0 ${height * 2.2}
             z`,
+        opacity: 0.6,
+        transition: {
+            duration: 0.5,
+        },
     }),
     closed: {
         d: `M 0 0
@@ -27,7 +32,12 @@ const overlay: IVariants = {
             z`,
         transition: {
             delay: 0.8,
+            duration: 0.4,
         },
+        opacity: 0,
+    },
+    navigating: {
+        opacity: 1,
     },
 };
 const backdrop: IVariants = {
@@ -75,6 +85,18 @@ const staggerChildren: IVariants = {
             x: 50,
         },
     },
+    navigating: {
+        x: -50,
+        opacity: 0,
+        display: "none",
+        transition: {
+            display: { delay: 1 },
+            x: { stiffness: 1000 },
+        },
+        transitionEnd: {
+            x: 50,
+        },
+    },
 };
 
 const Menu = styled(motion.nav)`
@@ -111,7 +133,7 @@ const Overlay = styled(motion.path)`
     left: 0;
     bottom: 0;
     background: ${({ theme }) => theme.colors.pageBackground};
-    opacity: 0.6;
+    /* opacity: 0.6; */
 `;
 
 const Backdrop = styled(motion.div)`
@@ -153,7 +175,7 @@ const NavContainer = styled(motion.div)`
     }
 `;
 
-const Navigation = styled(motion.ul)`
+const Navigation = styled.ul`
     margin: 0;
     padding: 0;
     padding-left: 10px;
@@ -197,37 +219,24 @@ const Switches = styled(motion.div)`
 
 export default () => {
     const [open, toggleOpen] = useCycle(false, true);
+    const [navigating, toggleNavigating] = useCycle(false, true);
     const theme = useConnect(({ theme }) => theme);
     const dimensions = useGetDimensions({ throttle: 100 });
 
-    const onTap = (
-        event: MouseEvent | TouchEvent | PointerEvent,
-        info: TapInfo,
-        path: string
-    ) => {
-        console.warn("event", event);
-        console.warn("info", info);
-        app.history.push(path);
-        //         if (e.defaultPrevented) {
-        //             return;
-        //         }
-        //         if (path == app.history.location.pathname) {
-        //             setMenuVisible(false);
-        //             return;
-        //         }
-        //         e.preventDefault();
-
-        //         setIsNavigating(true);
-        //         hideTimeout = window.setTimeout(() => {
-        //             app.history.push(path);
-        //             window.scrollTo(0, 0);
-        //             window.dispatchEvent(new Event(SCROLLBAR_EVENT));
-        //             showTimeout = window.setTimeout(() => {
-        //                 setIsNavigating(false);
-        //                 setMenuVisible(false);
-        //             }, 500);
-        //         }, 500);
-    };
+    const handleNavigation = React.useCallback(
+        (e: React.MouseEvent, path: string) => {
+            e.preventDefault();
+            toggleNavigating();
+            setTimeout(() => {
+                app.history.push(path);
+                setTimeout(() => {
+                    toggleNavigating();
+                    toggleOpen();
+                }, 250);
+            }, 500);
+        },
+        [toggleNavigating, toggleOpen]
+    );
 
     const pathDefaultProps = React.useMemo<
         React.ComponentProps<typeof motion.path>
@@ -242,7 +251,10 @@ export default () => {
     );
 
     return (
-        <Menu initial={false} animate={open ? "open" : "closed"}>
+        <Menu
+            initial={false}
+            animate={navigating ? "navigating" : open ? "open" : "closed"}
+        >
             <Backdrop variants={backdrop} />
             <Svg
                 {...dimensions}
@@ -271,20 +283,30 @@ export default () => {
                             app.routes,
                             (route) =>
                                 !route.hidden && (
-                                    <Route
-                                        variants={staggerChildren}
-                                        whileHover={{ x: ICON_HEIGHT / 2 }}
-                                        whileTap={{ scale: 0.97, x: 5 }}
-                                        onTap={(event, info) =>
-                                            onTap(event, info, route.path)
-                                        }
+                                    <NavLink
+                                        to={route.path}
                                         key={route.key}
+                                        exact={route.exact}
+                                        onClick={(e) =>
+                                            handleNavigation(e, route.path)
+                                        }
+                                        style={{
+                                            color: theme.colors.defaultText,
+                                        }}
                                     >
-                                        <Icon>
-                                            <route.Icon />
-                                        </Icon>
-                                        <Text>{route.name}</Text>
-                                    </Route>
+                                        <Route
+                                            variants={staggerChildren}
+                                            whileHover={{
+                                                x: ICON_HEIGHT / 2,
+                                            }}
+                                            whileTap={{ scale: 0.97, x: 5 }}
+                                        >
+                                            <Icon>
+                                                <route.Icon />
+                                            </Icon>
+                                            <Text>{route.name}</Text>
+                                        </Route>
+                                    </NavLink>
                                 )
                         )}
                     </Navigation>
@@ -343,147 +365,3 @@ export default () => {
         </Menu>
     );
 };
-
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faBars } from "@fortawesome/free-solid-svg-icons";
-// import _ from "lodash";
-// import React from "react";
-// import styled from "styled-components";
-// import app, { IVisibleRoute } from "../../app";
-// import Modal from "../Modal/Modal";
-// import AdvancedCard from "../AdvancedCard/AdvancedCard";
-// import { ZINDEX } from "../../config";
-// import { Hooks } from "../../modules";
-// import { SCROLLBAR_EVENT } from "../Scrollbar/Scrollbar";
-// import LangSwitch from "./LangSwitch";
-// import Nav from "./Nav";
-// import ThemeSwitch from "./ThemeSwitch";
-
-// const { useConnect } = Hooks;
-
-// const Menu = styled.div`
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     font-size: 2em;
-//     margin: 1.5rem 0 0 2rem;
-//     cursor: pointer;
-//     z-index: ${ZINDEX.menu};
-// `;
-
-// export default () => {
-//     const { theme } = useConnect(({ theme }) => ({ theme }));
-//     const [menuVisible, setMenuVisible] = React.useState(false);
-//     const [isNavigating, setIsNavigating] = React.useState(false);
-
-//     let hideTimeout: number;
-//     let showTimeout: number;
-
-//     const onRequestClose = () => setMenuVisible(false);
-
-//     const onMenuClick = () => setMenuVisible(true);
-
-//     const handlePathChange = (e: React.MouseEvent, path: string) => {
-//         if (e.defaultPrevented) {
-//             return;
-//         }
-//         if (path == app.history.location.pathname) {
-//             setMenuVisible(false);
-//             return;
-//         }
-//         e.preventDefault();
-
-//         setIsNavigating(true);
-//         hideTimeout = window.setTimeout(() => {
-//             app.history.push(path);
-//             window.scrollTo(0, 0);
-//             window.dispatchEvent(new Event(SCROLLBAR_EVENT));
-//             showTimeout = window.setTimeout(() => {
-//                 setIsNavigating(false);
-//                 setMenuVisible(false);
-//             }, 500);
-//         }, 500);
-//     };
-
-//     React.useEffect(() => {
-//         if (showTimeout) {
-//             window.clearTimeout(showTimeout);
-//         }
-//         if (hideTimeout) {
-//             window.clearTimeout(hideTimeout);
-//         }
-//     });
-
-//     return (
-//         <Menu className={`menu ${menuVisible ? "active" : ""}`}>
-//             <div className="menu--button" onClick={onMenuClick}>
-//                 <FontAwesomeIcon
-//                     icon={faBars}
-//                     color={theme.colors.defaultText}
-//                 />
-//             </div>
-//             <Modal
-//                 overlayOpacity={isNavigating ? 1 : undefined}
-//                 onRequestClose={onRequestClose}
-//                 visible={menuVisible}
-//                 left
-//                 overlayClassName="menu--modal-overlay"
-//                 containerClassName="menu--modal-container"
-//                 parent={document.getElementById("app")}
-//             >
-//                 <AdvancedCard
-//                     subtitle={
-//                         <div
-//                             style={{
-//                                 display: "grid",
-//                                 gridTemplateColumns: "1fr 1fr",
-//                             }}
-//                         >
-//                             <div
-//                                 style={{
-//                                     gridColumnStart: 1,
-//                                     textAlign: "center",
-//                                 }}
-//                             >
-//                                 <LangSwitch />
-//                             </div>
-//                             <div
-//                                 style={{
-//                                     gridColumnStart: 2,
-//                                     textAlign: "center",
-//                                 }}
-//                             >
-//                                 <ThemeSwitch />
-//                             </div>
-//                         </div>
-//                     }
-//                     footer={
-//                         <div style={{ textAlign: "center" }}>
-//                             {_.map(app.socials, ({ Icon, name, url }) => (
-//                                 <a
-//                                     style={{ margin: "0 4%" }}
-//                                     href={url}
-//                                     key={name}
-//                                     title={name}
-//                                     children={<Icon />}
-//                                 />
-//                             ))}
-//                         </div>
-//                     }
-//                     kClassName="menu--card"
-//                 >
-//                     {_.map(
-//                         app.routes,
-//                         (route) =>
-//                             !route.hidden && (
-//                                 <Nav
-//                                     {...(route as IVisibleRoute)}
-//                                     onPathChange={handlePathChange}
-//                                 />
-//                             )
-//                     )}
-//                 </AdvancedCard>
-//             </Modal>
-//         </Menu>
-//     );
-// };
