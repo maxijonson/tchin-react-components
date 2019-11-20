@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { motion, useCycle } from "framer-motion";
+import { motion, useCycle, TapInfo } from "framer-motion";
 import _ from "lodash";
 import { ZINDEX, BREAKPOINTS, THEME_TRANSITION_TIME } from "../../config";
 import { Hooks } from "../../modules";
@@ -59,6 +59,7 @@ const staggerChildren: IVariants = {
         x: 0,
         opacity: 1,
         transition: {
+            display: { delay: 0 },
             x: { stiffness: 1000, velocity: -100 },
         },
     },
@@ -72,25 +73,6 @@ const staggerChildren: IVariants = {
         },
         transitionEnd: {
             x: 50,
-        },
-    },
-};
-const hrs: IVariants = {
-    open: {
-        width: "100%",
-        x: 0,
-        opacity: 1,
-        transition: {
-            delay: 0.5,
-            width: { delay: 0, duration: 0 },
-        },
-    },
-    closed: {
-        x: -100,
-        opacity: 0,
-        transitionEnd: {
-            width: "0%",
-            x: 100,
         },
     },
 };
@@ -141,19 +123,6 @@ const Backdrop = styled(motion.div)`
     backdrop-filter: blur(4px);
 `;
 
-const Path = (props: React.ComponentProps<typeof motion.path>) => {
-    const theme = useConnect(({ theme }) => theme);
-    return (
-        <motion.path
-            fill="transparent"
-            strokeWidth="3"
-            stroke={theme.colors.defaultText}
-            strokeLinecap="round"
-            {...props}
-        />
-    );
-};
-
 const Svg = styled.svg<ReturnType<typeof useGetDimensions> & { open: boolean }>`
     width: ${({ width, open }) => (open ? width : 0)};
     height: ${({ height, open }) => (open ? height : 0)};
@@ -172,6 +141,9 @@ const NavContainer = styled(motion.div)`
     );
     @media (min-width: ${BREAKPOINTS.mdpx}) {
         width: 30%;
+    }
+    @media (min-width: ${BREAKPOINTS.lgpx}) {
+        width: 20%;
     }
 
     & > div {
@@ -228,6 +200,47 @@ export default () => {
     const theme = useConnect(({ theme }) => theme);
     const dimensions = useGetDimensions({ throttle: 100 });
 
+    const onTap = (
+        event: MouseEvent | TouchEvent | PointerEvent,
+        info: TapInfo,
+        path: string
+    ) => {
+        console.warn("event", event);
+        console.warn("info", info);
+        app.history.push(path);
+        //         if (e.defaultPrevented) {
+        //             return;
+        //         }
+        //         if (path == app.history.location.pathname) {
+        //             setMenuVisible(false);
+        //             return;
+        //         }
+        //         e.preventDefault();
+
+        //         setIsNavigating(true);
+        //         hideTimeout = window.setTimeout(() => {
+        //             app.history.push(path);
+        //             window.scrollTo(0, 0);
+        //             window.dispatchEvent(new Event(SCROLLBAR_EVENT));
+        //             showTimeout = window.setTimeout(() => {
+        //                 setIsNavigating(false);
+        //                 setMenuVisible(false);
+        //             }, 500);
+        //         }, 500);
+    };
+
+    const pathDefaultProps = React.useMemo<
+        React.ComponentProps<typeof motion.path>
+    >(
+        () => ({
+            fill: "transparent",
+            strokeWidth: "3",
+            stroke: theme.colors.defaultText,
+            strokeLinecap: "round",
+        }),
+        [theme]
+    );
+
     return (
         <Menu initial={false} animate={open ? "open" : "closed"}>
             <Backdrop variants={backdrop} />
@@ -251,7 +264,7 @@ export default () => {
                         <ThemeSwitch />
                     </motion.div>
                 </Switches>
-                <motion.hr variants={hrs} />
+                <motion.hr variants={staggerChildren} />
                 <div>
                     <Navigation>
                         {_.map(
@@ -262,6 +275,9 @@ export default () => {
                                         variants={staggerChildren}
                                         whileHover={{ x: ICON_HEIGHT / 2 }}
                                         whileTap={{ scale: 0.97, x: 5 }}
+                                        onTap={(event, info) =>
+                                            onTap(event, info, route.path)
+                                        }
                                         key={route.key}
                                     >
                                         <Icon>
@@ -273,11 +289,17 @@ export default () => {
                         )}
                     </Navigation>
                 </div>
-                <motion.hr variants={hrs} />
-                <Switches style={{ justifyContent: "center" }}>
+                <motion.hr variants={staggerChildren} />
+                <Switches
+                    style={{
+                        justifyContent: "center",
+                        fontSize: "15px",
+                        padding: 0,
+                    }}
+                >
                     {_.map(app.socials, ({ Icon: SocialIcon, name, url }) => (
                         <motion.a
-                            style={{ margin: "0 4%" }}
+                            style={{ margin: "0 15px" }}
                             href={url}
                             key={name}
                             title={name}
@@ -293,13 +315,15 @@ export default () => {
                     height={TOGGLE_BUTTON_HEIGHT}
                     viewBox={`0 0 20 ${TOGGLE_BUTTON_HEIGHT}`}
                 >
-                    <Path
+                    <motion.path
+                        {...pathDefaultProps}
                         variants={{
                             closed: { d: "M 2 2 L 18 2" },
                             open: { d: "M 2 16 L 18 2" },
                         }}
                     />
-                    <Path
+                    <motion.path
+                        {...pathDefaultProps}
                         d="M 2 9 L 18 9"
                         variants={{
                             closed: { opacity: 1 },
@@ -307,7 +331,8 @@ export default () => {
                         }}
                         transition={{ duration: 0.1 }}
                     />
-                    <Path
+                    <motion.path
+                        {...pathDefaultProps}
                         variants={{
                             closed: { d: "M 2 16 L 18 16" },
                             open: { d: "M 2 2 L 18 16" },

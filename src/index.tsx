@@ -25,7 +25,7 @@ app.init({
         },
         {
             key: "kit2",
-            path: "/kit",
+            path: "/d",
             component: KitPage,
             hidden: false,
             exact: true,
