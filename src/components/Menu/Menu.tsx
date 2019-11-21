@@ -185,7 +185,7 @@ const Route = styled(motion.li)`
     margin: 0;
     padding: 0;
     list-style: none;
-    margin-bottom: ${ICON_HEIGHT / 2}px;
+    margin: ${ICON_HEIGHT / 4}px 0;
     display: flex;
     align-items: center;
     word-break: break-word;

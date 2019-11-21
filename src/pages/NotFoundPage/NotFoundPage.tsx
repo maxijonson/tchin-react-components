@@ -81,7 +81,7 @@ const Container = styled.div`
 const Code = styled.pre<ISCThemeProp>`
     width: 75%;
     margin: 0 auto;
-    box-shadow: 0 0 1rem ${({ theme }) => theme.colors.cardShadow};
+    box-shadow: 0 0 1rem ${({ theme }) => theme.colors.defaultShadow};
     padding: 2.5%;
     font-size: 1.6rem;
     border-radius: 0.5rem;

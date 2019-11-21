@@ -30,4 +30,7 @@ export const defaultFonts: IFonts = {
     kaushan: {
         family: "Kaushan Script",
     },
+    firaCode: {
+        family: "Fira Code",
+    },
 };

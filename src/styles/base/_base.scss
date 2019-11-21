@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Bitter|Exo+2|Open+Sans|Oswald|Roboto|Kaushan+Script");
+@import url("https://fonts.googleapis.com/css?family=Bitter|Exo+2|Open+Sans|Oswald|Roboto|Kaushan+Script|Fira+Code");
 
 /**** DEBUG ****/
 // * {
@@ -25,6 +25,8 @@
 html {
     font-size: 62.5%;
     text-rendering: optimizeLegibility;
+    font-family: "Open Sans", "Helvetica Neue", Arial, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
 html,
@@ -35,6 +37,7 @@ body {
 body {
     display: flex;
     flex-direction: column;
+    line-height: 1.6;
 }
 
 a {

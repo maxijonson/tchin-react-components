@@ -23,7 +23,7 @@ import rawBackgroundHook from "./snippets/Background-hook.txt";
 import rawCatcherComponent from "./snippets/Catcher-component.txt";
 import rawCatcherHOC from "./snippets/Catcher-hoc.txt";
 
-const { CodeSpan } = TextStyles;
+const { CodeSpan, TextJustify } = TextStyles;
 const { Viewport, Center, PaddingH, CenterH, Flex } = Layouts;
 const { useBackground } = Hooks;
 
@@ -250,7 +250,7 @@ export default () => {
                 <Center>Kit</Center>
             </BGViewport>
             <PaddingH>
-                <p>
+                <TextJustify>
                     These are the components available in TRC. Some have been
                     omitted as they do not follow much of the &quot;Thinking in
                     React&quot; philosophy, such as{" "}
@@ -263,20 +263,20 @@ export default () => {
                     (Tristan Chin) needs in web development. You are welcome to
                     use them in your own projects, but be aware{" "}
                     <b>they may drastically change without any warning</b>.
-                </p>
+                </TextJustify>
                 <hr />
                 <h1 id="bg">Background</h1>
-                <p>
+                <TextJustify>
                     Add background to a div. The background also has a{" "}
                     <CodeSpan>ColorOverlay</CodeSpan>.
-                </p>
+                </TextJustify>
                 <h3>Usage</h3>
-                <p>
+                <TextJustify>
                     There are two ways of using this component: using a React{" "}
                     <b>component</b> or a <b>hook</b>.
-                </p>
+                </TextJustify>
                 <h5>Using the component</h5>
-                <p>
+                <TextJustify>
                     Although it is not recommended you use the component
                     directly, you can add the{" "}
                     <CodeSpan>&lt;Background /&gt;</CodeSpan> as the first child
@@ -285,17 +285,17 @@ export default () => {
                     <CodeSpan>overflow: hidden</CodeSpan> and both the parent
                     and children need <CodeSpan>position: relative</CodeSpan>{" "}
                     for this to work.
-                </p>
+                </TextJustify>
                 <CodeSnippet>{rawBackgroundComponent}</CodeSnippet>
                 <h5>Using the hook</h5>
-                <p>
+                <TextJustify>
                     Use the <CodeSpan>useBackground</CodeSpan> hook. Pass
                     optional props as an object. Behind the scenes, the hook
                     just does the component method shown above and returns the
                     resulting component. The children must have{" "}
                     <CodeSpan>position: relative</CodeSpan> set for this to
                     work.
-                </p>
+                </TextJustify>
                 <CodeSnippet>{rawBackgroundHook}</CodeSnippet>
                 <h3>Examples</h3>
                 {/* TODO: Editable test component with form elements */}
@@ -334,11 +334,11 @@ export default () => {
                 <hr />
 
                 <h1>Button</h1>
-                <p>
+                <TextJustify>
                     A polymorphic button component. Its color is based on{" "}
                     <CodeSpan>IContextState</CodeSpan> and include 2 alternative
                     variants.
-                </p>
+                </TextJustify>
                 <h3>Examples</h3>
                 <h5>Default</h5>
                 <div>
@@ -367,24 +367,24 @@ export default () => {
                 <br />
                 <hr />
                 <h1>Catcher</h1>
-                <p>
+                <TextJustify>
                     Catcher is the only component in TRC which is a class
                     component. This is because it needs to implement{" "}
                     <CodeSpan>componentDidCatch</CodeSpan>. Surround any
                     component with the Catcher to prevent the application from
                     crashing if an error happens. You can also specify a
                     fallback component.
-                </p>
+                </TextJustify>
                 <h3>Usage</h3>
                 <h5>Using the component</h5>
                 <CodeSnippet>{rawCatcherComponent}</CodeSnippet>
                 <h5>Using the HOC</h5>
-                <p>
+                <TextJustify>
                     Pass the required component as the first parameter and the
                     props as an options object:
                     <br />
                     <CodeSpan>withCatcher(Component, options)</CodeSpan>
-                </p>
+                </TextJustify>
                 <CodeSnippet>{rawCatcherHOC}</CodeSnippet>
                 <h3>Examples</h3>
                 <Flex itemMaxWidth="35%" justifyContent="center">

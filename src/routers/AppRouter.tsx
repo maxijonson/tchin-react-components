@@ -10,13 +10,11 @@ import { Hooks } from "../modules";
 
 const { useConnect } = Hooks;
 
-// font-family: ${fonts.oswald.family};
 const PageWrapperStyled = styled.div`
     background-color: ${({ theme }) => theme.colors.pageBackground};
     width: auto;
     min-height: 98.45250474vh;
     transition: all ${THEME_TRANSITION_TIME}s;
-    font-family: ${app.fonts.roboto.family};
     font-size: 1.6em;
     flex: 1 0 auto;
     overflow: auto;

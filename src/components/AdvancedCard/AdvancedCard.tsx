@@ -152,7 +152,7 @@ const DFooter = styled.div`
     font-family: "${app.fonts.roboto.family}";
     font-size: 1.6rem;
     color: ${({ theme }: IThemeProps) => {
-        const color = tinycolor(theme.colors.defaultText);
+        const color = tinycolor(theme.colors.defaultText).clone();
         theme.name == "light" ? color.lighten(25) : color.darken(25);
         return color.toRgbString();
     }};
