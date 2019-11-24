@@ -33,7 +33,7 @@ export default () => {
                         >
                             tchin-react-components
                         </H3>
-                        <Title>Kit</Title>
+                        <Title>Components</Title>
                     </TextCenter>
                 </Center>
             </BGViewport>

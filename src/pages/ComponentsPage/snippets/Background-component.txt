@@ -1,0 +1,12 @@
+import { Background, Card } from "tchin-react-components";
+
+const Example = () => (
+    <Card style={{ position: "relative", overflow: "hidden" }}>
+        <Background
+            background="path/to/image.jpg"
+            parallax={false}
+            blurAmount={2}
+        />
+        <div style={{ position: "relative" }}> This is a card. </div>
+    </Card>
+);

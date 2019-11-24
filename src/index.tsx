@@ -10,23 +10,23 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faToolbox } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { app, APP_ROOT, NotFoundPage, TRCRouter, KitPage } from "..";
+import { app, APP_ROOT, NotFoundPage, TRCRouter, ComponentsPage } from "..";
 
 app.init({
     routes: [
         {
-            key: "kit",
-            path: "/kit",
-            component: KitPage,
+            key: "components",
+            path: "/components",
+            component: ComponentsPage,
             hidden: false,
             exact: true,
             Icon: () => <FontAwesomeIcon icon={faToolbox} />,
-            name: "Kit",
+            name: "Components",
         },
         {
             key: "home",
             path: "/",
-            component: KitPage,
+            component: ComponentsPage,
             hidden: true,
             exact: true,
         },

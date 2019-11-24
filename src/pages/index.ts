@@ -1,2 +1,2 @@
 export { default as NotFoundPage } from "./NotFoundPage/NotFoundPage";
-export { default as KitPage } from "./KitPage/KitPage";
+export { default as ComponentsPage } from "./ComponentsPage/ComponentsPage";
