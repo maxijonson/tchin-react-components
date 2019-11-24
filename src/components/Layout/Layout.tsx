@@ -125,6 +125,7 @@ export const CenterH = styled.div`
 export const Center = styled.div`
     position: relative;
     top: 50%;
+    transform: perspective(1px) translateY(-50%);
     text-align: center;
     & > * {
         display: inline-block;

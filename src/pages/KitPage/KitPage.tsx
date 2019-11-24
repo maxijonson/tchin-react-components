@@ -1,9 +1,15 @@
 import React from "react";
 import { Layouts, TextStyles } from "../../components";
 import { Hooks } from "../../modules";
-import { BackgroundDocs, ButtonDocs, CatcherDocs } from "./components";
+import {
+    BackgroundDocs,
+    ButtonDocs,
+    CatcherDocs,
+    TableDocs,
+} from "./components";
+import app from "../../app";
 
-const { CodeSpan, TextLeft } = TextStyles;
+const { CodeSpan, TextLeft, Title, TextCenter, H3 } = TextStyles;
 const { Viewport, Center, PaddingH } = Layouts;
 const { useBackground } = Hooks;
 
@@ -17,7 +23,19 @@ export default () => {
     return (
         <>
             <BGViewport>
-                <Center>Kit</Center>
+                <Center>
+                    <TextCenter>
+                        <H3
+                            style={{
+                                fontFamily: app.fonts.kaushan.family,
+                                color: "inherit",
+                            }}
+                        >
+                            tchin-react-components
+                        </H3>
+                        <Title>Kit</Title>
+                    </TextCenter>
+                </Center>
             </BGViewport>
             <PaddingH>
                 <TextLeft>
@@ -42,6 +60,9 @@ export default () => {
                 <br />
                 <hr />
                 <CatcherDocs />
+                <br />
+                <hr />
+                <TableDocs />
                 <br />
                 <hr />
             </PaddingH>

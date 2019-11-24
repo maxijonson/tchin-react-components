@@ -23,7 +23,36 @@ export const TextJustify = styled.p`
 export const TextLeft = styled.p`
     text-align: left;
 `;
+export const P = TextLeft;
 
 export const TextRight = styled.p`
     text-align: right;
+`;
+
+export const Title = styled.h1`
+    margin: 0;
+    padding: 0;
+    font-size: 4.375em;
+    font-weight: 600;
+`;
+export const H1 = Title;
+
+export const Subtitle = styled.h2`
+    margin: 0;
+    padding: 0;
+    font-size: 2.75em;
+`;
+export const H2 = Subtitle;
+
+export const H3 = styled.h3`
+    margin: 0;
+    padding: 0;
+    font-size: 1.875em;
+`;
+
+export const H4 = styled.h4`
+    margin: 0;
+    padding: 0;
+    font-size: 1.17em;
+    color: ${({ theme }) => theme.colors.altText};
 `;

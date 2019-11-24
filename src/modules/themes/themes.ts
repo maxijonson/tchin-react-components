@@ -19,6 +19,7 @@ export const defaultThemes: IThemes = {
         colors: {
             pageBackground: light.white,
             defaultText: ultraDark.black,
+            altText: light.onyx,
             textBackground: ultraLight.onyx,
             themeSwitchOn: light.white,
             themeSwitchOff: normal.onyx,
@@ -53,6 +54,7 @@ export const defaultThemes: IThemes = {
         colors: {
             pageBackground: veryDark.onyx,
             defaultText: pitchLight.white,
+            altText: veryLight.onyx,
             textBackground: normal.onyx,
             themeSwitchOn: light.white,
             themeSwitchOff: normal.onyx,

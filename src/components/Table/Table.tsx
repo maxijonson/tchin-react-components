@@ -14,11 +14,6 @@ const Table = styled.table<{ stripped?: boolean }>`
     box-shadow: 0 2px 2px -1px ${({ theme }) => theme.colors.cardShadow},
         0 1px 5px -2px ${({ theme }) => theme.colors.cardShadow};
 
-    & thead,
-    & tr {
-        vertical-align: middle;
-    }
-
     & thead th {
         font-weight: 700;
         text-align: left;

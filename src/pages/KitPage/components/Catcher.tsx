@@ -16,7 +16,7 @@ import tableFields from "../tableFields";
 import rawCatcherComponent from "../snippets/Catcher-component.txt";
 import rawCatcherHOC from "../snippets/Catcher-hoc.txt";
 
-const { TextLeft, CodeSpan } = TextStyles;
+const { TextLeft, CodeSpan, Subtitle, H3, H4 } = TextStyles;
 const { Flex, CenterH } = Layouts;
 
 const catcherProps = [
@@ -83,7 +83,7 @@ const CatcherCard = ({ title }: { title: string }) => (
     <ErrorSimulator>
         {(crash) => (
             <Card>
-                <h5>{title}</h5>
+                <H4>{title}</H4>
                 This is an example of a component that could crash. Press the
                 button below to simulate an error and see the Catcher in action
                 <CenterH>
@@ -99,7 +99,7 @@ const CatcherCard = ({ title }: { title: string }) => (
 const CardCatched = styled(
     ({ className, retry }: { className: string; retry: () => void }) => (
         <Card className={className}>
-            <h5>With fallback (component)</h5>
+            <H4>With fallback (component)</H4>
             Ouch! We&apos;ve hit a wall! This time, we used a fallback component
             to render an appropriate replacement component. Click on the button
             below to fix this!
@@ -124,7 +124,7 @@ export default () => {
     });
     return (
         <>
-            <h1>Catcher</h1>
+            <Subtitle>Catcher</Subtitle>
             <TextLeft>
                 Catcher is the only component in TRC which is a class component.
                 This is because it needs to implement{" "}
@@ -132,10 +132,10 @@ export default () => {
                 with the Catcher to prevent the application from crashing if an
                 error happens. You can also specify a fallback component.
             </TextLeft>
-            <h3>Usage</h3>
-            <h5>Using the component</h5>
+            <H3>Usage</H3>
+            <H4>Using the component</H4>
             <CodeSnippet>{rawCatcherComponent}</CodeSnippet>
-            <h5>Using the HOC</h5>
+            <H4>Using the HOC</H4>
             <TextLeft>
                 Pass the required component as the first parameter and the props
                 as an options object:
@@ -143,7 +143,7 @@ export default () => {
                 <CodeSpan>withCatcher(Component, options)</CodeSpan>
             </TextLeft>
             <CodeSnippet>{rawCatcherHOC}</CodeSnippet>
-            <h3>Examples</h3>
+            <H3>Examples</H3>
             <Flex itemMaxWidth="35%" justifyContent="center">
                 <Catcher>
                     <CatcherCard title="Default fallback (component)" />
@@ -154,7 +154,7 @@ export default () => {
                 <CatcherHOCDefault title="Default fallback (HOC)" />
                 <CatcherHOCCustom title="Custom fallback (HOC)" />
             </Flex>
-            <h3>Props</h3>
+            <H3>Props</H3>
             <Table fields={tableFields} data={catcherProps} />
         </>
     );

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Table, TextStyles } from "../../../components";
 import tableFields from "../tableFields";
 
-const { TextLeft, CodeSpan } = TextStyles;
+const { TextLeft, CodeSpan, Subtitle, H3, H4, P } = TextStyles;
 
 const buttonProps = [
     {
@@ -62,36 +62,36 @@ const Buttons = ({
 
 export default () => (
     <>
-        <h1>Button</h1>
+        <Subtitle>Button</Subtitle>
         <TextLeft>
             A polymorphic button component. Its color is based on{" "}
             <CodeSpan>IContextState</CodeSpan> and include 2 alternative
             variants.
         </TextLeft>
-        <h3>Examples</h3>
-        <h5>Default</h5>
-        <div>
+        <H3>Examples</H3>
+        <H4>Default</H4>
+        <P>
             <Buttons />
-        </div>
-        <h5>Outlined</h5>
-        <div>
+        </P>
+        <H4>Outlined</H4>
+        <P>
             <Buttons variant="outlined" />
-        </div>
-        <h5>Text</h5>
-        <div>
+        </P>
+        <H4>Text</H4>
+        <P>
             <Buttons variant="text" />
-        </div>
-        <h5>Disabled</h5>
-        <div>
+        </P>
+        <H4>Disabled</H4>
+        <P>
             <Buttons disabled />
-        </div>
-        <div>
+        </P>
+        <P>
             <Buttons variant="outlined" disabled />
-        </div>
-        <div>
+        </P>
+        <P>
             <Buttons variant="text" disabled />
-        </div>
-        <h3>Props</h3>
+        </P>
+        <H3>Props</H3>
         <Table fields={tableFields} data={buttonProps} />
     </>
 );
