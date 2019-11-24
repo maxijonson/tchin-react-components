@@ -1,15 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 import _ from "lodash";
+import tinycolor from "tinycolor2";
 import { THEME_TRANSITION_TIME } from "../../config";
 
-const Table = styled.table`
-    max-width: 100%;
-    filter: drop-shadow(0 2px 1px ${({ theme }) => theme.colors.defaultShadow});
-    border-radius: 5px;
+const Table = styled.table<{ stripped?: boolean }>`
+    width: 100%;
+    border-radius: 5px 5px 0 0;
     border-spacing: 0;
+    border-collapse: collapse;
     transition: all ${THEME_TRANSITION_TIME}s;
     background: ${({ theme }) => theme.colors.tableBackground};
+    box-shadow: 0 2px 2px -1px ${({ theme }) => theme.colors.cardShadow},
+        0 1px 5px -2px ${({ theme }) => theme.colors.cardShadow};
+
+    & thead,
+    & tr {
+        vertical-align: middle;
+    }
 
     & thead th {
         font-weight: 700;
@@ -19,11 +27,26 @@ const Table = styled.table`
     & th,
     & td {
         padding: 0.6em 1.3em;
+        max-width: 500px;
+    }
+
+    & tbody tr:nth-child(odd) td {
+        background: ${({ theme, stripped }) =>
+            stripped &&
+            tinycolor(theme.colors.tableBackground)
+                .clone()
+                .darken(3)
+                .toHexString()};
     }
 
     & th,
     & tr:not(:last-child) td {
-        border-bottom: 1px solid ${({ theme }) => theme.colors.tableAltBorder};
+        border-bottom: 1px solid
+            ${({ theme }) =>
+                tinycolor(theme.colors.tableAltBorder)
+                    .clone()
+                    .setAlpha(0.5)
+                    .toHex8String()};
     }
 `;
 
@@ -37,12 +60,18 @@ export interface ITableProps<T extends {}> {
     hideHeader?: boolean;
     data: T[];
     fields: ITableField<T>[];
+    stripped?: boolean;
 }
 
-export default <T extends {}>({ fields, hideHeader, data }: ITableProps<T>) => {
+export default <T extends {}>({
+    fields,
+    hideHeader,
+    data,
+    stripped,
+}: ITableProps<T>) => {
     return (
         <div style={{ overflowX: "auto", padding: "1%" }}>
-            <Table>
+            <Table stripped={stripped}>
                 {!hideHeader && (
                     <thead>
                         <tr>

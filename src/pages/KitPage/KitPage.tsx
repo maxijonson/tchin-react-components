@@ -16,6 +16,7 @@ import {
     Background,
 } from "../../components";
 import { Hooks } from "../../modules";
+import app from "../../app";
 
 // SNIPPETS
 import rawBackgroundComponent from "./snippets/Background-component.txt";
@@ -136,7 +137,12 @@ const propsTableFields: ITableField<{
     },
     {
         name: "Type",
-        render: "type",
+        render: ({ type }) =>
+            type && (
+                <span style={{ fontFamily: app.fonts.firaCode.family }}>
+                    {type}
+                </span>
+            ),
     },
     {
         name: "Default",
@@ -145,11 +151,7 @@ const propsTableFields: ITableField<{
     {
         name: "Required",
         render: ({ required }) =>
-            required && (
-                <CenterH>
-                    <FontAwesomeIcon icon={faCheck} />
-                </CenterH>
-            ),
+            required && <FontAwesomeIcon icon={faCheck} />,
     },
 ];
 
@@ -190,6 +192,9 @@ const Buttons = ({
         </Button>
         <Button disabled={disabled} state="danger" variant={variant}>
             Danger
+        </Button>
+        <Button disabled={disabled} state="success" variant={variant}>
+            Success
         </Button>
         <Button disabled={disabled} state="info" variant={variant}>
             Info

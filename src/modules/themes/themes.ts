@@ -45,6 +45,7 @@ export const defaultThemes: IThemes = {
             warn: "#e89b15",
             danger: "#c91e1e",
             info: "#1ec99e",
+            success: "#1dbf59",
         },
     },
     dark: {
@@ -78,6 +79,7 @@ export const defaultThemes: IThemes = {
             warn: "#e89b15",
             danger: "#c91e1e",
             info: "#1ec99e",
+            success: "#159645",
         },
     },
 };

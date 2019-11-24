@@ -35,8 +35,9 @@ declare global {
     type IContextState =
         | "warn"
         | "danger"
-        | "info"
+        | "success"
         | "primary"
         | "secondary"
-        | "success";
+        | "success"
+        | "info";
 }
