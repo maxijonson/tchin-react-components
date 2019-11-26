@@ -12,6 +12,7 @@ const { useConnect } = Hooks;
 const CodeSnippet = styled.div`
     & > pre > code {
         font-family: ${app.fonts.firaCode.family} !important;
+        font-size: 0.9em;
     }
     & > pre,
     & > pre > code span {
@@ -41,6 +42,7 @@ export default ({ children }: { children: React.ReactElement }) => {
                     borderRadius: "5px",
                     maxWidth: "100%",
                     overflow: "scroll",
+                    lineHeight: 1,
                 }}
             >
                 {children}

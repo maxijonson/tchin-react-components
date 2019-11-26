@@ -1,8 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { ITableField } from "../../components";
+import { ITableField, TextStyles } from "../../components";
 import app from "../../app";
+
+const { TextCenter } = TextStyles;
 
 const tableFields: ITableField<{
     prop: React.ReactNode;
@@ -35,7 +37,14 @@ const tableFields: ITableField<{
     {
         name: "Required",
         render: ({ required }) =>
-            required && <FontAwesomeIcon icon={faCheck} />,
+            required && (
+                <TextCenter>
+                    <FontAwesomeIcon icon={faCheck} />
+                </TextCenter>
+            ),
+        renderHeader: (name) => (
+            <div style={{ textAlign: "center" }}>{name}</div>
+        ),
     },
 ];
 

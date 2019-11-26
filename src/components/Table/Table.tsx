@@ -4,6 +4,12 @@ import _ from "lodash";
 import tinycolor from "tinycolor2";
 import { THEME_TRANSITION_TIME } from "../../config";
 
+/* TODO:
+- Sort
+- Pagination
+- ContextState rows
+*/
+
 const Table = styled.table<{ stripped?: boolean }>`
     width: 100%;
     border-radius: 5px 5px 0 0;
@@ -48,7 +54,8 @@ const Table = styled.table<{ stripped?: boolean }>`
 // https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
 export interface ITableField<T> {
     name: string;
-    render: keyof T | ((row: T) => React.ReactNode);
+    render: Extract<keyof T, React.ReactNode> | ((row: T) => React.ReactNode); // FIXME: This allows objects, which can't be rendered.
+    renderHeader?: (name: string) => React.ReactNode;
 }
 
 export interface ITableProps<T extends {}> {
@@ -70,8 +77,15 @@ export default <T extends {}>({
                 {!hideHeader && (
                     <thead>
                         <tr>
-                            {_.map(fields, ({ name }) => (
-                                <th children={name} key={name} />
+                            {_.map(fields, ({ name, renderHeader }) => (
+                                <th
+                                    children={
+                                        typeof renderHeader === "function"
+                                            ? renderHeader(name)
+                                            : name
+                                    }
+                                    key={name}
+                                />
                             ))}
                         </tr>
                     </thead>

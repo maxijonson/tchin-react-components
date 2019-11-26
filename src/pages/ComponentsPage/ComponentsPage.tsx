@@ -9,7 +9,7 @@ import {
 } from "./components";
 import app from "../../app";
 
-const { CodeSpan, TextLeft, Title, TextCenter, H3 } = TextStyles;
+const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
 const { Viewport, Center, PaddingH } = Layouts;
 const { useBackground } = Hooks;
 
@@ -24,7 +24,7 @@ export default () => {
         <>
             <BGViewport>
                 <Center>
-                    <TextCenter>
+                    <div style={{ textAlign: "center" }}>
                         <H3
                             style={{
                                 fontFamily: app.fonts.kaushan.family,
@@ -34,7 +34,7 @@ export default () => {
                             tchin-react-components
                         </H3>
                         <Title>Components</Title>
-                    </TextCenter>
+                    </div>
                 </Center>
             </BGViewport>
             <PaddingH>

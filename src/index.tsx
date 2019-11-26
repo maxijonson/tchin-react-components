@@ -7,8 +7,8 @@ import {
     faTwitch,
     faTwitter,
     faLinkedin,
+    faReact,
 } from "@fortawesome/free-brands-svg-icons";
-import { faToolbox } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { app, APP_ROOT, NotFoundPage, TRCRouter, ComponentsPage } from "..";
 
@@ -20,7 +20,7 @@ app.init({
             component: ComponentsPage,
             hidden: false,
             exact: true,
-            Icon: () => <FontAwesomeIcon icon={faToolbox} />,
+            Icon: () => <FontAwesomeIcon icon={faReact} />,
             name: "Components",
         },
         {
