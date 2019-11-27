@@ -133,7 +133,6 @@ const Overlay = styled(motion.path)`
     left: 0;
     bottom: 0;
     background: ${({ theme }) => theme.colors.pageBackground};
-    /* opacity: 0.6; */
 `;
 
 const Backdrop = styled(motion.div)`

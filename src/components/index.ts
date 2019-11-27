@@ -23,3 +23,7 @@ export { default as ToastStyle } from "./ToastStyle/ToastStyle";
 export { default as Tooltip } from "./Tooltip/Tooltip";
 export { default as CodeSnippet } from "./CodeSnippet/CodeSnippet";
 export { default as Table, ITableProps, ITableField } from "./Table/Table";
+export {
+    default as Drawer,
+    drawerEventDispatch as toggleDrawer,
+} from "./Drawer/Drawer";

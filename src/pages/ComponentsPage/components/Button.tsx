@@ -1,5 +1,11 @@
 import React from "react";
-import { Button, Table, TextStyles } from "../../../components";
+import {
+    Button,
+    Table,
+    TextStyles,
+    Drawer,
+    toggleDrawer,
+} from "../../../components";
 import tableFields from "../tableFields";
 
 const { TextLeft, CodeSpan, Subtitle, H3, H4, P } = TextStyles;
@@ -62,6 +68,9 @@ const Buttons = ({
 
 export default () => (
     <>
+        <Drawer id="test">
+            <div>Hello</div>
+        </Drawer>
         <Subtitle>Button</Subtitle>
         <TextLeft>
             A polymorphic button component. Its color is based on{" "}
@@ -72,6 +81,7 @@ export default () => (
         <H4>Default</H4>
         <P>
             <Buttons />
+            <Button onClick={() => toggleDrawer("test")}>Toggle Drawer</Button>
         </P>
         <H4>Outlined</H4>
         <P>
