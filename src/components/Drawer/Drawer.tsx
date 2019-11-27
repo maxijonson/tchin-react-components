@@ -5,13 +5,23 @@ import { ZINDEX } from "../../config/constants";
 
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
-interface IDrawerProps {
+interface IDrawerBase {
     position?: "left" | "right" | "bottom" | "top";
     size?: string | number;
     mode?: string; // TODO: specify
-    initialState?: "open" | "closed";
-    id: string;
 }
+
+interface IDrawerEventBased extends IDrawerBase {
+    id: string;
+    state?: never;
+}
+
+interface IDrawerStateBased extends IDrawerBase {
+    state: "open" | "closed";
+    id?: never;
+}
+
+type IDrawerProps = IDrawerEventBased | IDrawerStateBased;
 
 const DEFAULT_SIZE_H = "30vw";
 const DEFAULT_SIZE_V = "30vh";
@@ -123,12 +133,13 @@ export const drawerEventDispatch = (id: string) =>
     window.dispatchEvent(new Event(getEventName(id)));
 
 export default (props: IDrawerProps & { children?: React.ReactNode }) => {
-    const { id } = props;
+    const { size, position, children, id, state } = props;
     const [drawerOpen, toggleDrawer] = useCycle("closed", "open");
 
     const toggle = React.useCallback(() => toggleDrawer(), [toggleDrawer]);
 
     React.useLayoutEffect(() => {
+        if (!id) return;
         const event = getEventName(id);
         window.addEventListener(event, toggle);
         return () => {
@@ -139,13 +150,13 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     return (
         <DrawerContainer
             variants={vDrawer}
-            animate={drawerOpen}
+            animate={!id ? state : drawerOpen}
             initial={false}
             custom={{
-                size: props.size,
-                position: props.position,
+                size: size,
+                position: position,
             }}
-            children={props.children}
+            children={children}
         />
     );
 };
