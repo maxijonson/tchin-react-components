@@ -45,6 +45,7 @@ const Button = ({
             {...defaultMotionProps}
             whileHover={whileHover}
             whileTap={whileTap}
+            transformTemplate={({ scale }) => `scale(${scale})`} // Prevents translateZ(0px) from being added. This disables GPU acceleration == CPU rendered. https://github.com/framer/motion/issues/355
             {...motionProps}
         />
     );
