@@ -1,22 +1,34 @@
 # tchin-react-components
 
-### TRC
+### My Web Kit
 
-My reusable React components.
+TRC is meant to be my own personnal web kit. The goal is to be able to setup and start making a front-end project rapidly without having to spend time creating basic components and setting up utilities like Redux.
 
-TRC uses a singleton `app` to manage the core of the application, such as routes, translations and in my project's case, themes. It also manages the whole Redux store which you can provide its reducers on initialization.
+### App
 
-On top of the `app` singleton, TRC comes with a set of components I plan to use across all my React projects. Most of them were created during my [website's](https://www.chintristan.io/) development, so it is expected that they may not fit all designs. However, TRC also comes with a premade AppRouter (TRCRouter) which comes with basic functionality.
+The approach I used is to have a core in the package called `app`. `app` is a singleton that is initialized at the index of the project and contains the heart of the project, such as the routing system, theme configuration, i18n configuration, Redux store and more.
 
-TRC also comes with a variety of hooks, including `useConnect` hook which is used to access the Redux store. This hook was created before Redux announced their own set of hooks and may or may not change, because the pattern slightly differs from theirs.
+### Components
 
-Finally, TRC comes with all dev-dependencies listed as dependencies. This was decided so I can simply install this package without spending much time typing NPM commands to install more dependencies at the cost of a large bundle.
+For the components, I was inspired by many libraries such as Material-UI, Elastic-UI, Element-UI, Argon and Bootstrap to create my own soup of components. Thanks to Styled-Components, I was able to make many components without the need of external CSS. 
 
-## Disclaimer
+### Utils
 
-Please note that this library is being developed for my personal use and should not be used directly in your projects. You can, however, use it as a reference if you're aiming towards the solution TRC is delivering to me. At **ANY** time, drastic changes could come to the library with no deprecation notice. Use with caution.
+As for utilities, they get created as I need them. There are many useful hooks, such as `useConnect` which allows you to retrieve the Redux store state and dispatch inside of components instead of connecting them separatly.
 
-## Installation
+### Dependencies
+
+All dependencies, including devDependencies, have been purposely added as project dependencies. By doing this, TRC comes with all that I might need to make my project. While this may sound like a stretch, it also helped fixing some issues when deploying to Heroku, since it strips out devDependencies after building.
+
+### Language
+
+The project was developped entirely in TypeScript, but also come bundled in JavaScript once published.
+
+### Disclaimer
+
+This library is being developed with my personnal needs in mind. The components and utilities may change drastically at any time without warning.
+
+### NPM Installation
 
 Use the package manager [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) to install tchin-react-components.
 
@@ -24,55 +36,22 @@ Use the package manager [npm](https://docs.npmjs.com/downloading-and-installing-
 npm i -S tchin-react-components
 ```
 
-## Usage
+### Documentation
 
-```typescript
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { app, APP_ROOT, NotFoundPage, TRCRouter } from "..";
+As well as being the library for the components, TRC can be launched just like a website to view the docs. Clone the repo and do the following commands:
 
-app.init({
-    enforceSSL: true /* If you want to force HTTPS */,
-    routes: [
-        /* your routes here */
-        {
-            name: "Not Found",
-            key: "notFound",
-            path: "",
-            component: () => <NotFoundPage />,
-            hidden: true
-        },
-    ],
-    socials: [
-        /* Social links displayed in the footer of <Menu /> */
-        {
-            name: "Github",
-            url: "https://github.com/maxijonson",
-            Icon: () => (
-                <FontAwesomeIcon
-                    icon={faGithub}
-                    color={app.state.theme.colors.defaultText}
-                />
-            ),
-        },
-    ],
-    translations: {
-        /* A set of translations. Only supports FR and EN. */
-    },
-    reducers: {
-        /* your reducers here */
-    },
-    /* More options available... */
-});
+```bash
+# Install dependencies
+npm i
 
-ReactDOM.render(
-    <Provider store={app.store}>
-        <TRCRouter />
-    </Provider>,
-    document.getElementById(APP_ROOT)
-);
+# Start the web server
+npm start
+
+# or you can use Gulp
+gulp
 ```
+
+Then navigate to http://localhost:1338/ (was 1337 initialy 😉 however, my Razer keyboard seems to be using this port for some unknown reason...) 
 
 ## License
 
