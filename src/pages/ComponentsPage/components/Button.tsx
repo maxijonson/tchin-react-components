@@ -68,7 +68,7 @@ export default () => {
     );
     return (
         <>
-            <Drawer state={drawerOpen}>
+            <Drawer state={drawerOpen} position="top">
                 <div>Hello</div>
             </Drawer>
             <Subtitle>Button</Subtitle>

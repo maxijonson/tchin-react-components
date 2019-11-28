@@ -8,7 +8,6 @@ type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 interface IDrawerBase {
     position?: "left" | "right" | "bottom" | "top";
     size?: string | number;
-    mode?: string; // TODO: specify
 }
 
 interface IDrawerEventBased extends IDrawerBase {
@@ -63,11 +62,11 @@ const vDrawer: IVariants = {
     },
 };
 
-const DrawerContainer = styled(motion.div)<
-    Omit<IDrawerProps, "initialState" | "id">
->`
+const Drawer = styled(motion.div)<Omit<IDrawerProps, "initialState" | "id">>`
     position: fixed;
-    box-shadow: 0 5px 5px black;
+    transition: box-shadow 0.5s;
+    box-shadow: ${({ state, theme }) =>
+        `0 0 ${state == "open" ? "5px" : "0px"} ${theme.colors.defaultShadow}`};
     z-index: ${ZINDEX.drawer};
     background: ${({ theme }) => theme.colors.pageBackground};
     width: ${({ position, size }) =>
@@ -78,7 +77,6 @@ const DrawerContainer = styled(motion.div)<
         position == "top" || position == "bottom"
             ? size || DEFAULT_SIZE_V
             : undefined};
-    float: ${({ position }) => position || "left"};
     top: ${({ position }) => {
         switch (position) {
             case "bottom":
@@ -92,13 +90,13 @@ const DrawerContainer = styled(motion.div)<
     }};
     left: ${({ position }) => {
         switch (position) {
+            case "right":
+                return undefined;
             case "bottom":
             case "left":
             case "top":
             default:
                 return 0;
-            case "right":
-                return undefined;
         }
     }};
     bottom: ${({ position }) => {
@@ -125,16 +123,17 @@ const DrawerContainer = styled(motion.div)<
     }};
 `;
 
-const DRAWER_EVENT = "TRC-drawer";
-
-const getEventName = (id: string) => `${DRAWER_EVENT}_${id}`;
+const getEventName = (id: string) => `TRC-drawer_${id}`;
 
 export const drawerEventDispatch = (id: string) =>
     window.dispatchEvent(new Event(getEventName(id)));
 
 export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     const { size, position, children, id, state } = props;
-    const [drawerOpen, toggleDrawer] = useCycle("closed", "open");
+    const [drawerOpen, toggleDrawer] = useCycle<"closed" | "open">(
+        "closed",
+        "open"
+    );
 
     const toggle = React.useCallback(() => toggleDrawer(), [toggleDrawer]);
 
@@ -148,14 +147,14 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     }, [id, toggle]);
 
     return (
-        <DrawerContainer
+        <Drawer
+            position={position}
+            size={size}
+            state={state || drawerOpen}
             variants={vDrawer}
-            animate={!id ? state : drawerOpen}
+            animate={state || drawerOpen}
             initial={false}
-            custom={{
-                size: size,
-                position: position,
-            }}
+            custom={{ size, position }}
             children={children}
         />
     );
