@@ -7,7 +7,6 @@ type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
 interface IDrawerBase {
     position?: "left" | "right" | "bottom" | "top";
-    size?: string | number;
 }
 
 interface IDrawerEventBased extends IDrawerBase {
@@ -22,9 +21,6 @@ interface IDrawerStateBased extends IDrawerBase {
 
 type IDrawerProps = IDrawerEventBased | IDrawerStateBased;
 
-const DEFAULT_SIZE_H = "30vw";
-const DEFAULT_SIZE_V = "30vh";
-
 const vDrawer: IVariants = {
     open: {
         x: 0,
@@ -33,24 +29,24 @@ const vDrawer: IVariants = {
             duration: 0.5,
         },
     },
-    closed: ({ position, size }: Pick<IDrawerProps, "position" | "size">) => {
+    closed: ({ position }: Pick<IDrawerProps, "position">) => {
         const coords: { x: string | number; y: string | number } = {
             x: 0,
             y: 0,
         };
         switch (position) {
             case "right":
-                coords.x = size || DEFAULT_SIZE_H;
+                coords.x = "100%";
                 break;
             case "top":
-                coords.y = `-${size || DEFAULT_SIZE_V}`;
+                coords.y = "-100%";
                 break;
             case "bottom":
-                coords.y = size || DEFAULT_SIZE_V;
+                coords.y = "100%";
                 break;
             case "left":
             default:
-                coords.x = `-${size || DEFAULT_SIZE_H}`;
+                coords.x = "-100%";
                 break;
         }
         return {
@@ -62,21 +58,18 @@ const vDrawer: IVariants = {
     },
 };
 
-const Drawer = styled(motion.div)<Omit<IDrawerProps, "initialState" | "id">>`
+type IDrawerSCProps = Omit<IDrawerProps, "id">;
+const Drawer = styled(motion.div)<IDrawerSCProps>`
     position: fixed;
     transition: box-shadow 0.5s;
-    box-shadow: ${({ state, theme }) =>
-        `0 0 ${state == "open" ? "5px" : "0px"} ${theme.colors.defaultShadow}`};
+    min-width: 50px;
+    min-height: 50px;
+    padding: 0;
+    margin: 0;
     z-index: ${ZINDEX.drawer};
     background: ${({ theme }) => theme.colors.pageBackground};
-    width: ${({ position, size }) =>
-        !position || position == "left" || position == "right"
-            ? size || DEFAULT_SIZE_H
-            : undefined};
-    height: ${({ position, size }) =>
-        position == "top" || position == "bottom"
-            ? size || DEFAULT_SIZE_V
-            : undefined};
+    box-shadow: ${({ state, theme }) =>
+        `0 0 ${state == "open" ? "5px" : "0px"} ${theme.colors.defaultShadow}`};
     top: ${({ position }) => {
         switch (position) {
             case "bottom":
@@ -129,7 +122,7 @@ export const drawerEventDispatch = (id: string) =>
     window.dispatchEvent(new Event(getEventName(id)));
 
 export default (props: IDrawerProps & { children?: React.ReactNode }) => {
-    const { size, position, children, id, state } = props;
+    const { position, children, id, state } = props;
     const [drawerOpen, toggleDrawer] = useCycle<"closed" | "open">(
         "closed",
         "open"
@@ -149,12 +142,11 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     return (
         <Drawer
             position={position}
-            size={size}
             state={state || drawerOpen}
             variants={vDrawer}
             animate={state || drawerOpen}
             initial={false}
-            custom={{ size, position }}
+            custom={{ position }}
             children={children}
         />
     );
