@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { motion, useCycle } from "framer-motion";
 import { ZINDEX } from "../../config/constants";
+import ColorOverlay from "../ColorOverlay/ColorOverlay";
 
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
@@ -11,11 +12,13 @@ interface IDrawerBase {
 
 interface IDrawerEventBased extends IDrawerBase {
     id: string;
+    onRequestClose?: (toggle: () => void) => void;
     state?: never;
 }
 
 interface IDrawerStateBased extends IDrawerBase {
     state: "open" | "closed";
+    onRequestClose?: () => void;
     id?: never;
 }
 
@@ -58,15 +61,40 @@ const vDrawer: IVariants = {
     },
 };
 
+const vOverlay: IVariants = {
+    open: {
+        pointerEvents: "all",
+        opacity: 0.8,
+    },
+    closed: {
+        opacity: 0,
+        transitionEnd: {
+            pointerEvents: "none",
+        },
+    },
+};
+
+const DrawerContainer = styled(motion.div)`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: ${ZINDEX.drawer};
+    pointer-events: none;
+`;
+
+const Overlay = styled(motion.custom(ColorOverlay))``;
+
 type IDrawerSCProps = Omit<IDrawerProps, "id">;
 const Drawer = styled(motion.div)<IDrawerSCProps>`
-    position: fixed;
+    pointer-events: all;
+    position: absolute;
     transition: box-shadow 0.5s;
     min-width: 50px;
     min-height: 50px;
     padding: 0;
     margin: 0;
-    z-index: ${ZINDEX.drawer};
     background: ${({ theme }) => theme.colors.pageBackground};
     box-shadow: ${({ state, theme }) =>
         `0 0 ${state == "open" ? "5px" : "0px"} ${theme.colors.defaultShadow}`};
@@ -116,38 +144,51 @@ const Drawer = styled(motion.div)<IDrawerSCProps>`
     }};
 `;
 
-const getEventName = (id: string) => `TRC-drawer_${id}`;
+const getToggleEventName = (id: string) => `TRC-drawer_toggle_${id}`;
 
 export const drawerEventDispatch = (id: string) =>
-    window.dispatchEvent(new Event(getEventName(id)));
+    window.dispatchEvent(new Event(getToggleEventName(id)));
 
 export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     const { position, children, id, state } = props;
     const [drawerOpen, toggleDrawer] = useCycle<"closed" | "open">(
         "closed",
         "open"
-    );
+    ); // This state will only be used for EventBased Drawer
 
     const toggle = React.useCallback(() => toggleDrawer(), [toggleDrawer]);
 
+    const close = React.useCallback(() => {
+        // StateBased
+        if (props.state)
+            return props.onRequestClose ? props.onRequestClose() : null;
+
+        // EventBased
+        if (props.id)
+            return props.onRequestClose
+                ? props.onRequestClose(toggle)
+                : toggle();
+    }, [props, toggle]);
+
     React.useLayoutEffect(() => {
         if (!id) return;
-        const event = getEventName(id);
-        window.addEventListener(event, toggle);
+        const toggleEvent = getToggleEventName(id);
+        window.addEventListener(toggleEvent, toggle);
         return () => {
-            window.removeEventListener(event, toggle);
+            window.removeEventListener(toggleEvent, toggle);
         };
     }, [id, toggle]);
 
     return (
-        <Drawer
-            position={position}
-            state={state || drawerOpen}
-            variants={vDrawer}
-            animate={state || drawerOpen}
-            initial={false}
-            custom={{ position }}
-            children={children}
-        />
+        <DrawerContainer animate={state || drawerOpen} initial={false}>
+            <Overlay variants={vOverlay} onClick={close} />
+            <Drawer
+                position={position}
+                state={state || drawerOpen}
+                variants={vDrawer}
+                custom={{ position }}
+                children={children}
+            />
+        </DrawerContainer>
     );
 };

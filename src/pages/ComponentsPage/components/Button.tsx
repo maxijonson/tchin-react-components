@@ -68,7 +68,11 @@ export default () => {
     );
     return (
         <>
-            <Drawer state={drawerOpen} position="left">
+            <Drawer
+                state={drawerOpen}
+                position="left"
+                onRequestClose={() => toggleDrawer()}
+            >
                 <div>Hello</div>
             </Drawer>
             <Subtitle>Button</Subtitle>
