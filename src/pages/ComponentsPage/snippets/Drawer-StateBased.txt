@@ -1,0 +1,17 @@
+import { Drawer, toggleDrawer, Button } from "tchin-react-components";
+
+export default () => {
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+    return (
+        <>
+            <Drawer
+                state={drawerOpen ? "open" : "closed"}
+                onRequestClose={() => setDrawerOpen(false)}
+            >
+                <form>{/* ... */}</form>
+            </Drawer>
+            <Button onClick={() => setDrawerOpen(true)} />
+        </>
+    );
+};

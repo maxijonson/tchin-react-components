@@ -6,6 +6,7 @@ import {
     ButtonDocs,
     CatcherDocs,
     TableDocs,
+    DrawerDocs,
 } from "./components";
 import app from "../../app";
 
@@ -63,6 +64,9 @@ export default () => {
                 <br />
                 <hr />
                 <TableDocs />
+                <br />
+                <hr />
+                <DrawerDocs />
                 <br />
                 <hr />
             </PaddingH>

@@ -1,0 +1,15 @@
+import { Drawer, toggleDrawer, Button } from "tchin-react-components";
+
+export default () => (
+    <>
+        <Drawer
+            id="drawer"
+            onRequestClose={(toggle) => {
+                if (userCompletedDrawerForm) toggle();
+            }}
+        >
+            <form>{/* ... */}</form>
+        </Drawer>
+        <Button onClick={() => toggleDrawer("drawer")} />
+    </>
+);

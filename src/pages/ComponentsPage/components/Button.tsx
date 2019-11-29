@@ -1,6 +1,5 @@
 import React from "react";
-import { useCycle } from "framer-motion";
-import { Button, Table, TextStyles, Drawer } from "../../../components";
+import { Button, Table, TextStyles } from "../../../components";
 import tableFields from "../tableFields";
 
 const { TextLeft, CodeSpan, Subtitle, H3, H4, P } = TextStyles;
@@ -61,52 +60,38 @@ const Buttons = ({
     </>
 );
 
-export default () => {
-    const [drawerOpen, toggleDrawer] = useCycle<"closed" | "open">(
-        "closed",
-        "open"
-    );
-    return (
-        <>
-            <Drawer
-                state={drawerOpen}
-                position="left"
-                onRequestClose={() => toggleDrawer()}
-            >
-                <div>Hello</div>
-            </Drawer>
-            <Subtitle>Button</Subtitle>
-            <TextLeft>
-                A polymorphic button component. Its color is based on{" "}
-                <CodeSpan>IContextState</CodeSpan> and include 2 alternative
-                variants.
-            </TextLeft>
-            <H3>Examples</H3>
-            <H4>Default</H4>
-            <P>
-                <Buttons />
-                <Button onClick={() => toggleDrawer()}>Toggle Drawer</Button>
-            </P>
-            <H4>Outlined</H4>
-            <P>
-                <Buttons variant="outlined" />
-            </P>
-            <H4>Text</H4>
-            <P>
-                <Buttons variant="text" />
-            </P>
-            <H4>Disabled</H4>
-            <P>
-                <Buttons disabled />
-            </P>
-            <P>
-                <Buttons variant="outlined" disabled />
-            </P>
-            <P>
-                <Buttons variant="text" disabled />
-            </P>
-            <H3>Props</H3>
-            <Table fields={tableFields} data={buttonProps} />
-        </>
-    );
-};
+export default () => (
+    <>
+        <Subtitle>Button</Subtitle>
+        <TextLeft>
+            A polymorphic button component. Its color is based on{" "}
+            <CodeSpan>IContextState</CodeSpan> and include 2 alternative
+            variants.
+        </TextLeft>
+        <H3>Examples</H3>
+        <H4>Default</H4>
+        <P>
+            <Buttons />
+        </P>
+        <H4>Outlined</H4>
+        <P>
+            <Buttons variant="outlined" />
+        </P>
+        <H4>Text</H4>
+        <P>
+            <Buttons variant="text" />
+        </P>
+        <H4>Disabled</H4>
+        <P>
+            <Buttons disabled />
+        </P>
+        <P>
+            <Buttons variant="outlined" disabled />
+        </P>
+        <P>
+            <Buttons variant="text" disabled />
+        </P>
+        <H3>Props</H3>
+        <Table fields={tableFields} data={buttonProps} />
+    </>
+);
