@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { motion, useCycle } from "framer-motion";
 import { ZINDEX } from "../../config/constants";
 import ColorOverlay from "../ColorOverlay/ColorOverlay";
+import { Hooks } from "../../modules";
+
+const { useConnect } = Hooks;
 
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
@@ -23,16 +26,18 @@ interface IDrawerStateBased extends IDrawerBase {
 }
 
 type IDrawerProps = IDrawerEventBased | IDrawerStateBased;
+type ICustomVariants = Pick<IDrawerProps, "position"> & { shadow: string };
 
 const vDrawer: IVariants = {
-    open: {
+    open: ({ shadow }: ICustomVariants) => ({
         x: 0,
         y: 0,
+        boxShadow: `0 0 5px ${shadow}`,
         transition: {
             duration: 0.5,
         },
-    },
-    closed: ({ position }: Pick<IDrawerProps, "position">) => {
+    }),
+    closed: ({ position, shadow }: ICustomVariants) => {
         const coords: { x: string | number; y: string | number } = {
             x: 0,
             y: 0,
@@ -56,6 +61,9 @@ const vDrawer: IVariants = {
             ...coords,
             transition: {
                 duration: 0.5,
+            },
+            transitionEnd: {
+                boxShadow: `0 0 0px ${shadow}`,
             },
         };
     },
@@ -90,14 +98,11 @@ type IDrawerSCProps = Omit<IDrawerProps, "id">;
 const Drawer = styled(motion.div)<IDrawerSCProps>`
     pointer-events: all;
     position: absolute;
-    transition: box-shadow 0.5s;
     min-width: 50px;
     min-height: 50px;
     padding: 0;
     margin: 0;
     background: ${({ theme }) => theme.colors.pageBackground};
-    box-shadow: ${({ state, theme }) =>
-        `0 0 ${state == "open" ? "5px" : "0px"} ${theme.colors.defaultShadow}`};
     top: ${({ position }) => {
         switch (position) {
             case "bottom":
@@ -151,6 +156,7 @@ export const drawerEventDispatch = (id: string) =>
 
 export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     const { position, children, id, state } = props;
+    const theme = useConnect(({ theme }) => theme);
     const [drawerOpen, toggleDrawer] = useCycle<"closed" | "open">(
         "closed",
         "open"
@@ -186,7 +192,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
                 position={position}
                 state={state || drawerOpen}
                 variants={vDrawer}
-                custom={{ position }}
+                custom={{ position, shadow: theme.colors.defaultShadow }}
                 children={children}
             />
         </DrawerContainer>
