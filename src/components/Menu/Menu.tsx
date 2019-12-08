@@ -101,9 +101,6 @@ const staggerChildren: IVariants = {
 
 const Menu = styled(motion.nav)`
     position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
     z-index: ${ZINDEX.menu};
     transition: color ${THEME_TRANSITION_TIME}s;
     color: ${({ theme }) => theme.colors.defaultText};
@@ -140,13 +137,13 @@ const Backdrop = styled(motion.div)`
     top: 0;
     left: 0;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
     backdrop-filter: blur(4px);
 `;
 
-const Svg = styled.svg<ReturnType<typeof useGetDimensions> & { open: boolean }>`
-    width: ${({ width, open }) => (open ? width : 0)};
-    height: ${({ height, open }) => (open ? height : 0)};
+const Svg = styled.svg<{ open: boolean }>`
+    width: ${({ open }) => !open && 0};
+    height: ${({ open }) => !open && 0};
     transition: ${({ open }) => (open ? 0 : "0.75s 0.8s")};
 `;
 

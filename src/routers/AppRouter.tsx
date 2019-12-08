@@ -4,21 +4,19 @@ import { Route, Router, Switch } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 import app from "../app";
-import { Footer, Menu, Scrollbar, ToastStyle } from "../components";
+import { Footer, Scrollbar, ToastStyle } from "../components";
 import { THEME_TRANSITION_TIME } from "../config";
 import { Hooks } from "../modules";
 
 const { useConnect } = Hooks;
 
-const PageWrapperStyled = styled.div`
-    background-color: ${({ theme }) => theme.colors.pageBackground};
-    width: auto;
-    min-height: 98.45250474vh;
-    transition: all ${THEME_TRANSITION_TIME}s;
+const AppWrapper = styled.div`
+    display: flex;
     font-size: 1.6em;
-    flex: 1 0 auto;
-    overflow: auto;
+    min-height: 100vh;
     color: ${({ theme }) => theme.colors.defaultText};
+    background-color: ${({ theme }) => theme.colors.pageBackground};
+    transition: all ${THEME_TRANSITION_TIME}s;
 `;
 
 export default ({ projectVersion }: { projectVersion?: string }) => {
@@ -27,7 +25,7 @@ export default ({ projectVersion }: { projectVersion?: string }) => {
         <ThemeProvider theme={theme}>
             <Router history={app.history}>
                 <>
-                    <PageWrapperStyled theme={theme}>
+                    <AppWrapper>
                         <Scrollbar />
                         <ToastStyle theme={theme} />
                         <Switch>
@@ -43,9 +41,8 @@ export default ({ projectVersion }: { projectVersion?: string }) => {
                                 )
                             )}
                         </Switch>
-                    </PageWrapperStyled>
+                    </AppWrapper>
                     <Footer projectVersion={projectVersion} />
-                    <Menu />
                 </>
             </Router>
         </ThemeProvider>

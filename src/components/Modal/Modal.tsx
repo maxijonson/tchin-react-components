@@ -7,7 +7,7 @@ import { THEME_TRANSITION_TIME, ZINDEX } from "../../../src/config";
 import { Hooks } from "../../../src/modules";
 import app from "../../app";
 
-const { useConnect, usePortal } = Hooks;
+const { useConnect, usePortalOld } = Hooks;
 
 interface IPoseOptions {
     top?: boolean;
@@ -108,7 +108,7 @@ export default (props: IModalOwnProps) => {
     } = props;
 
     const { theme } = useConnect(({ theme }) => ({ theme }));
-    const target = usePortal(parent || document.body, "modal");
+    const target = usePortalOld(parent || document.body, "modal");
 
     const preventPropagation = React.useMemo(
         () => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

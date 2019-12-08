@@ -3,32 +3,42 @@ import styled from "styled-components";
 import { motion, useCycle } from "framer-motion";
 import { ZINDEX } from "../../config/constants";
 import ColorOverlay from "../ColorOverlay/ColorOverlay";
+import Portal from "../Portal/Portal";
 import { Hooks } from "../../modules";
 
 const { useConnect } = Hooks;
 
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
-interface IDrawerBase {
-    position?: "left" | "right" | "bottom" | "top";
+interface ITemporaryDrawer {
+    persistent?: false;
+    position?: "left" | "right" | "top" | "bottom";
 }
 
-interface IDrawerEventBased extends IDrawerBase {
+interface IPersistentDrawer {
+    persistent: true;
+    position?: "left" | "right";
+    width?: string;
+}
+
+interface IDrawerEventBased {
     id: string;
     onRequestClose?: (toggle: () => void) => void;
     state?: never;
 }
 
-interface IDrawerStateBased extends IDrawerBase {
+interface IDrawerStateBased {
     state: "open" | "closed";
     onRequestClose?: () => void;
     id?: never;
 }
 
-type IDrawerProps = IDrawerEventBased | IDrawerStateBased;
+type IDrawerProps = (IDrawerEventBased | IDrawerStateBased) &
+    (ITemporaryDrawer | IPersistentDrawer);
+
 type ICustomVariants = Pick<IDrawerProps, "position"> & { shadow: string };
 
-const vDrawer: IVariants = {
+const vTemporaryDrawer: IVariants = {
     open: ({ shadow }: ICustomVariants) => ({
         x: 0,
         y: 0,
@@ -69,6 +79,44 @@ const vDrawer: IVariants = {
     },
 };
 
+const vContentPusher: IVariants = {
+    open: ({ width }) => ({
+        width,
+        transition: {
+            duration: 0.5,
+        },
+    }),
+    closed: {
+        width: "0",
+        transition: {
+            duration: 0.5,
+        },
+    },
+};
+
+const vPersistentDrawer: IVariants = {
+    open: {
+        x: 0,
+        transition: {
+            duration: 0.5,
+        },
+    },
+    closed: ({ position }) => ({
+        x: (() => {
+            switch (position) {
+                case "right":
+                    return "100%";
+                case "left":
+                default:
+                    return "-100%";
+            }
+        })(),
+        transition: {
+            duration: 0.5,
+        },
+    }),
+};
+
 const vOverlay: IVariants = {
     open: {
         pointerEvents: "all",
@@ -94,7 +142,7 @@ const DrawerContainer = styled(motion.div)`
 
 const Overlay = styled(motion.custom(ColorOverlay))``;
 
-type IDrawerSCProps = Omit<IDrawerProps, "id">;
+type IDrawerSCProps = Partial<IDrawerProps>;
 const Drawer = styled(motion.div)<IDrawerSCProps>`
     pointer-events: all;
     position: absolute;
@@ -149,6 +197,41 @@ const Drawer = styled(motion.div)<IDrawerSCProps>`
     }};
 `;
 
+type IPersistentDrawerProps = Partial<IPersistentDrawer>;
+const ContentPusher = styled(motion.div)<IPersistentDrawerProps>`
+    order: ${({ position }) => {
+        switch (position) {
+            case "right":
+                return 1;
+            case "left":
+            default:
+                return -1;
+        }
+    }};
+    flex-shrink: 0;
+    flex: 0 0 auto;
+    width: ${({ width }) => width};
+`;
+
+const PersistentDrawer = styled(motion.div)<IPersistentDrawerProps>`
+    width: ${({ width }) => width};
+    z-index: ${ZINDEX.drawer};
+
+    top: 0;
+    flex: 1 0 auto;
+    height: 100vh;
+    display: flex;
+    position: fixed;
+    overflow-y: auto;
+    flex-direction: column;
+
+    background-color: ${({ theme }) => theme.colors.pageBackground};
+    border-right: ${({ position, theme }) =>
+        position == "left" && `1px solid ${theme.colors.drawerBorder}`};
+    border-left: ${({ position, theme }) =>
+        position == "right" && `1px solid ${theme.colors.drawerBorder}`};
+`;
+
 const getToggleEventName = (id: string) => `TRC-drawer_toggle_${id}`;
 
 export const drawerEventDispatch = (id: string) =>
@@ -185,16 +268,46 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         };
     }, [id, toggle]);
 
+    // Temporary drawer
+    if (!props.persistent)
+        return (
+            <>
+                <DrawerContainer animate={state || drawerOpen} initial={false}>
+                    <Overlay variants={vOverlay} onClick={close} />
+                    <Drawer
+                        position={position}
+                        state={state || drawerOpen}
+                        variants={vTemporaryDrawer}
+                        custom={{
+                            position,
+                            shadow: theme.colors.defaultShadow,
+                        }}
+                        children={children}
+                    />
+                </DrawerContainer>
+            </>
+        );
+
+    // Persistent Drawer
     return (
-        <DrawerContainer animate={state || drawerOpen} initial={false}>
-            <Overlay variants={vOverlay} onClick={close} />
-            <Drawer
-                position={position}
-                state={state || drawerOpen}
-                variants={vDrawer}
-                custom={{ position, shadow: theme.colors.defaultShadow }}
-                children={children}
-            />
-        </DrawerContainer>
+        <Portal query="#app > div">
+            <ContentPusher
+                animate={state || drawerOpen}
+                variants={vContentPusher}
+                initial={false}
+                position={props.position || "left"}
+                width={props.width || "300px"}
+                custom={{ width: props.width || "300px" }}
+            >
+                <PersistentDrawer
+                    position={props.position || "left"}
+                    width={props.width || "300px"}
+                    variants={vPersistentDrawer}
+                    custom={{ position }}
+                >
+                    <div>{children}</div>
+                </PersistentDrawer>
+            </ContentPusher>
+        </Portal>
     );
 };

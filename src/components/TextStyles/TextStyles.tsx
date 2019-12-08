@@ -56,3 +56,10 @@ export const H4 = styled.h4`
     font-size: 1.17em;
     color: ${({ theme }) => theme.colors.altText};
 `;
+
+export const H5 = styled.h5`
+    margin: 0;
+    padding: 0;
+    font-size: 0.9em;
+    color: ${({ theme }) => theme.colors.altText};
+`;

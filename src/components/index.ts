@@ -27,3 +27,4 @@ export {
     default as Drawer,
     drawerEventDispatch as toggleDrawer,
 } from "./Drawer/Drawer";
+export { default as Portal } from "./Portal/Portal";

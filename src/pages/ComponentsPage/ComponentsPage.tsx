@@ -1,5 +1,5 @@
 import React from "react";
-import { Layouts, TextStyles } from "../../components";
+import { Layouts, TextStyles, Menu } from "../../components";
 import { Hooks } from "../../modules";
 import {
     BackgroundDocs,
@@ -11,7 +11,7 @@ import {
 import app from "../../app";
 
 const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
-const { Viewport, Center, PaddingH } = Layouts;
+const { Viewport, Center, PaddingH, Page } = Layouts;
 const { useBackground } = Hooks;
 
 export default () => {
@@ -22,7 +22,8 @@ export default () => {
     );
 
     return (
-        <>
+        <Page>
+            <Menu />
             <BGViewport>
                 <Center>
                     <div style={{ textAlign: "center" }}>
@@ -70,6 +71,6 @@ export default () => {
                 <br />
                 <hr />
             </PaddingH>
-        </>
+        </Page>
     );
 };

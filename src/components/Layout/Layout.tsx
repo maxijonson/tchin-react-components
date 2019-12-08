@@ -2,18 +2,16 @@ import styled from "styled-components";
 
 type ICommonCSS = "inherit" | "initial" | "unset";
 
-const BaseLayout = styled.div<{ noHeight?: boolean }>`
-    height: ${({ noHeight }) => !noHeight && "100%"};
-`;
+const BaseLayout = styled.div<{ noHeight?: boolean }>``;
 
 export const Viewport = styled.div<{ width?: number; height?: number }>`
-    width: ${({ width }) => (width == undefined ? 100 : width)}vw;
+    width: ${({ width }) => (width == undefined ? 100 : width)}%;
     height: ${({ height }) => (height == undefined ? 100 : height)}vh;
 `;
 
 export const MarginH = styled(BaseLayout)<{ amount?: number }>`
-    margin-right: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
-    margin-left: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
+    margin-right: ${({ amount }) => (amount == undefined ? 7 : amount)}%;
+    margin-left: ${({ amount }) => (amount == undefined ? 7 : amount)}%;
     max-height: 100%;
     overflow-y: scroll;
 `;
@@ -38,8 +36,8 @@ export const Margin = styled(BaseLayout)<{
 `;
 
 export const PaddingH = styled(BaseLayout)<{ amount?: number }>`
-    padding-right: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
-    padding-left: ${({ amount }) => (amount == undefined ? 5 : amount)}%;
+    padding-right: ${({ amount }) => (amount == undefined ? 7 : amount)}%;
+    padding-left: ${({ amount }) => (amount == undefined ? 7 : amount)}%;
     max-height: 100%;
     overflow-y: scroll;
 `;
@@ -139,4 +137,10 @@ export const Right = styled.div`
         display: inline-block;
         text-align: initial;
     }
+`;
+
+export const Page = styled.main`
+    position: relative;
+    order: 0;
+    flex-grow: 1;
 `;

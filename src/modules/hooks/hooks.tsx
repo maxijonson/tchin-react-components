@@ -31,7 +31,7 @@ export const useConnect = <S extends {}, D extends {}>(
     };
 };
 
-export const usePortal = (parent: HTMLElement, className?: string) => {
+export const usePortalOld = (parent: HTMLElement, className?: string) => {
     const elRef = React.useRef(document.createElement("div"));
     elRef.current.className = className || "";
     React.useEffect(() => {

@@ -25,6 +25,7 @@ export const defaultThemes: IThemes = {
             themeSwitchOff: normal.onyx,
             card: pitchLight.white,
             cardBorder: veryLight.onyx,
+            drawerBorder: veryLight.onyx,
             defaultShadow: normal.black,
             cardShadow: dark.white,
             cardSubtitle: light.orange, // TODO: remove with AdvancedCard
@@ -60,6 +61,7 @@ export const defaultThemes: IThemes = {
             themeSwitchOff: normal.onyx,
             card: dark.onyx,
             cardBorder: veryDark.white,
+            drawerBorder: veryDark.white,
             defaultShadow: normal.white,
             cardShadow: pitchDark.onyx,
             cardSubtitle: dark.orange,
