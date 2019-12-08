@@ -60,6 +60,14 @@ const persistentDrawerProps = [
         default: "300px",
         required: false,
     },
+    {
+        prop: "allowMobile",
+        definition:
+            "Disables the default behavior of converting persistent drawers to temporary drawers on smaller devices. Strongly not recommended.",
+        type: "boolean",
+        default: "false",
+        required: false,
+    },
 ];
 const drawerEventProps = [
     {
@@ -230,10 +238,11 @@ export default () => (
         </CenterH>
         <H4>Persistent Drawers</H4>
         <P>
-            Persistent drawers move the content to make space for them. It is
-            not recommended to use these for mobile devices, prefer temporary
-            drawers instead. Note that only left and right positions are
-            available when using persistent drawers.
+            Persistent drawers move the content to make space for them. Since
+            they are not recommended for smaller devices, they will
+            automatically be converted to temporary drawers for those devices
+            (this behavior can be disabled). Note that only left and right
+            positions are available when using persistent drawers.
         </P>
         <CenterH>
             <Button

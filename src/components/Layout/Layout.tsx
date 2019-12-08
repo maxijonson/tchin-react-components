@@ -140,6 +140,7 @@ export const Right = styled.div`
 `;
 
 export const Page = styled.main`
+    width: 100%;
     position: relative;
     order: 0;
     flex-grow: 1;

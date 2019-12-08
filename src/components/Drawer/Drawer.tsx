@@ -5,8 +5,9 @@ import { ZINDEX } from "../../config/constants";
 import ColorOverlay from "../ColorOverlay/ColorOverlay";
 import Portal from "../Portal/Portal";
 import { Hooks } from "../../modules";
+import { BREAKPOINTS } from "../../config";
 
-const { useConnect } = Hooks;
+const { useConnect, useCurrentBreakpoint } = Hooks;
 
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
@@ -19,6 +20,7 @@ interface IPersistentDrawer {
     persistent: true;
     position?: "left" | "right";
     width?: string;
+    allowMobile?: boolean;
 }
 
 interface IDrawerEventBased {
@@ -232,6 +234,9 @@ const PersistentDrawer = styled(motion.div)<IPersistentDrawerProps>`
         position == "right" && `1px solid ${theme.colors.drawerBorder}`};
 `;
 
+const defaultWidth = "300px";
+const defaultMobileWidth = "240px";
+
 const getToggleEventName = (id: string) => `TRC-drawer_toggle_${id}`;
 
 export const drawerEventDispatch = (id: string) =>
@@ -244,6 +249,10 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         "closed",
         "open"
     ); // This state will only be used for EventBased Drawer
+    const breakpoint = useCurrentBreakpoint();
+    const isMobile = React.useMemo(() => breakpoint < BREAKPOINTS.lg, [
+        breakpoint,
+    ]);
 
     const toggle = React.useCallback(() => toggleDrawer(), [toggleDrawer]);
 
@@ -289,19 +298,29 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         );
 
     // Persistent Drawer
-    return (
+    return !isMobile || props.allowMobile ? (
         <Portal query="#app > div">
             <ContentPusher
                 animate={state || drawerOpen}
                 variants={vContentPusher}
                 initial={false}
                 position={props.position || "left"}
-                width={props.width || "300px"}
-                custom={{ width: props.width || "300px" }}
+                width={
+                    props.width ||
+                    (isMobile ? defaultMobileWidth : defaultWidth)
+                }
+                custom={{
+                    width:
+                        props.width ||
+                        (isMobile ? defaultMobileWidth : defaultWidth),
+                }}
             >
                 <PersistentDrawer
                     position={props.position || "left"}
-                    width={props.width || "300px"}
+                    width={
+                        props.width ||
+                        (isMobile ? defaultMobileWidth : defaultWidth)
+                    }
                     variants={vPersistentDrawer}
                     custom={{ position }}
                 >
@@ -309,5 +328,22 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
                 </PersistentDrawer>
             </ContentPusher>
         </Portal>
+    ) : (
+        <>
+            <DrawerContainer animate={state || drawerOpen} initial={false}>
+                <Overlay variants={vOverlay} onClick={close} />
+                <Drawer
+                    position={position}
+                    state={state || drawerOpen}
+                    variants={vTemporaryDrawer}
+                    custom={{
+                        position,
+                        shadow: theme.colors.defaultShadow,
+                    }}
+                    children={children}
+                    style={{ width: props.width || defaultMobileWidth }}
+                />
+            </DrawerContainer>
+        </>
     );
 };
