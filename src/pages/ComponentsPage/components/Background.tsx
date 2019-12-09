@@ -78,7 +78,11 @@ export default () => {
             <CodeSnippet>{rawBackgroundHook}</CodeSnippet>
             <H3>Examples</H3>
             {/* TODO: Editable test component with form elements */}
-            <Flex itemMaxWidth="35%" justifyContent="center">
+            <Flex
+                itemMaxWidth="35%"
+                itemMinWidth="300px"
+                justifyContent="center"
+            >
                 <Card style={{ position: "relative", overflow: "hidden" }}>
                     <Background background="assets/images/example-background.jpg" />
                     <div style={{ position: "relative" }}>

@@ -86,14 +86,16 @@ type IFlexJustifyContent =
     | "space-evenly"
     | "start"
     | "unsafe";
-export const Flex = styled.div<{
+interface IFlexProps {
     itemMaxWidth?: string;
+    itemMinWidth?: string;
     direction?: IFlexDirection;
     wrap?: IFlexWrap;
     alignItems?: IFlexAlignItems;
     alignContent?: IFlexAlignContent;
     justifyContent?: IFlexJustifyContent;
-}>`
+}
+export const Flex = styled.div<IFlexProps>`
     display: flex;
     flex-direction: ${({ direction }) => direction || "row"};
     flex-wrap: ${({ wrap }) => wrap || "wrap"};
@@ -102,6 +104,7 @@ export const Flex = styled.div<{
     align-content: ${({ alignContent }) => alignContent || "flex-start"};
 
     & > * {
+        min-width: ${({ itemMinWidth }) => itemMinWidth || "auto"};
         max-width: ${({ itemMaxWidth }) => itemMaxWidth || "auto"};
     }
 `;

@@ -144,7 +144,11 @@ export default () => {
             </TextLeft>
             <CodeSnippet>{rawCatcherHOC}</CodeSnippet>
             <H3>Examples</H3>
-            <Flex itemMaxWidth="35%" justifyContent="center">
+            <Flex
+                itemMaxWidth="35%"
+                itemMinWidth="300px"
+                justifyContent="center"
+            >
                 <Catcher>
                     <CatcherCard title="Default fallback (component)" />
                 </Catcher>
