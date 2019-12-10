@@ -84,6 +84,7 @@ const vTemporaryDrawer: IVariants = {
 const vContentPusher: IVariants = {
     open: ({ width }) => ({
         width,
+        display: "inherit",
         transition: {
             duration: 0.5,
         },
@@ -92,6 +93,9 @@ const vContentPusher: IVariants = {
         width: "0",
         transition: {
             duration: 0.5,
+        },
+        transitionEnd: {
+            display: "none",
         },
     },
 };
@@ -220,6 +224,25 @@ const PersistentDrawer = styled(motion.div)<IPersistentDrawerProps>`
     z-index: ${ZINDEX.drawer};
 
     top: 0;
+    left: ${({ position }) => {
+        switch (position) {
+            case "right":
+                return undefined;
+            case "left":
+            default:
+                return 0;
+        }
+    }};
+    right: ${({ position }) => {
+        switch (position) {
+            case "right":
+                return 0;
+            case "left":
+            default:
+                return undefined;
+        }
+    }};
+
     flex: 1 0 auto;
     height: 100vh;
     display: flex;
@@ -234,7 +257,7 @@ const PersistentDrawer = styled(motion.div)<IPersistentDrawerProps>`
         position == "right" && `1px solid ${theme.colors.drawerBorder}`};
 `;
 
-const defaultWidth = "240px";
+const defaultWidth = "300px";
 const defaultMobileWidth = "200px";
 
 const getToggleEventName = (id: string) => `TRC-drawer_toggle_${id}`;
