@@ -22,10 +22,6 @@ const Table = styled.table<{ stripped?: boolean }>`
         max-width: 500px;
     }
 
-    & td {
-        word-break: break-word;
-    }
-
     & tbody tr:nth-child(odd) td {
         background: ${({ theme, stripped }) =>
             stripped &&

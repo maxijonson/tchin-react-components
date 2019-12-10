@@ -9,6 +9,7 @@ import {
     Layouts,
     Table,
 } from "../../../components";
+import { BREAKPOINTS } from "../../../config";
 import tableFields from "../tableFields";
 
 import rawEventBased from "../snippets/Drawer-EventBased.txt";
@@ -42,7 +43,7 @@ const persistentDrawerProps = [
         prop: "persistent",
         definition: "Makes the drawer persistent",
         type: `true`,
-        default: "false",
+        default: "",
         required: true,
     },
     {
@@ -61,11 +62,17 @@ const persistentDrawerProps = [
         required: false,
     },
     {
-        prop: "allowMobile",
-        definition:
-            "Disables the default behavior of converting persistent drawers to temporary drawers on smaller devices. Strongly not recommended.",
-        type: "boolean",
-        default: "false",
+        prop: "allowSize",
+        definition: `Change the allowed size on which persistent Drawers appear.`,
+        type: `"xs" | "sm" | "md" | "lg" | "xl"`,
+        default: "xl",
+        required: false,
+    },
+    {
+        prop: "portalQuery",
+        definition: `Where the Portal renders the Drawer.`,
+        type: `string`,
+        default: "#app > div",
         required: false,
     },
 ];
@@ -266,6 +273,14 @@ export default () => (
         <Table fields={tableFields} data={temporaryDrawerProps} />
         <H5>Persistent Drawer</H5>
         <Table fields={tableFields} data={persistentDrawerProps} />
+        <P>
+            <i>
+                As of this version, the sizes are the following: xs (
+                {BREAKPOINTS.xspx}), sm ({BREAKPOINTS.smpx}), md (
+                {BREAKPOINTS.mdpx}), lg ({BREAKPOINTS.lgpx}), xl (
+                {BREAKPOINTS.xlpx}),
+            </i>
+        </P>
         <H4>Drawer toggle method</H4>
         <H5>EventBased</H5>
         <Table fields={tableFields} data={drawerEventProps} />

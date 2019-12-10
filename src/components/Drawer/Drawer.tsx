@@ -20,7 +20,8 @@ interface IPersistentDrawer {
     persistent: true;
     position?: "left" | "right";
     width?: string;
-    allowMobile?: boolean;
+    allowSize?: "xs" | "sm" | "md" | "lg";
+    portalQuery?: string;
 }
 
 interface IDrawerEventBased {
@@ -258,7 +259,6 @@ const PersistentDrawer = styled(motion.div)<IPersistentDrawerProps>`
 `;
 
 const defaultWidth = "240px";
-const defaultMobileWidth = "200px";
 
 const getToggleEventName = (id: string) => `TRC-drawer_toggle_${id}`;
 
@@ -273,9 +273,6 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         "open"
     ); // This state will only be used for EventBased Drawer
     const breakpoint = useCurrentBreakpoint();
-    const isMobile = React.useMemo(() => breakpoint < BREAKPOINTS.lg, [
-        breakpoint,
-    ]);
 
     const toggle = React.useCallback(() => toggleDrawer(), [toggleDrawer]);
 
@@ -319,31 +316,23 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
                 </DrawerContainer>
             </>
         );
-
+    const sizeAllowed = breakpoint >= BREAKPOINTS[props.allowSize || "xl"];
     // Persistent Drawer
-    return !isMobile || props.allowMobile ? (
-        <Portal query="#app > div">
+    return sizeAllowed ? (
+        <Portal query={props.portalQuery || "#app > div"}>
             <ContentPusher
                 animate={state || drawerOpen}
                 variants={vContentPusher}
                 initial={false}
                 position={props.position || "left"}
-                width={
-                    props.width ||
-                    (isMobile ? defaultMobileWidth : defaultWidth)
-                }
+                width={props.width || defaultWidth}
                 custom={{
-                    width:
-                        props.width ||
-                        (isMobile ? defaultMobileWidth : defaultWidth),
+                    width: props.width || defaultWidth,
                 }}
             >
                 <PersistentDrawer
                     position={props.position || "left"}
-                    width={
-                        props.width ||
-                        (isMobile ? defaultMobileWidth : defaultWidth)
-                    }
+                    width={props.width || defaultWidth}
                     variants={vPersistentDrawer}
                     custom={{ position }}
                 >
@@ -364,7 +353,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
                         shadow: theme.colors.defaultShadow,
                     }}
                     children={children}
-                    style={{ width: props.width || defaultMobileWidth }}
+                    style={{ width: props.width || defaultWidth }}
                 />
             </DrawerContainer>
         </>

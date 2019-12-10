@@ -43,6 +43,7 @@ export default ({ children }: { children: React.ReactElement }) => {
                     maxWidth: "100%",
                     overflow: "scroll",
                     lineHeight: 1,
+                    padding: "10px 0 10px 5px",
                 }}
             >
                 {children}
