@@ -257,7 +257,7 @@ const PersistentDrawer = styled(motion.div)<IPersistentDrawerProps>`
         position == "right" && `1px solid ${theme.colors.drawerBorder}`};
 `;
 
-const defaultWidth = "300px";
+const defaultWidth = "240px";
 const defaultMobileWidth = "200px";
 
 const getToggleEventName = (id: string) => `TRC-drawer_toggle_${id}`;
