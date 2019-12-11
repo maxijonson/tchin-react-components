@@ -4,7 +4,7 @@ import { Route, Router, Switch } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 import app from "../app";
-import { Footer, Scrollbar, ToastStyle } from "../components";
+import { Scrollbar, ToastStyle } from "../components";
 import { THEME_TRANSITION_TIME } from "../config";
 import { Hooks } from "../modules";
 
@@ -19,7 +19,7 @@ const AppWrapper = styled.div`
     transition: all ${THEME_TRANSITION_TIME}s;
 `;
 
-export default ({ projectVersion }: { projectVersion?: string }) => {
+export default () => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
     return (
         <ThemeProvider theme={theme}>
@@ -42,7 +42,6 @@ export default ({ projectVersion }: { projectVersion?: string }) => {
                             )}
                         </Switch>
                     </AppWrapper>
-                    <Footer projectVersion={projectVersion} />
                 </>
             </Router>
         </ThemeProvider>

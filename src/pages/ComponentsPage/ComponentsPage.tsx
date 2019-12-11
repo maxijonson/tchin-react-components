@@ -1,5 +1,5 @@
 import React from "react";
-import { Layouts, TextStyles, Menu } from "../../components";
+import { Layouts, TextStyles } from "../../components";
 import { Hooks } from "../../modules";
 import {
     BackgroundDocs,
@@ -23,7 +23,6 @@ export default () => {
 
     return (
         <Page>
-            <Menu />
             <BGViewport>
                 <Center>
                     <div style={{ textAlign: "center" }}>

@@ -64,7 +64,8 @@ interface IAppInitOptions {
     reducers?: {
         [name: string]: (state: any, action: any) => any;
     };
-    defaultState?: IStoreState;
+    defaultState?: Partial<IStoreState>;
+    version?: string;
 }
 
 const DEFAULT_LNG = "en";
@@ -102,22 +103,23 @@ class App {
     private static _fonts: IFonts;
     private static _store: Store<IStoreState>;
     private static _themes: IThemes;
+    private static _version: string | undefined;
 
-    private constructor(options: IAppInitOptions) {
-        const {
-            routes,
-            socials,
-            historyOptions,
-            enforceSSL,
-            translations = { fr: {}, en: {} },
-            fonts,
-            themes = { light: {}, dark: {} },
-            reducers = {},
-            defaultState = {},
-        } = options;
-
+    private constructor({
+        routes,
+        socials,
+        historyOptions,
+        enforceSSL,
+        translations = { fr: {}, en: {} },
+        fonts,
+        themes = { light: {}, dark: {} },
+        reducers = {},
+        defaultState = {},
+        version,
+    }: IAppInitOptions) {
         if (enforceSSL) this.enforceSSL();
 
+        App._version = version;
         App._routes = routes || [];
         App._socials = socials || [];
         App._history = createBrowserHistory(historyOptions);
@@ -242,6 +244,10 @@ class App {
 
     public static get instance() {
         return this._instance;
+    }
+
+    public get version() {
+        return App._version;
     }
 
     public get fonts() {

@@ -1,4 +1,8 @@
+import React from "react";
 import styled from "styled-components";
+import Footer from "../Footer/Footer";
+import Menu from "../Menu/Menu";
+import app from "../../app";
 
 type ICommonCSS = "inherit" | "initial" | "unset";
 
@@ -142,9 +146,16 @@ export const Right = styled.div`
     }
 `;
 
-export const Page = styled.main`
+const PageContainer = styled.main`
     width: 100%;
     position: relative;
     order: 0;
     flex-grow: 1;
 `;
+export const Page = ({ children }: { children: React.ReactNode }) => (
+    <PageContainer>
+        <Menu />
+        {children}
+        <Footer projectVersion={app.version} />
+    </PageContainer>
+);
