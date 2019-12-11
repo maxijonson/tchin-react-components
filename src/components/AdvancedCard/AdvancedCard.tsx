@@ -17,49 +17,49 @@ import app from "../../app";
 
 const { useConnect } = Hooks;
 
-type IThemeProps = ICardInternalProps & ICardProps & ISCThemeProp;
+type IThemeProps = ICardInternalProps & ICardProps;
 
 // CARD TITLE
 
-const DTitle = styled.h1`
+const DTitle = styled.h1<IThemeProps>`
     font-size: 4rem;
     font-family: ${app.fonts.roboto.family};
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
-        padding-left: ${({ bodyAlignment }: IThemeProps) =>
+        padding-left: ${({ bodyAlignment }) =>
             bodyAlignment == "right" && "50%"};
-        padding-right: ${({ bodyAlignment }: IThemeProps) =>
+        padding-right: ${({ bodyAlignment }) =>
             bodyAlignment == "left" && "50%"};
         z-index: 2;
-        text-align: ${({ bodyAlignment }: IThemeProps) =>
+        text-align: ${({ bodyAlignment }) =>
             bodyAlignment == "left" ? "left" : "right"};
     }
 `;
 
 // CARD SUBTITLE
 
-const DSubtitle = styled.h2`
+const DSubtitle = styled.h2<IThemeProps>`
     font-size: 2.25rem;
-    color: ${({ theme }: IThemeProps) => theme.colors.cardSubtitle};
+    color: ${({ theme }) => theme.colors.cardSubtitle};
     font-family: ${app.fonts.openSans.family};
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
-        padding-left: ${({ bodyAlignment }: IThemeProps) =>
+        padding-left: ${({ bodyAlignment }) =>
             bodyAlignment == "right" && "25%"};
-        padding-right: ${({ bodyAlignment }: IThemeProps) =>
+        padding-right: ${({ bodyAlignment }) =>
             bodyAlignment == "left" && "25%"};
         z-index: 2;
-        text-align: ${({ bodyAlignment }: IThemeProps) =>
+        text-align: ${({ bodyAlignment }) =>
             bodyAlignment == "left" ? "left" : "right"};
     }
 `;
 
 // CARD HEADER HIDER
 
-const DHeaderHider = styled.div`
-    ${({ imageUrl, background, theme, bodyAlignment }: IThemeProps) =>
+const DHeaderHider = styled.div<IThemeProps>`
+    ${({ imageUrl, background, theme, bodyAlignment }) =>
         imageUrl &&
         `@media (max-width: ${BREAKPOINTS.smpx}) {
         background: ${background || theme.colors.card};
@@ -115,10 +115,9 @@ const DContent = styled.div`
 
 // CARD IMAGE HIDER
 
-const DImageHider = styled.div`
-    background: ${({ theme, background }: IThemeProps) =>
-        background || theme.colors.card};
-    transform: ${({ bodyAlignment, hasRevealed }: IThemeProps) =>
+const DImageHider = styled.div<IThemeProps>`
+    background: ${({ theme, background }) => background || theme.colors.card};
+    transform: ${({ bodyAlignment, hasRevealed }) =>
         hasRevealed &&
         (bodyAlignment == "left"
             ? "skew(10deg) translateX(-70%) scale(1.1)"
@@ -126,13 +125,12 @@ const DImageHider = styled.div`
     transition: all ${THEME_TRANSITION_TIME}s, transform 1s;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 1.5rem
-        ${({ theme }: IThemeProps) => theme.colors.cardShadow};
+    box-shadow: 0 0 1.5rem ${({ theme }) => theme.colors.cardShadow};
 `;
 
 // CARD IMAGE
 
-const DImage = styled.div`
+const DImage = styled.div<IThemeProps>`
     @media (min-width: ${BREAKPOINTS.smpx}) {
     grid-area: image;
     background-size: cover;
@@ -141,7 +139,7 @@ const DImage = styled.div`
     transition-delay: 0.25s;
     overflow: hidden;
     background:
-        url("${({ imageUrl }: IThemeProps) => imageUrl}")
+        url("${({ imageUrl }) => imageUrl}")
         center center / cover no-repeat;
     }
 `;
@@ -151,7 +149,7 @@ const DImage = styled.div`
 const DFooter = styled.div`
     font-family: "${app.fonts.roboto.family}";
     font-size: 1.6rem;
-    color: ${({ theme }: IThemeProps) => {
+    color: ${({ theme }) => {
         const color = tinycolor(theme.colors.defaultText).clone();
         theme.name == "light" ? color.lighten(25) : color.darken(25);
         return color.toRgbString();
@@ -159,16 +157,14 @@ const DFooter = styled.div`
 `;
 
 // Card container
-const Card = styled.div`
-    background: ${({ theme, background }: IThemeProps) =>
-        background || theme.colors.card};
+const Card = styled.div<IThemeProps>`
+    background: ${({ theme, background }) => background || theme.colors.card};
     width: 75%;
     display: grid;
     margin: 5% auto;
-    box-shadow: 0 0.25rem 0.5rem
-        ${({ theme }: IThemeProps) => theme.colors.cardShadow};
+    box-shadow: 0 0.25rem 0.5rem ${({ theme }) => theme.colors.cardShadow};
     border-radius: 0.25em;
-    color: ${({ theme }: IThemeProps) => theme.colors.defaultText};
+    color: ${({ theme }) => theme.colors.defaultText};
     transition: all ${THEME_TRANSITION_TIME}s;
     text-align: justify;
     overflow: hidden;
@@ -178,7 +174,7 @@ const Card = styled.div`
     @media (min-width: ${BREAKPOINTS.smpx}) {
         font-size: 1.8rem;
         grid-gap: 0 1rem;
-        grid-template-columns: ${({ bodyAlignment, imageUrl }: IThemeProps) => {
+        grid-template-columns: ${({ bodyAlignment, imageUrl }) => {
             if (!imageUrl) {
                 return "[body] 100%";
             }

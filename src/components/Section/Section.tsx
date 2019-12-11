@@ -26,7 +26,7 @@ interface ISectionProps {
     kClassName?: string;
 }
 
-const Wrapper = styled.div<ISCThemeProp>`
+const Wrapper = styled.div`
     transition: all ${THEME_TRANSITION_TIME}s;
     user-select: none;
     position: relative;
@@ -133,7 +133,7 @@ const Content = styled.div`
     font-family: "${app.fonts.openSans.family}";
 `;
 
-const Indicator = styled.div<{ active: boolean } & ISCThemeProp>`
+const Indicator = styled.div<{ active: boolean }>`
     width: 2rem;
     height: 2rem;
     margin: 0 2rem;

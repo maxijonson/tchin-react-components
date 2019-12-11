@@ -78,7 +78,7 @@ const Container = styled.div`
     width: 100%;
 `;
 
-const Code = styled.pre<ISCThemeProp>`
+const Code = styled.pre`
     width: 75%;
     margin: 0 auto;
     box-shadow: 0 0 1rem ${({ theme }) => theme.colors.defaultShadow};
