@@ -32,7 +32,7 @@ export const TextRight = styled.p`
 export const Title = styled.h1`
     margin: 0;
     padding: 0;
-    font-size: 4.375em;
+    font-size: 3.5em;
     font-weight: 600;
 `;
 export const H1 = Title;
