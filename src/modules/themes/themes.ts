@@ -18,6 +18,7 @@ export const defaultThemes: IThemes = {
         name: "light",
         colors: {
             altErrorText: dark.red, // TODO: remove with AdvancedCard
+            altPageBackground: ultraLight.onyx,
             altText: light.onyx,
             buttonBg: dark.white,
             buttonText: veryLight.white,
@@ -55,6 +56,7 @@ export const defaultThemes: IThemes = {
         name: "dark",
         colors: {
             altErrorText: light.red,
+            altPageBackground: light.white,
             altText: veryLight.onyx,
             buttonBg: normal.onyx,
             buttonText: veryLight.white,

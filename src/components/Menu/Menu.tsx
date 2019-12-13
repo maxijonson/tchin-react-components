@@ -286,6 +286,7 @@ export default () => {
                                         }
                                         style={{
                                             color: theme.colors.defaultText,
+                                            textDecoration: "none",
                                         }}
                                     >
                                         <Route

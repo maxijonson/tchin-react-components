@@ -4,6 +4,7 @@ import _ from "lodash";
 import Ul from "../Layouts/Ul";
 import Li from "../Layouts/Li";
 import { Link } from "../TextStyles";
+import { THEME_TRANSITION_TIME } from "../../config";
 
 interface ITreeItems {
     [id: string]: {
@@ -26,7 +27,19 @@ interface IGroupedTree {
 
 const Tree = styled.div`
     padding-left: 24px;
+    padding-top: 10px;
     font-size: 1em;
+
+    & ${Link} {
+        color: ${({ theme }) => theme.colors.defaultText};
+        border-radius: 4px;
+        padding: 5px;
+        transition: background-color ${THEME_TRANSITION_TIME}s;
+
+        &:hover {
+            background-color: ${({ theme }) => theme.colors.altPageBackground};
+        }
+    }
 `;
 
 const groupItems = (items: ITreeItems, group?: string) =>
@@ -60,7 +73,7 @@ const GoTo = ({
 }) => {
     const onClick = React.useCallback(() => {
         if (to.current) {
-            window.scrollTo(0, to.current.offsetTop);
+            window.scrollTo({ top: to.current.offsetTop, behavior: "smooth" });
         }
     }, [to]);
 
@@ -68,8 +81,7 @@ const GoTo = ({
 };
 
 export default ({ items }: ITreeProps) => {
-    const groups = groupItems(items);
-    console.warn(groups);
+    const groups = React.useMemo(() => groupItems(items), [items]);
     return (
         <Tree>
             <Ul>
