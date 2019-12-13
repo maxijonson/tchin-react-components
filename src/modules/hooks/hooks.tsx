@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Background, {
     IBackgroundOptions,
 } from "../../components/Background/Background";
+import Tree from "../../components/Tree/Tree";
 import { BREAKPOINTS } from "../../config";
 
 export const useForceUpdate = () => {
@@ -184,4 +185,33 @@ export const useBackground = (
             {children}
         </StyledComponent>
     );
+};
+
+type ITreeItems = React.ComponentProps<typeof Tree>["items"];
+export const useTree = () => {
+    const [items, setItems] = React.useState<ITreeItems>({});
+
+    const Component = React.useCallback(() => <Tree items={items} />, [items]);
+
+    const removeItem = React.useCallback(
+        (id: string) =>
+            setItems((state) => {
+                delete state[id];
+                return state;
+            }),
+        []
+    );
+
+    const addItem = React.useCallback(
+        (item: ITreeItems[0]) => {
+            setItems((state) => ({
+                ...state,
+                [item.id]: item,
+            }));
+            return () => removeItem(item.id);
+        },
+        [removeItem]
+    );
+
+    return { Component, addItem };
 };

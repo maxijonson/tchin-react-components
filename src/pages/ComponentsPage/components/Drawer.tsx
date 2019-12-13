@@ -135,7 +135,7 @@ const drawerStateProps = [
     },
 ];
 
-export default () => (
+export default ({ Tree }: { Tree: () => JSX.Element }) => (
     <>
         {_.map(temporaryPositions, (position) => (
             <Drawer id={position} position={position} key={position}>
@@ -145,11 +145,7 @@ export default () => (
         ))}
         <Drawer id="persistent-left" persistent>
             <div>
-                {_.times(50, (i) => (
-                    <div style={{ width: "100%", padding: "4%" }} key={i}>
-                        Item
-                    </div>
-                ))}
+                <Tree />
             </div>
         </Drawer>
         <Drawer id="persistent-right" persistent position="right">

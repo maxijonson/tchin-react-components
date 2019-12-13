@@ -4,12 +4,10 @@ import { motion, useCycle } from "framer-motion";
 import _ from "lodash";
 import { NavLink } from "react-router-dom";
 import { ZINDEX, BREAKPOINTS, THEME_TRANSITION_TIME } from "../../config";
-import { Hooks } from "../../modules";
+import { useConnect, useGetDimensions } from "../../modules/hooks/hooks";
 import LangSwitch from "./LangSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 import app from "../../app";
-
-const { useConnect, useGetDimensions } = Hooks;
 
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 

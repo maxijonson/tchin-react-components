@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 import {
     TextStyles,
     CodeSnippet,
@@ -7,6 +8,7 @@ import {
     Card,
     Layouts,
 } from "../../../components";
+import TreeContext from "../TreeContext";
 import { Hooks } from "../../../modules";
 import tableFields from "../tableFields";
 
@@ -44,19 +46,61 @@ const backgroundProps = [
 export default () => {
     const BGCard = useBackground(Card, "assets/images/example-background.jpg");
 
+    const subtitleRef = React.useRef(null);
+    const usageRef = React.useRef(null);
+    const examplesRef = React.useRef(null);
+    const propsRef = React.useRef(null);
+    const componentRef = React.useRef(null);
+
+    const { addItem } = React.useContext(TreeContext);
+
+    React.useLayoutEffect(() => {
+        const groupId = "background";
+        const removeFns = [
+            addItem({
+                id: groupId,
+                name: "Background",
+                ref: subtitleRef,
+            }),
+            addItem({
+                id: `${groupId}_usage`,
+                name: "Usage",
+                ref: usageRef,
+                childrenOf: groupId,
+            }),
+            addItem({
+                id: `${groupId}_examples`,
+                name: "Examples",
+                ref: examplesRef,
+                childrenOf: groupId,
+            }),
+            addItem({
+                id: `${groupId}_props`,
+                name: "Props",
+                ref: propsRef,
+                childrenOf: groupId,
+            }),
+        ];
+
+        return () => {
+            _.forEach(removeFns, (remove) => remove());
+        };
+    }, [addItem]);
+
     return (
         <>
-            <Subtitle>Background</Subtitle>
+            <Subtitle ref={subtitleRef}>Background</Subtitle>
             <TextLeft>
                 Add background to a div. The background also has a{" "}
                 <CodeSpan>ColorOverlay</CodeSpan>.
             </TextLeft>
-            <H3>Usage</H3>
+
+            <H3 ref={usageRef}>Usage</H3>
             <TextLeft>
                 There are two ways of using this component: using a React{" "}
                 <b>component</b> or a <b>hook</b>.
             </TextLeft>
-            <H4>Using the component</H4>
+            <H4 ref={componentRef}>Using the component</H4>
             <TextLeft>
                 Although it is not recommended you use the component directly,
                 you can add the <CodeSpan>&lt;Background /&gt;</CodeSpan> as the
@@ -76,8 +120,8 @@ export default () => {
                 <CodeSpan>position: relative</CodeSpan> set for this to work.
             </TextLeft>
             <CodeSnippet>{rawBackgroundHook}</CodeSnippet>
-            <H3>Examples</H3>
-            {/* TODO: Editable test component with form elements */}
+
+            <H3 ref={examplesRef}>Examples</H3>
             <Flex
                 itemMaxWidth="35%"
                 itemMinWidth="300px"
@@ -104,7 +148,7 @@ export default () => {
                 </BGCard>
             </Flex>
 
-            <H3>Props</H3>
+            <H3 ref={propsRef}>Props</H3>
             <Table data={backgroundProps} fields={tableFields} />
             <i>
                 Note: in addition to the props shown above, the{" "}

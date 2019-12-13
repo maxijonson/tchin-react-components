@@ -1,7 +1,7 @@
 import * as CardsBase from "./AdvancedCard/AdvancedCard";
 import * as CardsAnimated from "./AdvancedCard/CardAnimated";
-import * as Layouts from "./Layout/Layout";
-import * as TextStyles from "./TextStyles/TextStyles";
+import * as Layouts from "./Layouts";
+import * as TextStyles from "./TextStyles";
 
 export { Layouts, TextStyles };
 export { default as Card } from "./Card/Card";
@@ -28,3 +28,4 @@ export {
     drawerEventDispatch as toggleDrawer,
 } from "./Drawer/Drawer";
 export { default as Portal } from "./Portal/Portal";
+export { default as Tree } from "./Tree/Tree";

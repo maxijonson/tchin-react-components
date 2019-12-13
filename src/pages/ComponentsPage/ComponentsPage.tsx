@@ -8,11 +8,12 @@ import {
     TableDocs,
     DrawerDocs,
 } from "./components";
+import TreeContext from "./TreeContext";
 import app from "../../app";
 
 const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
 const { Viewport, Center, PaddingH, Page } = Layouts;
-const { useBackground } = Hooks;
+const { useBackground, useTree } = Hooks;
 
 export default () => {
     const BGViewport = useBackground(
@@ -20,6 +21,8 @@ export default () => {
         "assets/images/notfound-bg.jpg",
         { parallax: true }
     );
+
+    const { addItem, Component: Tree } = useTree();
 
     return (
         <Page>
@@ -54,19 +57,21 @@ export default () => {
                     <b>they may drastically change without any warning</b>.
                 </TextLeft>
                 <hr />
-                <BackgroundDocs />
-                <br />
-                <hr />
-                <ButtonDocs />
-                <br />
-                <hr />
-                <CatcherDocs />
-                <br />
-                <hr />
-                <TableDocs />
-                <br />
-                <hr />
-                <DrawerDocs />
+                <TreeContext.Provider value={{ addItem }}>
+                    <BackgroundDocs />
+                    <br />
+                    <hr />
+                    <ButtonDocs />
+                    <br />
+                    <hr />
+                    <CatcherDocs />
+                    <br />
+                    <hr />
+                    <TableDocs />
+                    <br />
+                    <hr />
+                    <DrawerDocs Tree={Tree} />
+                </TreeContext.Provider>
                 <br />
                 <hr />
             </PaddingH>
