@@ -56,7 +56,7 @@ export const defaultThemes: IThemes = {
         name: "dark",
         colors: {
             altErrorText: light.red,
-            altPageBackground: light.white,
+            altPageBackground: normal.onyx,
             altText: veryLight.onyx,
             buttonBg: normal.onyx,
             buttonText: veryLight.white,
