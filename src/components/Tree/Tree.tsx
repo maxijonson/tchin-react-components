@@ -45,16 +45,13 @@ const Tree = styled.div`
 const groupItems = (items: ITreeItems, group?: string) =>
     _(items)
         .filter((item) => item.childrenOf == group)
-        .reduce(
-            (acc, item) => {
-                acc[item.id] = {
-                    ...item,
-                    subItems: groupItems(items, item.id),
-                };
-                return acc;
-            },
-            {} as IGroupedTree
-        );
+        .reduce((acc, item) => {
+            acc[item.id] = {
+                ...item,
+                subItems: groupItems(items, item.id),
+            };
+            return acc;
+        }, {} as IGroupedTree);
 
 const renderSubItems = (subItems: IGroupedTree) =>
     _.map(subItems, (subItem) => (

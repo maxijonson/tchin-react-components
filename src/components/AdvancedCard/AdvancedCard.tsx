@@ -300,8 +300,7 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
 
     // Header
     const renderHeader = !!title || !!subtitle;
-    const Header =
-        HeaderRenderer || ((renderHeader && DHeader) || (() => null));
+    const Header = HeaderRenderer || (renderHeader && DHeader) || (() => null);
     const Title = TitleRenderer || DTitle;
     const Subtitle = SubtitleRenderer || DSubtitle;
     const HeaderHider = HeaderHiderRenderer || DHeaderHider;
@@ -313,7 +312,7 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
     const Footer = FooterRenderer || DFooter;
 
     // Image
-    const Image = ImageRenderer || ((imageUrl && DImage) || (() => null));
+    const Image = ImageRenderer || (imageUrl && DImage) || (() => null);
     const ImageHider = ImageHiderRenderer || DImageHider;
 
     return (
