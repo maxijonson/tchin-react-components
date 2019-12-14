@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
 import { version } from "../../../package.json";
 import app from "../../app";
+import { Link } from "../TextStyles";
 
 interface IFooterProps {
     kClassName?: string;
@@ -32,9 +33,9 @@ export default ({ kClassName = "", projectVersion }: IFooterProps) => {
             {new Date().getFullYear()} Tristan Chin. {t("footer.copyright")}
             <br />
             {projectVersion && `v${projectVersion}`} (
-            <a href="https://www.npmjs.com/package/tchin-react-components">
+            <Link href="https://www.npmjs.com/package/tchin-react-components">
                 TRC
-            </a>{" "}
+            </Link>{" "}
             v{version})
         </Footer>
     );
