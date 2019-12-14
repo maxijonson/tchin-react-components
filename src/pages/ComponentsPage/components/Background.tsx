@@ -45,14 +45,13 @@ const backgroundProps = [
 
 export default () => {
     const BGCard = useBackground(Card, "assets/images/example-background.jpg");
-
-    const subtitleRef = React.useRef(null);
-    const usageRef = React.useRef(null);
-    const examplesRef = React.useRef(null);
-    const propsRef = React.useRef(null);
-    const componentRef = React.useRef(null);
-
     const { addItem } = React.useContext(TreeContext);
+
+    const subtitleRef = React.useRef<HTMLHeadingElement>(null);
+    const usageRef = React.useRef<HTMLHeadingElement>(null);
+    const examplesRef = React.useRef<HTMLHeadingElement>(null);
+    const propsRef = React.useRef<HTMLHeadingElement>(null);
+    const componentRef = React.useRef<HTMLHeadingElement>(null);
 
     React.useLayoutEffect(() => {
         const groupId = "background";

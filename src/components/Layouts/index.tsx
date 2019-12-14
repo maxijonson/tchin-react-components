@@ -2,6 +2,7 @@ export { default as Center } from "./Center";
 export { default as CenterH } from "./CenterH";
 export { default as CenterV } from "./CenterV";
 export { default as Flex } from "./Flex";
+export { default as Hr } from "./Hr";
 export { default as Margin } from "./Margin";
 export { default as MarginH } from "./MarginH";
 export { default as MarginV } from "./MarginV";

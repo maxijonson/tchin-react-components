@@ -12,7 +12,7 @@ import TreeContext from "./TreeContext";
 import app from "../../app";
 
 const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
-const { Viewport, Center, PaddingH, Page } = Layouts;
+const { Viewport, Center, PaddingH, Page, Hr } = Layouts;
 const { useBackground, useTree } = Hooks;
 
 export default () => {
@@ -56,24 +56,24 @@ export default () => {
                     use them in your own projects, but be aware{" "}
                     <b>they may drastically change without any warning</b>.
                 </TextLeft>
-                <hr />
+                <Hr />
                 <TreeContext.Provider value={{ addItem }}>
                     <BackgroundDocs />
                     <br />
-                    <hr />
+                    <Hr />
                     <ButtonDocs />
                     <br />
-                    <hr />
+                    <Hr />
                     <CatcherDocs />
                     <br />
-                    <hr />
+                    <Hr />
                     <TableDocs />
                     <br />
-                    <hr />
+                    <Hr />
                     <DrawerDocs Tree={Tree} />
                 </TreeContext.Provider>
                 <br />
-                <hr />
+                <Hr />
             </PaddingH>
         </Page>
     );

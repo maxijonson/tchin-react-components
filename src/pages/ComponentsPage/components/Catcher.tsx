@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 import tinycolor from "tinycolor2";
 import styled from "styled-components";
 import {
@@ -12,6 +13,7 @@ import {
     withCatcher,
 } from "../../../components";
 import tableFields from "../tableFields";
+import TreeContext from "../TreeContext";
 
 import rawCatcherComponent from "../snippets/Catcher-component.txt";
 import rawCatcherHOC from "../snippets/Catcher-hoc.txt";
@@ -122,9 +124,49 @@ export default () => {
     const CatcherHOCCustom = withCatcher(CatcherCard, {
         Fallback: CardCatched,
     });
+    const { addItem } = React.useContext(TreeContext);
+
+    const subtitleRef = React.useRef(null);
+    const usageRef = React.useRef(null);
+    const examplesRef = React.useRef(null);
+    const propsRef = React.useRef(null);
+
+    React.useLayoutEffect(() => {
+        const groupId = "catcher";
+        const removeFns = [
+            addItem({
+                id: groupId,
+                name: "Catcher",
+                ref: subtitleRef,
+            }),
+            addItem({
+                id: `${groupId}_usage`,
+                name: "Usage",
+                ref: usageRef,
+                childrenOf: groupId,
+            }),
+            addItem({
+                id: `${groupId}_examples`,
+                name: "Examples",
+                ref: examplesRef,
+                childrenOf: groupId,
+            }),
+            addItem({
+                id: `${groupId}_props`,
+                name: "Props",
+                ref: propsRef,
+                childrenOf: groupId,
+            }),
+        ];
+
+        return () => {
+            _.forEach(removeFns, (remove) => remove());
+        };
+    }, [addItem]);
+
     return (
         <>
-            <Subtitle>Catcher</Subtitle>
+            <Subtitle ref={subtitleRef}>Catcher</Subtitle>
             <TextLeft>
                 Catcher is the only component in TRC which is a class component.
                 This is because it needs to implement{" "}
@@ -132,7 +174,7 @@ export default () => {
                 with the Catcher to prevent the application from crashing if an
                 error happens. You can also specify a fallback component.
             </TextLeft>
-            <H3>Usage</H3>
+            <H3 ref={usageRef}>Usage</H3>
             <H4>Using the component</H4>
             <CodeSnippet>{rawCatcherComponent}</CodeSnippet>
             <H4>Using the HOC</H4>
@@ -143,7 +185,7 @@ export default () => {
                 <CodeSpan>withCatcher(Component, options)</CodeSpan>
             </TextLeft>
             <CodeSnippet>{rawCatcherHOC}</CodeSnippet>
-            <H3>Examples</H3>
+            <H3 ref={examplesRef}>Examples</H3>
             <Flex
                 itemMaxWidth="35%"
                 itemMinWidth="300px"
@@ -158,7 +200,7 @@ export default () => {
                 <CatcherHOCDefault title="Default fallback (HOC)" />
                 <CatcherHOCCustom title="Custom fallback (HOC)" />
             </Flex>
-            <H3>Props</H3>
+            <H3 ref={propsRef}>Props</H3>
             <Table fields={tableFields} data={catcherProps} />
         </>
     );

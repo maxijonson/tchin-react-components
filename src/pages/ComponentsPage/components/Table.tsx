@@ -1,6 +1,8 @@
 import React from "react";
+import _ from "lodash";
 import { TextStyles, CodeSnippet, Table } from "../../../components";
 import tableFields from "../tableFields";
+import TreeContext from "../TreeContext";
 
 import rawTable from "../snippets/Table.txt";
 
@@ -61,58 +63,101 @@ const tableFieldProps = [
     },
 ];
 
-export default () => (
-    <>
-        <Subtitle>Table</Subtitle>
-        <P>A table component to display data of a same structure.</P>
-        <H3>Usage</H3>
-        <P>
-            Here is a general case of using the Table component. You can declare
-            the header fields and give it custom rendering if need be.
-        </P>
-        <CodeSnippet>{rawTable}</CodeSnippet>
-        <H3>Example</H3>
-        <Table
-            stripped
-            data={[
-                {
-                    username: "jonathan",
-                    age: 23,
-                    isAdmin: true,
-                    imageUrl: "/img/jo",
-                },
-                {
-                    username: "mederic",
-                    age: 19,
-                    isAdmin: true,
-                    imageUrl: "/img/med",
-                },
-                {
-                    username: "felix",
-                    age: 21,
-                    isAdmin: false,
-                    imageUrl: "/img/fil",
-                },
-            ]}
-            fields={[
-                { name: "Username", render: "username" },
-                { name: "Age", render: "age" },
-                {
-                    name: "Admin",
-                    render: ({ isAdmin }) => (isAdmin ? "Yes" : ""),
-                },
-                {
-                    name: "Profile Image",
-                    render: ({ imageUrl }) => (
-                        <img src={imageUrl} alt={imageUrl} />
-                    ),
-                },
-            ]}
-        />
-        <H3>Props</H3>
-        <H4>Table Props</H4>
-        <Table fields={tableFields} data={tableProps} />
-        <H4>ITableField&lt;T&gt;</H4>
-        <Table fields={tableFields} data={tableFieldProps} />
-    </>
-);
+export default () => {
+    const { addItem } = React.useContext(TreeContext);
+
+    const subtitleRef = React.useRef(null);
+    const usageRef = React.useRef(null);
+    const examplesRef = React.useRef(null);
+    const propsRef = React.useRef(null);
+
+    React.useLayoutEffect(() => {
+        const groupId = "table";
+        const removeFns = [
+            addItem({
+                id: groupId,
+                name: "Table",
+                ref: subtitleRef,
+            }),
+            addItem({
+                id: `${groupId}_usage`,
+                name: "Usage",
+                ref: usageRef,
+                childrenOf: groupId,
+            }),
+            addItem({
+                id: `${groupId}_examples`,
+                name: "Examples",
+                ref: examplesRef,
+                childrenOf: groupId,
+            }),
+            addItem({
+                id: `${groupId}_props`,
+                name: "Props",
+                ref: propsRef,
+                childrenOf: groupId,
+            }),
+        ];
+
+        return () => {
+            _.forEach(removeFns, (remove) => remove());
+        };
+    }, [addItem]);
+
+    return (
+        <>
+            <Subtitle ref={subtitleRef}>Table</Subtitle>
+            <P>A table component to display data of a same structure.</P>
+            <H3 ref={usageRef}>Usage</H3>
+            <P>
+                Here is a general case of using the Table component. You can
+                declare the header fields and give it custom rendering if need
+                be.
+            </P>
+            <CodeSnippet>{rawTable}</CodeSnippet>
+            <H3 ref={examplesRef}>Example</H3>
+            <Table
+                stripped
+                data={[
+                    {
+                        username: "jonathan",
+                        age: 23,
+                        isAdmin: true,
+                        imageUrl: "/img/jo",
+                    },
+                    {
+                        username: "mederic",
+                        age: 19,
+                        isAdmin: true,
+                        imageUrl: "/img/med",
+                    },
+                    {
+                        username: "felix",
+                        age: 21,
+                        isAdmin: false,
+                        imageUrl: "/img/fil",
+                    },
+                ]}
+                fields={[
+                    { name: "Username", render: "username" },
+                    { name: "Age", render: "age" },
+                    {
+                        name: "Admin",
+                        render: ({ isAdmin }) => (isAdmin ? "Yes" : ""),
+                    },
+                    {
+                        name: "Profile Image",
+                        render: ({ imageUrl }) => (
+                            <img src={imageUrl} alt={imageUrl} />
+                        ),
+                    },
+                ]}
+            />
+            <H3 ref={propsRef}>Props</H3>
+            <H4>Table Props</H4>
+            <Table fields={tableFields} data={tableProps} />
+            <H4>ITableField&lt;T&gt;</H4>
+            <Table fields={tableFields} data={tableFieldProps} />
+        </>
+    );
+};

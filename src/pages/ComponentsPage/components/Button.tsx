@@ -1,6 +1,8 @@
 import React from "react";
+import _ from "lodash";
 import { Button, Table, TextStyles } from "../../../components";
 import tableFields from "../tableFields";
+import TreeContext from "../TreeContext";
 
 const { TextLeft, CodeSpan, Subtitle, H3, H4, P } = TextStyles;
 
@@ -60,38 +62,73 @@ const Buttons = ({
     </>
 );
 
-export default () => (
-    <>
-        <Subtitle>Button</Subtitle>
-        <TextLeft>
-            A polymorphic button component. Its color is based on{" "}
-            <CodeSpan>IContextState</CodeSpan> and include 2 alternative
-            variants.
-        </TextLeft>
-        <H3>Examples</H3>
-        <H4>Default</H4>
-        <P>
-            <Buttons />
-        </P>
-        <H4>Outlined</H4>
-        <P>
-            <Buttons variant="outlined" />
-        </P>
-        <H4>Text</H4>
-        <P>
-            <Buttons variant="text" />
-        </P>
-        <H4>Disabled</H4>
-        <P>
-            <Buttons disabled />
-        </P>
-        <P>
-            <Buttons variant="outlined" disabled />
-        </P>
-        <P>
-            <Buttons variant="text" disabled />
-        </P>
-        <H3>Props</H3>
-        <Table fields={tableFields} data={buttonProps} />
-    </>
-);
+export default () => {
+    const { addItem } = React.useContext(TreeContext);
+
+    const subtitleRef = React.useRef(null);
+    const examplesRef = React.useRef(null);
+    const propsRef = React.useRef(null);
+
+    React.useLayoutEffect(() => {
+        const groupId = "button";
+        const removeFns = [
+            addItem({
+                id: groupId,
+                name: "Button",
+                ref: subtitleRef,
+            }),
+            addItem({
+                id: `${groupId}_examples`,
+                name: "Examples",
+                ref: examplesRef,
+                childrenOf: groupId,
+            }),
+            addItem({
+                id: `${groupId}_props`,
+                name: "Props",
+                ref: propsRef,
+                childrenOf: groupId,
+            }),
+        ];
+
+        return () => {
+            _.forEach(removeFns, (remove) => remove());
+        };
+    }, [addItem]);
+
+    return (
+        <>
+            <Subtitle ref={subtitleRef}>Button</Subtitle>
+            <TextLeft>
+                A polymorphic button component. Its color is based on{" "}
+                <CodeSpan>IContextState</CodeSpan> and include 2 alternative
+                variants.
+            </TextLeft>
+            <H3 ref={examplesRef}>Examples</H3>
+            <H4>Default</H4>
+            <P>
+                <Buttons />
+            </P>
+            <H4>Outlined</H4>
+            <P>
+                <Buttons variant="outlined" />
+            </P>
+            <H4>Text</H4>
+            <P>
+                <Buttons variant="text" />
+            </P>
+            <H4>Disabled</H4>
+            <P>
+                <Buttons disabled />
+            </P>
+            <P>
+                <Buttons variant="outlined" disabled />
+            </P>
+            <P>
+                <Buttons variant="text" disabled />
+            </P>
+            <H3 ref={propsRef}>Props</H3>
+            <Table fields={tableFields} data={buttonProps} />
+        </>
+    );
+};
