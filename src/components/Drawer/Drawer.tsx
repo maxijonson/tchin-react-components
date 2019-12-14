@@ -145,7 +145,7 @@ const DrawerContainer = styled(motion.div)`
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: ${ZINDEX.drawer};
+    z-index: ${ZINDEX.temporaryDrawer};
     pointer-events: none;
 `;
 
@@ -224,7 +224,7 @@ const ContentPusher = styled(motion.div)<IPersistentDrawerProps>`
 
 const PersistentDrawer = styled(motion.div)<IPersistentDrawerProps>`
     width: ${({ width }) => width};
-    z-index: ${ZINDEX.drawer};
+    z-index: ${ZINDEX.persistentDrawer};
 
     top: 0;
     left: ${({ position }) => {

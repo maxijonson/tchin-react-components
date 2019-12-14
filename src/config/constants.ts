@@ -19,7 +19,8 @@ export const ZINDEX = {
     tooltip: 10,
     scrollbar: 50,
     menu: 100,
-    drawer: 150,
+    persistentDrawer: 150,
+    temporaryDrawer: 155,
     modal: 200,
 };
 
