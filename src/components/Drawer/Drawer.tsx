@@ -24,16 +24,18 @@ interface IPersistentDrawer {
     portalQuery?: string;
 }
 
-interface IDrawerEventBased {
-    id: string;
-    onRequestClose?: (toggle: () => void) => void;
-    state?: never;
-}
-
 interface IDrawerStateBased {
-    state: "open" | "closed";
+    open: boolean;
     onRequestClose?: () => void;
     id?: never;
+    initialOpen: never;
+}
+
+interface IDrawerEventBased {
+    id: string;
+    initialOpen?: IDrawerStateBased["open"];
+    onRequestClose?: (toggle: () => void) => void;
+    open?: never;
 }
 
 type IDrawerProps = (IDrawerEventBased | IDrawerStateBased) &
@@ -266,19 +268,26 @@ export const drawerEventDispatch = (id: string) =>
     window.dispatchEvent(new Event(getToggleEventName(id)));
 
 export default (props: IDrawerProps & { children?: React.ReactNode }) => {
-    const { position, children, id, state } = props;
+    const { position, children, id, open } = props;
     const theme = useConnect(({ theme }) => theme);
-    const [drawerOpen, toggleDrawer] = useCycle<"closed" | "open">(
-        "closed",
-        "open"
-    ); // This state will only be used for EventBased Drawer
     const breakpoint = useCurrentBreakpoint();
+
+    // Will only be used for EventBased Drawer
+    const [drawerOpenState, toggleDrawer] = useCycle<IDrawerStateBased["open"]>(
+        !!props.initialOpen,
+        !props.initialOpen
+    );
+
+    // Evaluates the state of the Drawer for both EventBased and StateBased Drawers
+    const drawerOpen = open != undefined ? open : drawerOpenState;
+    const animate = drawerOpen ? "open" : "closed";
 
     const toggle = React.useCallback(() => toggleDrawer(), [toggleDrawer]);
 
-    const close = React.useCallback(() => {
+    // Called when an exit event is fired
+    const onClose = React.useCallback(() => {
         // StateBased
-        if (props.state)
+        if (props.open)
             return props.onRequestClose ? props.onRequestClose() : null;
 
         // EventBased
@@ -301,11 +310,10 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     if (!props.persistent)
         return (
             <>
-                <DrawerContainer animate={state || drawerOpen} initial={false}>
-                    <Overlay variants={vOverlay} onClick={close} />
+                <DrawerContainer animate={animate} initial={false}>
+                    <Overlay variants={vOverlay} onClick={onClose} />
                     <Drawer
                         position={position}
-                        state={state || drawerOpen}
                         variants={vTemporaryDrawer}
                         custom={{
                             position,
@@ -316,12 +324,15 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
                 </DrawerContainer>
             </>
         );
-    const sizeAllowed = breakpoint >= BREAKPOINTS[props.allowSize || "xl"];
+
     // Persistent Drawer
+    // If false, renders a temporary drawer instead
+    const sizeAllowed = breakpoint >= BREAKPOINTS[props.allowSize || "xl"];
+
     return sizeAllowed ? (
         <Portal query={props.portalQuery || "#app > div"}>
             <ContentPusher
-                animate={state || drawerOpen}
+                animate={animate}
                 variants={vContentPusher}
                 initial={false}
                 position={props.position || "left"}
@@ -342,11 +353,10 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         </Portal>
     ) : (
         <>
-            <DrawerContainer animate={state || drawerOpen} initial={false}>
-                <Overlay variants={vOverlay} onClick={close} />
+            <DrawerContainer animate={animate} initial={false}>
+                <Overlay variants={vOverlay} onClick={onClose} />
                 <Drawer
                     position={position}
-                    state={state || drawerOpen}
                     variants={vTemporaryDrawer}
                     custom={{
                         position,

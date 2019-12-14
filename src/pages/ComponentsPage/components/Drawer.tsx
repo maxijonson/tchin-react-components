@@ -24,15 +24,8 @@ const temporaryPositions: Required<
 
 const temporaryDrawerProps = [
     {
-        prop: "persistent",
-        definition: "Makes the drawer persistent",
-        type: `false`,
-        default: "false",
-        required: false,
-    },
-    {
         prop: "position",
-        definition: "The position where the Table appears from",
+        definition: "The position where the Table appears from.",
         type: `"top" | "right" | "bottom" | "left"`,
         default: "left",
         required: false,
@@ -41,14 +34,14 @@ const temporaryDrawerProps = [
 const persistentDrawerProps = [
     {
         prop: "persistent",
-        definition: "Makes the drawer persistent",
+        definition: "Makes the drawer persistent.",
         type: `true`,
         default: "",
         required: true,
     },
     {
         prop: "position",
-        definition: "The position where the Table appears from",
+        definition: "The position where the Table appears from.",
         type: `"left" | "right"`,
         default: "left",
         required: false,
@@ -58,7 +51,7 @@ const persistentDrawerProps = [
         definition:
             "Because this kind of drawer pushes the content under it, the width needs to be set explicitly.",
         type: "string",
-        default: "300px",
+        default: "240px",
         required: false,
     },
     {
@@ -70,7 +63,7 @@ const persistentDrawerProps = [
     },
     {
         prop: "portalQuery",
-        definition: `Where the Portal renders the Drawer.`,
+        definition: `Where the Drawer is placed in the DOM.`,
         type: `string`,
         default: "#app > div",
         required: false,
@@ -91,6 +84,13 @@ const drawerEventProps = [
         required: true,
     },
     {
+        prop: "initialOpen",
+        definition: "If the Drawer should be initially opened.",
+        type: "boolean",
+        default: "false",
+        required: false,
+    },
+    {
         prop: "onRequestClose",
         definition: (
             <>
@@ -108,14 +108,14 @@ const drawerEventProps = [
 ];
 const drawerStateProps = [
     {
-        prop: "state",
+        prop: "open",
         definition: (
             <>
                 Sets the Drawer state manually. You are now in charge of
                 managing the state of the Drawer.
             </>
         ),
-        type: `"open" | "closed"`,
+        type: "boolean",
         default: "",
         required: true,
     },
@@ -143,7 +143,7 @@ export default ({ Tree }: { Tree: () => JSX.Element }) => (
                 <P>The size of drawers ajdusts to its content</P>
             </Drawer>
         ))}
-        <Drawer id="persistent-left" persistent>
+        <Drawer id="persistent-left" persistent initialOpen>
             <div>
                 <Tree />
             </div>
@@ -166,9 +166,8 @@ export default ({ Tree }: { Tree: () => JSX.Element }) => (
         <P>
             In many other libraries, you must implement and manage your own
             state for the Drawer, which I, against popular beliefs, believe
-            there should be an alternative that frees you from this task.
-            However, some cases could still need this approach. That said, TRC
-            allows 2 methods to manage the Drawer.
+            there should be an alternative that frees you from this task. That
+            said, TRC allows 2 methods to manage the Drawer.
         </P>
         <H3>Usage</H3>
         <H4>Method 1: EventBased</H4>
@@ -183,17 +182,16 @@ export default ({ Tree }: { Tree: () => JSX.Element }) => (
         <H4>Method 2: StateBased</H4>
         <P>
             This approach lets you manage the state manually. Just give it a{" "}
-            <CodeSpan>state</CodeSpan> prop between <CodeSpan>open</CodeSpan> or{" "}
-            <CodeSpan>closed</CodeSpan> to toggle the Drawer. Your provided
-            state will override the Drawer&apos;s internal state. This method
-            should be used if the component using the Drawer needs to know its
-            state.
+            <CodeSpan>open</CodeSpan> prop between <CodeSpan>true</CodeSpan> or{" "}
+            <CodeSpan>false</CodeSpan> to toggle the Drawer. Your provided state
+            will override the Drawer&apos;s internal state. This method should
+            be used if the component using the Drawer needs to know its state.
         </P>
         <P>
             <i>
                 Note: if you are using TypeScript, the props typings have been
                 set so it disallows the use of both <CodeSpan>id</CodeSpan> and{" "}
-                <CodeSpan>state</CodeSpan> at the same time
+                <CodeSpan>open</CodeSpan> at the same time
             </i>
         </P>
         <H4>onRequestClose</H4>
@@ -277,7 +275,7 @@ export default ({ Tree }: { Tree: () => JSX.Element }) => (
                 {BREAKPOINTS.xlpx}),
             </i>
         </P>
-        <H4>Drawer toggle method</H4>
+        <H4>Drawer toggling method</H4>
         <H5>EventBased</H5>
         <Table fields={tableFields} data={drawerEventProps} />
         <H5>StateBased</H5>
