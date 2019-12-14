@@ -149,10 +149,13 @@ export default () => {
 
             <H3 ref={propsRef}>Props</H3>
             <Table data={backgroundProps} fields={tableFields} />
-            <i>
-                Note: in addition to the props shown above, the{" "}
-                <CodeSpan>ColorOverlay</CodeSpan> component props apply as well.
-            </i>
+            <TextLeft>
+                <i>
+                    Note: in addition to the props shown above, the{" "}
+                    <CodeSpan>ColorOverlay</CodeSpan> component props apply as
+                    well.
+                </i>
+            </TextLeft>
         </>
     );
 };

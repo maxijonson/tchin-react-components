@@ -59,8 +59,8 @@ export default () => {
                 <Hr />
                 <TreeContext.Provider value={{ addItem }}>
                     <BackgroundDocs />
-                    <br />
                     <Hr />
+                    <br />
                     <ButtonDocs />
                     <br />
                     <Hr />
@@ -72,7 +72,6 @@ export default () => {
                     <Hr />
                     <DrawerDocs Tree={Tree} />
                 </TreeContext.Provider>
-                <br />
                 <Hr />
             </PaddingH>
         </Page>
