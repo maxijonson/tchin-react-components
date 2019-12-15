@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import i18n, { Module } from "i18next";
 import { initReactI18next } from "react-i18next";
 import markdownJsx from "i18next-markdown-jsx-plugin";
 import _ from "lodash";
@@ -71,7 +71,7 @@ interface IAppInitOptions {
 const DEFAULT_LNG = "en";
 
 i18n.languages = [DEFAULT_LNG, "fr"];
-i18n.use(markdownJsx).use(initReactI18next);
+i18n.use(markdownJsx as Module).use(initReactI18next);
 
 toast.configure({
     toastClassName: "toast",
@@ -164,19 +164,24 @@ class App {
         const now = Number(moment().format(format));
         const isNight = now > night.start || now < night.end;
         const sessionTheme = window.sessionStorage.getItem(SESSION_KEYS.theme);
-        const themeReducer = makeThemeReducer(
-            sessionTheme &&
-                _.includes(
-                    [defaultThemes.dark.name, defaultThemes.light.name],
-                    sessionTheme
-                )
-                ? sessionTheme == defaultThemes.light.name
-                    ? App._themes.light
-                    : App._themes.dark
-                : isNight
-                ? App._themes.dark
-                : App._themes.light
-        );
+        const themeReducer = (() => {
+            const isDefaultTheme = _.includes(
+                [defaultThemes.dark.name, defaultThemes.light.name],
+                sessionTheme
+            );
+
+            if (isDefaultTheme) {
+                return makeThemeReducer(
+                    sessionTheme === defaultThemes.light.name
+                        ? App._themes.light
+                        : App._themes.dark
+                );
+            }
+
+            return makeThemeReducer(
+                isNight ? App._themes.dark : App._themes.light
+            );
+        })();
 
         // INIT STORE
         const composeEnhancers =
@@ -229,12 +234,11 @@ class App {
                 ) {
                     return savedLng;
                 }
-                for (const lng of i18n.languages) {
-                    if (_.includes(navigator.language, lng)) {
-                        return lng;
-                    }
-                }
-                return DEFAULT_LNG;
+                return (
+                    _.find(i18n.languages, (lng) =>
+                        _.includes(navigator.language, lng)
+                    ) || DEFAULT_LNG
+                );
             })(),
             fallbackLng: DEFAULT_LNG,
         });
@@ -290,20 +294,18 @@ class App {
         return App._history;
     }
 
-    public t(
-        key: string | string[],
-        options?: string | i18n.TOptions<i18n.StringMap> | undefined
-    ) {
+    public t(key: string | string[], options?: Parameters<typeof i18n.t>[1]) {
         return i18n.t(key, options);
     }
 
     public setLanguage(lang: "en" | "fr") {
         if (lang !== "en" && lang !== "fr") {
-            return console.warn(`${lang} is not a valid language`);
+            console.warn(`${lang} is not a valid language`);
+        } else {
+            i18n.changeLanguage(lang);
+            window.sessionStorage.setItem(SESSION_KEYS.i18n, lang);
+            this.notify(`${this.t("notification.langChange")}: ${lang}`);
         }
-        i18n.changeLanguage(lang);
-        window.sessionStorage.setItem(SESSION_KEYS.i18n, lang);
-        this.notify(`${this.t("notification.langChange")}: ${lang}`);
     }
 
     public enforceSSL() {
@@ -317,9 +319,9 @@ class App {
             return;
         }
         if (window.location.protocol !== "https:") {
-            window.location.href =
-                "https:" +
-                window.location.href.substring(window.location.protocol.length);
+            window.location.href = `https:${window.location.href.substring(
+                window.location.protocol.length
+            )}`;
         }
     }
 

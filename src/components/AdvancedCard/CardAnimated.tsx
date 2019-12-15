@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React from "react";
 
 import * as Reveal from "react-reveal";

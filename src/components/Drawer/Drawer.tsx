@@ -295,10 +295,12 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
             return props.onRequestClose
                 ? props.onRequestClose(toggle)
                 : toggle();
+
+        throw new Error("Drawer was not given either a 'open' or 'id' prop");
     }, [props, toggle]);
 
     React.useLayoutEffect(() => {
-        if (!id) return;
+        if (!id) return () => null;
         const toggleEvent = getToggleEventName(id);
         window.addEventListener(toggleEvent, toggle);
         return () => {

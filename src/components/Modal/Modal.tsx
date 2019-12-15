@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from "react";
 import ReactDOM from "react-dom";
 import posed from "react-pose";

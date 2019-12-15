@@ -43,8 +43,8 @@ export const usePortalOld = (parent: HTMLElement, className?: string) => {
     return elRef.current;
 };
 
-export const useSetInterval = (cb: () => void, time: number = 1000) => {
-    let interval = React.useRef(0);
+export const useSetInterval = (cb: () => void, time = 1000) => {
+    const interval = React.useRef(0);
     React.useEffect(() => {
         interval.current = window.setInterval(cb, time);
         return () => {
@@ -60,8 +60,8 @@ export const useSetInterval = (cb: () => void, time: number = 1000) => {
     };
 };
 
-export const useSetTimeout = (cb: () => void, time: number = 1000) => {
-    let timeout = React.useRef(0);
+export const useSetTimeout = (cb: () => void, time = 1000) => {
+    const timeout = React.useRef(0);
     React.useEffect(() => {
         timeout.current = window.setTimeout(cb, time);
         return () => {
@@ -196,8 +196,9 @@ export const useTree = () => {
     const removeItem = React.useCallback(
         (id: string) =>
             setItems((state) => {
-                delete state[id];
-                return state;
+                const newState = { ...state };
+                delete newState[id];
+                return newState;
             }),
         []
     );

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // TODO: Move out of TRC, too complex
 import React from "react";
 import * as Reveal from "react-reveal";
@@ -151,8 +152,10 @@ const DFooter = styled.div`
     font-size: 1.6rem;
     color: ${({ theme }) => {
         const color = tinycolor(theme.colors.defaultText).clone();
-        theme.name == "light" ? color.lighten(25) : color.darken(25);
-        return color.toRgbString();
+        return (theme.name == "light"
+            ? color.lighten(25)
+            : color.darken(25)
+        ).toRgbString();
     }};
 `;
 
@@ -244,7 +247,7 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
     const {
         ContentRenderer,
         HeaderRenderer,
-        title: title,
+        title,
         TitleRenderer,
         subtitle,
         SubtitleRenderer,
@@ -284,7 +287,7 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
     const baseDelay = Math.round((delay + duration) / animationDelayFactor);
 
     let revealTimeout: number;
-    const onRevealTrigger = (timeout: number = 2000) => {
+    const onRevealTrigger = (timeout = 2000) => {
         if (isReveal ? hasRevealed : true) {
             setIsBeingRevealed(true);
             revealTimeout = window.setTimeout(
@@ -339,7 +342,7 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
                                 onReveal={
                                     !children
                                         ? () => onRevealTrigger(1750)
-                                        : () => {}
+                                        : () => null
                                 }
                             >
                                 <div>

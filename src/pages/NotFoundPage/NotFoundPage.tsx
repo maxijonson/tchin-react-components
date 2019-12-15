@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
@@ -106,7 +107,9 @@ const Special = styled.span`
     cursor: pointer;
 `;
 
-const redirect = (url: string) => (window.location.href = url);
+const redirect = (url: string) => {
+    window.location.href = url;
+};
 
 const CodeLine = ({
     line,
@@ -125,42 +128,50 @@ const CodeLine = ({
         [redirectUrl]
     );
     let inBrackets = false;
-    if (line == special) {
-        line = `   const link: IExistingLink = ${url} ;`;
-    }
 
     return (
         <Line theme={theme}>
-            {_.map(_.split(line, " "), (word, key) => {
-                if (isImport && (word == "{" || word == "}")) {
-                    inBrackets = true;
-                }
-                if (inBrackets && word == "IExistingLink") {
+            {_.map(
+                _.split(
+                    line == special
+                        ? `   const link: IExistingLink = ${url} ;`
+                        : line,
+                    " "
+                ),
+                (word, key) => {
+                    if (isImport && (word == "{" || word == "}")) {
+                        inBrackets = true;
+                    }
+                    if (inBrackets && word == "IExistingLink") {
+                        return `${word} `;
+                    }
+                    if (word == url) {
+                        return (
+                            <Tooltip
+                                key={key}
+                                maxWidth="auto"
+                                activeOnMobile
+                                tip={`'${word}' is not assignable to type 'IExistingLink'. ts(404)`}
+                            >
+                                <Special
+                                    children={word}
+                                    onClick={onSpecialClick}
+                                />
+                            </Tooltip>
+                        );
+                    }
+                    if (keywords[word]) {
+                        return (
+                            <Keyword
+                                key={key}
+                                color={keywords[word].color}
+                                children={`${word} `}
+                            />
+                        );
+                    }
                     return `${word} `;
                 }
-                if (word == url) {
-                    return (
-                        <Tooltip
-                            key={key}
-                            maxWidth="auto"
-                            activeOnMobile
-                            tip={`'${word}' is not assignable to type 'IExistingLink'. ts(404)`}
-                        >
-                            <Special children={word} onClick={onSpecialClick} />
-                        </Tooltip>
-                    );
-                }
-                if (keywords[word]) {
-                    return (
-                        <Keyword
-                            key={key}
-                            color={keywords[word].color}
-                            children={`${word} `}
-                        />
-                    );
-                }
-                return `${word} `;
-            })}
+            )}
         </Line>
     );
 };

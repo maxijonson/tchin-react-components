@@ -1,23 +1,23 @@
 /* eslint-disable import/first, import/newline-after-import */
-///---- STYLES
+/// ---- STYLES
 import "normalize.css/normalize.css"; // Reset stylesheet for cross-browser compatibility
 import "react-toastify/dist/ReactToastify.css";
 import "./src/styles/styles.scss";
 
-///----- MODULES
+/// ----- MODULES
 export * from "./src/modules";
 
-///----- COMPONENTS
+/// ----- COMPONENTS
 export * from "./src/components";
 
-///----- CONFIG
+/// ----- CONFIG
 export * from "./src/config";
 
-///----- PAGES
+/// ----- PAGES
 export * from "./src/pages";
 
-///----- APP
+/// ----- APP
 export { default as app } from "./src/app";
 
-///----- TRC ROUTER
+/// ----- TRC ROUTER
 export { default as TRCRouter } from "./src/routers/AppRouter";

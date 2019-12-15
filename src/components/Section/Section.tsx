@@ -55,7 +55,7 @@ const Caroussel = styled.div<{
         if (!sliding) {
             return `translateX(-${position * 100}%)`;
         }
-        if (direction == "prev") {
+        if (direction === "prev") {
             return `translateX(-${lastPosition * 100}%)`;
         }
         return `translateX(-${lastPosition * 100}%)`;
@@ -75,6 +75,7 @@ const Item = styled.div<{
         }
         switch (titlePosition) {
             case "top":
+            default:
                 return "0 12.5% 0 12.5%";
             case "right":
                 return "0 3% 0 12.5%";
@@ -90,6 +91,7 @@ const Item = styled.div<{
         }
         switch (titlePosition) {
             case "top":
+            default:
                 return "[title] auto [content] 2fr / [title content] auto";
             case "right":
                 return "[title content] auto / [content] 1fr [title] 10%";
@@ -101,14 +103,14 @@ const Item = styled.div<{
 `;
 
 const TitleOuter = styled.div<{ titlePosition: ITitlePosition }>`
-    display: ${({ titlePosition }) => titlePosition != "top" && "table"};
+    display: ${({ titlePosition }) => titlePosition !== "top" && "table"};
     grid-area: title;
-    margin: ${({ titlePosition }) => titlePosition != "top" && "auto 0"};
+    margin: ${({ titlePosition }) => titlePosition !== "top" && "auto 0"};
 `;
 
 const TitleInner = styled.div<{ titlePosition: ITitlePosition }>`
-    padding: ${({ titlePosition }) => titlePosition != "top" && "50% 0"};
-    height: ${({ titlePosition }) => titlePosition != "top" && 0};
+    padding: ${({ titlePosition }) => titlePosition !== "top" && "50% 0"};
+    height: ${({ titlePosition }) => titlePosition !== "top" && 0};
 `;
 
 const Title = styled.div<ISectionItem>`
@@ -116,14 +118,14 @@ const Title = styled.div<ISectionItem>`
     text-align: center;
     text-transform: uppercase;
     transform-origin: ${({ titlePosition }) =>
-        titlePosition != "top" && "top left"};
+        titlePosition !== "top" && "top left"};
     transform: ${({ titlePosition }) =>
-        titlePosition != "top" &&
-        (titlePosition == "left"
+        titlePosition !== "top" &&
+        (titlePosition === "left"
             ? "rotate(-90deg) translate(-100%)"
             : "rotate(90deg) translate(0, -100%)")};
-    margin-top: ${({ titlePosition }) => titlePosition != "top" && "-50%"};
-    white-space: ${({ titlePosition }) => titlePosition != "top" && "nowrap"};
+    margin-top: ${({ titlePosition }) => titlePosition !== "top" && "-50%"};
+    white-space: ${({ titlePosition }) => titlePosition !== "top" && "nowrap"};
 `;
 
 const Content = styled.div`
@@ -169,7 +171,7 @@ export default (props: ISectionProps) => {
         _.throttle((pos: number) => {
             setDirection("next");
             setLastPosition(pos);
-            setPosition(pos == items.length - 1 ? 0 : pos + 1);
+            setPosition(pos === items.length - 1 ? 0 : pos + 1);
             setSliding(true);
         }, SLIDE_TIME)
     );
@@ -177,7 +179,7 @@ export default (props: ISectionProps) => {
         _.throttle((pos: number) => {
             setDirection("prev");
             setLastPosition(pos);
-            setPosition(pos == 0 ? items.length - 1 : pos - 1);
+            setPosition(pos === 0 ? items.length - 1 : pos - 1);
             setSliding(true);
         }, SLIDE_TIME)
     );
@@ -198,7 +200,7 @@ export default (props: ISectionProps) => {
 
     const navigate = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const destination = Number(e.currentTarget.dataset.index);
-        if (destination == position) {
+        if (destination === position) {
             return;
         }
         setDirection(destination > position ? "next" : "prev");
@@ -213,6 +215,8 @@ export default (props: ISectionProps) => {
                 break;
             case "ArrowRight":
                 next();
+                break;
+            default:
                 break;
         }
     };
@@ -283,7 +287,7 @@ export default (props: ISectionProps) => {
                                 className="section__indicator"
                                 data-index={i}
                                 theme={theme}
-                                active={i == position}
+                                active={i === position}
                                 onClick={navigate}
                             />
                         </Tooltip>

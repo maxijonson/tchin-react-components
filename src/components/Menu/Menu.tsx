@@ -217,6 +217,11 @@ export default () => {
     const theme = useConnect(({ theme }) => theme);
     const dimensions = useGetDimensions({ throttle: 100 });
 
+    const menuAnimate = (() => {
+        if (navigating) return "navigating";
+        return open ? "open" : "closed";
+    })();
+
     const handleNavigation = React.useCallback(
         (e: React.MouseEvent, path: string) => {
             e.preventDefault();
@@ -245,10 +250,7 @@ export default () => {
     );
 
     return (
-        <Menu
-            initial={false}
-            animate={navigating ? "navigating" : open ? "open" : "closed"}
-        >
+        <Menu initial={false} animate={menuAnimate}>
             <Backdrop variants={backdrop} />
             <Svg
                 {...dimensions}

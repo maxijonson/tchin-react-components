@@ -38,6 +38,7 @@ const Tip = styled(
                 switch (position) {
                     case "top":
                     case "bottom":
+                    default:
                         return "0%";
                     case "left":
                     case "right":
@@ -48,6 +49,7 @@ const Tip = styled(
                 switch (position) {
                     case "top":
                     case "bottom":
+                    default:
                         return "-50%";
                     case "left":
                     case "right":
@@ -65,6 +67,7 @@ const Tip = styled(
             y: ({ position }: { position: IPosition }) => {
                 switch (position) {
                     case "top":
+                    default:
                         return "-25%";
                     case "bottom":
                         return "25%";
@@ -77,6 +80,7 @@ const Tip = styled(
                 switch (position) {
                     case "top":
                     case "bottom":
+                    default:
                         return "-50%";
                     case "left":
                         return "-25%";
@@ -218,7 +222,7 @@ export default (props: ITooltipProps) => {
 
     const show = () => {
         setVisibility("visible");
-        if (screen < BREAKPOINTS.md && mobileTimeout != 0 && activeOnMobile) {
+        if (screen < BREAKPOINTS.md && mobileTimeout !== 0 && activeOnMobile) {
             timeout = window.setTimeout(() => {
                 hide();
             }, mobileTimeout);
