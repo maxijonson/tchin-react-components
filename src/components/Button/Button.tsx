@@ -7,6 +7,7 @@ import { THEME_TRANSITION_TIME } from "../../config";
 interface IButtonProps {
     state?: IContextState;
     variant?: "outlined" | "text";
+    noScale?: boolean;
 }
 
 type IMotionProps = React.ComponentProps<typeof motion.button>;
@@ -18,6 +19,7 @@ const defaultMotionProps: IMotionProps = {
 const Button = ({
     state,
     variant,
+    noScale,
     ...motionProps
 }: IMotionProps & IButtonProps) => {
     const { disabled } = motionProps;
@@ -43,8 +45,8 @@ const Button = ({
     return (
         <motion.button
             {...defaultMotionProps}
-            whileHover={whileHover}
-            whileTap={whileTap}
+            whileHover={!noScale ? whileHover : undefined}
+            whileTap={!noScale ? whileTap : undefined}
             transformTemplate={({ scale }) => `scale(${scale})`} // Prevents translateZ(0px) from being added. This disables GPU acceleration == CPU rendered. https://github.com/framer/motion/issues/355
             {...motionProps}
         />

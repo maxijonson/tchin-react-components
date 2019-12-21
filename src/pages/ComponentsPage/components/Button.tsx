@@ -22,8 +22,8 @@ const buttonProps = [
         required: false,
     },
     {
-        prop: "disabled",
-        definition: "Disables the button",
+        prop: "noScale",
+        definition: "Disables the scaling behaviour",
         type: "boolean",
         default: "false",
         required: false,
