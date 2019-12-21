@@ -136,8 +136,8 @@ const drawerStateProps = [
     },
 ];
 
-export default ({ Tree }: { Tree: () => JSX.Element }) => {
-    const { addItem } = React.useContext(TreeContext);
+export default () => {
+    const { addItem, Component: Tree } = React.useContext(TreeContext);
 
     const subtitleRef = React.useRef(null);
     const motivationRef = React.useRef(null);
@@ -203,7 +203,7 @@ export default ({ Tree }: { Tree: () => JSX.Element }) => {
                         <div>Components</div>
                     </div>
                     <Hr />
-                    <Tree />
+                    <Tree collapsible />
                 </div>
             </Drawer>
             <Drawer id="persistent-right" persistent position="right">

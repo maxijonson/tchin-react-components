@@ -11,7 +11,7 @@ export {
     default as Background,
     IBackgroundOptions,
 } from "./Background/Background";
-export { default as Button } from "./Buttons/Buttons";
+export { default as Button } from "./Button/Button";
 export { default as Catcher, withCatcher } from "./Catcher/Catcher";
 export { default as ColorOverlay } from "./ColorOverlay/ColorOverlay";
 export { default as Footer } from "./Footer/Footer";
@@ -29,3 +29,7 @@ export {
 } from "./Drawer/Drawer";
 export { default as Portal } from "./Portal/Portal";
 export { default as Tree } from "./Tree/Tree";
+export {
+    default as Collapsible,
+    toggleCollapsible,
+} from "./Collapsible/Collapsible";

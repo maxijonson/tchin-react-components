@@ -22,7 +22,7 @@ export default () => {
         { parallax: true }
     );
 
-    const { addItem, Component: Tree } = useTree();
+    const treeContext = useTree();
 
     return (
         <Page>
@@ -57,7 +57,7 @@ export default () => {
                     <b>they may drastically change without any warning</b>.
                 </TextLeft>
                 <Hr />
-                <TreeContext.Provider value={{ addItem }}>
+                <TreeContext.Provider value={treeContext}>
                     <BackgroundDocs />
                     <Hr />
                     <br />
@@ -70,7 +70,7 @@ export default () => {
                     <TableDocs />
                     <br />
                     <Hr />
-                    <DrawerDocs Tree={Tree} />
+                    <DrawerDocs />
                 </TreeContext.Provider>
                 <Hr />
             </PaddingH>

@@ -187,11 +187,16 @@ export const useBackground = (
     );
 };
 
-type ITreeItems = React.ComponentProps<typeof Tree>["items"];
-export const useTree = () => {
-    const [items, setItems] = React.useState<ITreeItems>({});
+type ITreeProps = React.ComponentProps<typeof Tree>;
+export const useTree = (initialItems?: ITreeProps["items"]) => {
+    const [items, setItems] = React.useState<ITreeProps["items"]>(
+        initialItems ?? {}
+    );
 
-    const Component = React.useCallback(() => <Tree items={items} />, [items]);
+    const Component = React.useCallback(
+        (props: Omit<ITreeProps, "items">) => <Tree items={items} {...props} />,
+        [items]
+    );
 
     const removeItem = React.useCallback(
         (id: string) =>
@@ -204,7 +209,7 @@ export const useTree = () => {
     );
 
     const addItem = React.useCallback(
-        (item: ITreeItems[0]) => {
+        (item: ITreeProps["items"][0]) => {
             setItems((state) => ({
                 ...state,
                 [item.id]: item,
@@ -214,5 +219,5 @@ export const useTree = () => {
         [removeItem]
     );
 
-    return { Component, addItem };
+    return { Component, addItem, removeItem };
 };

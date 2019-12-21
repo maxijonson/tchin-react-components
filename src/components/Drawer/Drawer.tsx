@@ -28,7 +28,7 @@ interface IDrawerStateBased {
     open: boolean;
     onRequestClose?: () => void;
     id?: never;
-    initialOpen: never;
+    initialOpen?: never;
 }
 
 interface IDrawerEventBased {

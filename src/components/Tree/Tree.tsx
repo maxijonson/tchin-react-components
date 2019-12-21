@@ -1,12 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import _ from "lodash";
+import shortid from "shortid";
+import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Ul from "../Layouts/Ul";
 import Li from "../Layouts/Li";
 import { Link } from "../TextStyles";
 import { THEME_TRANSITION_TIME } from "../../config";
+import Collapsible, { toggleCollapsible } from "../Collapsible/Collapsible";
+import BaseButton from "../Button/Button";
 
-interface ITreeItems {
+export interface ITreeItems {
     [id: string]: {
         id: string;
         childrenOf?: string;
@@ -17,16 +22,23 @@ interface ITreeItems {
 
 type ITreeItem = ITreeItems[0];
 
-interface ITreeProps {
+export interface ITreeProps {
     items: ITreeItems;
+    collapsible?: boolean;
 }
 
 interface IGroupedTree {
     [id: string]: ITreeItem & { subItems: IGroupedTree };
 }
 
+const Button = styled(BaseButton)`
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+`;
+
 const Tree = styled.div`
-    padding-left: 24px;
     padding-top: 10px;
     font-size: 1em;
 
@@ -40,28 +52,13 @@ const Tree = styled.div`
             background-color: ${({ theme }) => theme.colors.altPageBackground};
         }
     }
+
+    & > ul > li > a {
+        font-weight: bold;
+    }
 `;
 
-const groupItems = (items: ITreeItems, group?: string) =>
-    _(items)
-        .filter((item) => item.childrenOf == group)
-        .reduce((acc, item) => {
-            acc[item.id] = {
-                ...item,
-                subItems: groupItems(items, item.id),
-            };
-            return acc;
-        }, {} as IGroupedTree);
-
-const renderSubItems = (subItems: IGroupedTree) =>
-    _.map(subItems, (subItem) => (
-        <Li key={subItem.id}>
-            <GoTo to={subItem.ref}>{subItem.name}</GoTo>
-            <Ul>{renderSubItems(subItem.subItems)}</Ul>
-        </Li>
-    ));
-
-const GoTo = ({
+const ScrollTo = ({
     to,
     children,
 }: {
@@ -77,20 +74,66 @@ const GoTo = ({
     return <Link onClick={onClick}>{children}</Link>;
 };
 
-export default ({ items }: ITreeProps) => {
-    const groups = React.useMemo(() => groupItems(items), [items]);
-    return (
-        <Tree>
+// Recursively groups items based on their childrenOf property
+const groupItems = (items: ITreeItems, group?: string) =>
+    _(items)
+        .filter((item) => item.childrenOf == group)
+        .reduce((acc, item) => {
+            acc[item.id] = {
+                ...item,
+                subItems: groupItems(items, item.id),
+            };
+            return acc;
+        }, {} as IGroupedTree);
+
+// Recursively renders items and their subItems
+const renderItems = (items: IGroupedTree, collapsibleId?: string) => (
+    <>
+        {_.size(items) > 0 && (
             <Ul>
-                {_.map(groups, (item) => (
-                    <Li key={item.id}>
-                        <GoTo to={item.ref}>
-                            <b>{item.name}</b>
-                        </GoTo>
-                        <Ul>{renderSubItems(item.subItems)}</Ul>
+                {_.map(items, ({ id, ref, name, subItems }) => (
+                    <Li key={id}>
+                        <div
+                            style={{
+                                width: "25px",
+                                height: "25px",
+                                display: "inline-block",
+                            }}
+                        >
+                            {collapsibleId && _.size(subItems) > 0 && (
+                                <Button
+                                    variant="text"
+                                    onClick={() =>
+                                        toggleCollapsible(
+                                            `tree-${collapsibleId}-${id}`
+                                        )
+                                    }
+                                >
+                                    <FontAwesomeIcon icon={faCaretRight} />
+                                </Button>
+                            )}
+                        </div>
+                        <ScrollTo to={ref}>{name}</ScrollTo>
+                        {collapsibleId ? (
+                            <Collapsible id={`tree-${collapsibleId}-${id}`}>
+                                {renderItems(subItems, collapsibleId)}
+                            </Collapsible>
+                        ) : (
+                            renderItems(subItems)
+                        )}
                     </Li>
                 ))}
             </Ul>
-        </Tree>
+        )}
+    </>
+);
+
+export default ({ items, collapsible }: ITreeProps) => {
+    const groups = React.useMemo(() => groupItems(items), [items]);
+    const collapsibleId = React.useMemo(
+        () => (collapsible ? shortid.generate() : undefined),
+        [collapsible]
     );
+
+    return <Tree>{renderItems(groups, collapsibleId)}</Tree>;
 };
