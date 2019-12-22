@@ -194,7 +194,9 @@ export const useTree = (initialItems?: ITreeProps["items"]) => {
     );
 
     const Component = React.useCallback(
-        (props: Omit<ITreeProps, "items">) => <Tree items={items} {...props} />,
+        (props: Omit<ITreeProps, "items">) => (
+            <Tree items={items} {...(props as ITreeProps)} />
+        ),
         [items]
     );
 

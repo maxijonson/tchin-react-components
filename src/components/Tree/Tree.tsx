@@ -21,10 +21,21 @@ export interface ITreeItems {
     };
 }
 
-export interface ITreeProps {
+interface IBaseProps {
     items: ITreeItems;
-    isCollapsible?: boolean;
 }
+
+interface ICollapsibleTreeProps extends IBaseProps {
+    isCollapsible: true;
+    initiallyCollapsed?: boolean;
+}
+
+interface INonCollapsibleTreeProps extends IBaseProps {
+    isCollapsible?: false;
+    initiallyCollapsed?: never;
+}
+
+export type ITreeProps = ICollapsibleTreeProps | INonCollapsibleTreeProps;
 
 interface IGroupedTree {
     [id: string]: ITreeItem & { subItems: IGroupedTree };
@@ -43,21 +54,22 @@ const groupItems = (items: ITreeItems, group?: string) =>
         }, {} as IGroupedTree);
 
 // Recursively renders items and their subItems
-const renderItems = (items: IGroupedTree, collapsible?: boolean) => (
+const renderItems = (items: IGroupedTree) => (
     <>
         {_.size(items) > 0 && (
             <Ul>
                 {_.map(items, (item) => (
-                    <Item
-                        key={item.id}
-                        item={item}
-                        isCollapsible={collapsible}
-                    />
+                    <Item key={item.id} item={item} />
                 ))}
             </Ul>
         )}
     </>
 );
+
+const TreeContext = React.createContext<Omit<ITreeProps, "items">>({
+    isCollapsible: true,
+    initiallyCollapsed: true,
+});
 
 const variants: IVariants = {
     open: {
@@ -102,15 +114,12 @@ const ScrollTo = ({
     );
 };
 
-const Item = ({
-    item,
-    isCollapsible,
-}: {
-    item: IGroupedTree[0];
-    isCollapsible?: boolean;
-}) => {
+const Item = ({ item }: { item: IGroupedTree[0] }) => {
     const { id, subItems, ref, name } = item;
-    const [isCollapsed, setIsCollapsed] = React.useState(true);
+    const { isCollapsible, initiallyCollapsed } = React.useContext(TreeContext);
+    const [isCollapsed, setIsCollapsed] = React.useState(
+        initiallyCollapsed ?? true
+    );
     return (
         <Li key={id} style={{ paddingBottom: 2, paddingTop: 2 }}>
             <div
@@ -145,7 +154,7 @@ const Item = ({
             <ScrollTo to={ref}>{name}</ScrollTo>
             {isCollapsible ? (
                 <Collapsible isCollapsed={isCollapsed}>
-                    {renderItems(subItems, isCollapsible)}
+                    {renderItems(subItems)}
                 </Collapsible>
             ) : (
                 renderItems(subItems)
@@ -154,8 +163,12 @@ const Item = ({
     );
 };
 
-export default ({ items, isCollapsible }: ITreeProps) => {
+export default ({ items, isCollapsible, initiallyCollapsed }: ITreeProps) => {
     const groups = React.useMemo(() => groupItems(items), [items]);
 
-    return <Tree>{renderItems(groups, isCollapsible)}</Tree>;
+    return (
+        <TreeContext.Provider value={{ isCollapsible, initiallyCollapsed }}>
+            <Tree>{renderItems(groups)}</Tree>
+        </TreeContext.Provider>
+    );
 };
