@@ -6,7 +6,7 @@ import _ from "lodash";
 import path from "path";
 import * as shell from "shelljs";
 import webpack from "webpack";
-import webpackDevServer from "webpack-dev-server";
+import WebpackDevServer from "webpack-dev-server";
 import rmrf from "rimraf";
 import fse from "fs-extra";
 import {
@@ -44,7 +44,7 @@ const showVariables = () => {
     const shown = ["NODE_ENV"];
     console.log(chalk.magenta(`process.env variables: `) + chalk.cyan(`{`));
     for (const env in process.env) {
-        if (process.env.hasOwnProperty(env)) {
+        if (process.env[env]) {
             const value = process.env[env];
             if (_.includes(shown, env)) {
                 console.log(
@@ -65,9 +65,11 @@ const exit = (c: IExitCode) => {
     const { code, message } = c;
 
     if (message) {
-        code >= 1000
-            ? console.info(chalk.blue(`${code}: ${message}`))
-            : console.error(chalk.red(`${code}: ${message}`));
+        if (code >= 1000) {
+            console.info(chalk.blue(`${code}: ${message}`));
+        } else {
+            console.error(chalk.red(`${code}: ${message}`));
+        }
     }
 
     isExiting = true;
@@ -84,26 +86,27 @@ const init = (done: IGulpTaskDoneFn) => {
     isExiting = false;
     done();
 };
-exports["init"] = init;
+exports.init = init;
 
 const initDev = (done: IGulpTaskDoneFn) => {
     process.env.NODE_ENV = "development";
     showVariables();
     done();
 };
-exports["init:dev"] = gulp.series(exports["init"], initDev);
+exports["init:dev"] = gulp.series(exports.init, initDev);
 
 const initProd = (done: IGulpTaskDoneFn) => {
     process.env.NODE_ENV = "production";
     showVariables();
     done();
 };
-exports["init:prod"] = gulp.series(exports["init"], initProd);
+exports["init:prod"] = gulp.series(exports.init, initProd);
 
 const devServer = () => {
     const webpackConfig = getWebpackConfig(process.env);
     if (!webpackConfig.plugins) {
-        return exit(EC.WEBPACK_PLUGINS_NOEXIST);
+        exit(EC.WEBPACK_PLUGINS_NOEXIST);
+        return;
     }
 
     if (fse.existsSync("dist/")) {
@@ -131,11 +134,11 @@ const devServer = () => {
             chunks: true,
         },
         before: (app: express.Application) =>
-            app.use("/dist/" + "static", express.static("static")),
+            app.use("/dist/static", express.static("static")),
     };
-    webpackDevServer.addDevServerEntrypoints(webpackConfig, options);
+    WebpackDevServer.addDevServerEntrypoints(webpackConfig, options);
     const compiler = webpack(webpackConfig);
-    const server = new webpackDevServer(compiler, options);
+    const server = new WebpackDevServer(compiler, options);
 
     server.listen(options.port, options.host, (err) => {
         if (err) {
@@ -163,7 +166,7 @@ const bumpStart = (done: IGulpTaskDoneFn) => {
 exports[BUMP_START.task] = bumpStart;
 
 const bumpEnd = (done: IGulpTaskDoneFn) => {
-    const newPkg = Object.assign({}, pkg, { version: newVersion }); // update version
+    const newPkg = { ...pkg, version: newVersion }; // update version
     fse.writeFileSync("./package.json", JSON.stringify(newPkg, null, 4));
 
     console.log(
@@ -177,24 +180,24 @@ const bumpEnd = (done: IGulpTaskDoneFn) => {
 exports[BUMP_END.task] = bumpEnd;
 
 const bumpPatch = (done: IGulpTaskDoneFn) => {
-    newVersion = `${major}.${minor}.${parseInt(patch) + 1}`;
+    newVersion = `${major}.${minor}.${parseInt(patch, 10) + 1}`;
     done();
 };
 exports[BUMP_PATCH.task] = gulp.series(bumpStart, bumpPatch, bumpEnd);
 
 const bumpMinor = (done: IGulpTaskDoneFn) => {
-    newVersion = `${major}.${parseInt(minor) + 1}.${0}`;
+    newVersion = `${major}.${parseInt(minor, 10) + 1}.${0}`;
     done();
 };
 exports[BUMP_MINOR.task] = gulp.series(bumpStart, bumpMinor, bumpEnd);
 
 const bumpMajor = (done: IGulpTaskDoneFn) => {
-    newVersion = `${parseInt(major) + 1}.${0}.${0}`;
+    newVersion = `${parseInt(major, 10) + 1}.${0}.${0}`;
     done();
 };
 exports[BUMP_MAJOR.task] = gulp.series(bumpStart, bumpMajor, bumpEnd);
 
-exports["default"] = exports[DEV_SERVER.task];
+exports.default = exports[DEV_SERVER.task];
 
 const removeDist = (done: IGulpTaskDoneFn) => {
     rmrf.sync("./dist");

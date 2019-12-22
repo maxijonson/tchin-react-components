@@ -24,7 +24,10 @@
         },
         "ecmaVersion": 2018,
         "import/parsers": {
-            "@typescript-eslint/parser": [".ts", ".tsx"]
+            "@typescript-eslint/parser": [
+                ".ts",
+                ".tsx"
+            ]
         },
         "import/resolver": {
             "typescript": {}
@@ -34,12 +37,13 @@
         "tsconfigRootDir": ".",
         "useJSXTextNode": true
     },
-    "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
+    "plugins": [
+        "react",
+        "react-hooks",
+        "@typescript-eslint",
+        "prettier"
+    ],
     "rules": {
-        "eqeqeq": "off",
-        "no-restricted-globals": "off",
-        "react/jsx-props-no-spreading": "off",
-        "jsx-a11y/control-has-associated-label": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/no-explicit-any": "off",
@@ -51,9 +55,11 @@
             }
         ],
         "class-methods-use-this": "off",
+        "eqeqeq": "off",
         "import/extensions": [
             "error",
             {
+                "config": "always",
                 "js": "never",
                 "json": "always",
                 "jsx": "never",
@@ -67,19 +73,28 @@
         "import/prefer-default-export": "off",
         "jsx-a11y/anchor-is-valid": "off",
         "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/control-has-associated-label": "off",
         "jsx-a11y/no-static-element-interactions": "off",
         "lines-between-class-members": "off",
         "no-console": [
             "warn",
             {
-                "allow": ["warn", "error", "info"]
+                "allow": [
+                    "warn",
+                    "error",
+                    "info"
+                ]
             }
         ],
         "no-new": "off",
+        "no-restricted-globals": "off",
+        "no-restricted-syntax": "off",
         "no-shadow": [
             "error",
             {
-                "allow": ["theme"]
+                "allow": [
+                    "theme"
+                ]
             }
         ],
         "no-underscore-dangle": "off",
@@ -99,9 +114,13 @@
         "react/jsx-filename-extension": [
             1,
             {
-                "extensions": [".tsx", ".jsx"]
+                "extensions": [
+                    ".tsx",
+                    ".jsx"
+                ]
             }
         ],
+        "react/jsx-props-no-spreading": "off",
         "react/no-children-prop": "off",
         "react/no-multi-comp": "off",
         "react/prop-types": "off",
@@ -109,7 +128,9 @@
             "warn",
             "always",
             {
-                "markers": ["/"]
+                "markers": [
+                    "/"
+                ]
             }
         ]
     },
