@@ -206,7 +206,8 @@ const removeDist = (done: IGulpTaskDoneFn) => {
 
 const compileTS = (done: IGulpTaskDoneFn) => {
     console.log(chalk.blue("Compiling..."));
-    if (shell.exec("tsc").code != 0) done("FAILED: Compilation errors");
+    if (shell.exec("tsc").code != 0)
+        done("FAILED: Compilation errors. Run TSC manually to see them");
     done();
 };
 
