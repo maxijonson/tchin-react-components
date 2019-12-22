@@ -85,7 +85,7 @@ const drawerEventProps = [
         required: true,
     },
     {
-        prop: "initialOpen",
+        prop: "initiallyOpen",
         definition: "If the Drawer should be initially opened.",
         type: "boolean",
         default: "false",
@@ -109,7 +109,7 @@ const drawerEventProps = [
 ];
 const drawerStateProps = [
     {
-        prop: "open",
+        prop: "isOpen",
         definition: (
             <>
                 Sets the Drawer state manually. You are now in charge of
@@ -192,7 +192,7 @@ export default () => {
                     <P>The size of drawers ajdusts to its content</P>
                 </Drawer>
             ))}
-            <Drawer id="persistent-left" persistent initialOpen>
+            <Drawer id="persistent-left" persistent initiallyOpen>
                 <div>
                     <div style={{ padding: "4px 37px" }}>
                         <div

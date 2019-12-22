@@ -25,17 +25,17 @@ interface IPersistentDrawer {
 }
 
 interface IDrawerStateBased {
-    open: boolean;
+    isOpen: boolean;
     onRequestClose?: () => void;
     id?: never;
-    initialOpen?: never;
+    initiallyOpen?: never;
 }
 
 interface IDrawerEventBased {
     id: string;
-    initialOpen?: IDrawerStateBased["open"];
+    initiallyOpen?: IDrawerStateBased["isOpen"];
     onRequestClose?: (toggle: () => void) => void;
-    open?: never;
+    isOpen?: never;
 }
 
 type IDrawerProps = (IDrawerEventBased | IDrawerStateBased) &
@@ -268,18 +268,17 @@ export const drawerEventDispatch = (id: string) =>
     window.dispatchEvent(new Event(getToggleEventName(id)));
 
 export default (props: IDrawerProps & { children?: React.ReactNode }) => {
-    const { position, children, id, open } = props;
+    const { position, children, id, isOpen } = props;
     const theme = useConnect(({ theme }) => theme);
     const breakpoint = useCurrentBreakpoint();
 
     // Will only be used for EventBased Drawer
-    const [drawerOpenState, toggleDrawer] = useCycle<IDrawerStateBased["open"]>(
-        !!props.initialOpen,
-        !props.initialOpen
-    );
+    const [drawerOpenState, toggleDrawer] = useCycle<
+        IDrawerStateBased["isOpen"]
+    >(!!props.initiallyOpen, !props.initiallyOpen);
 
     // Evaluates the state of the Drawer for both EventBased and StateBased Drawers
-    const drawerOpen = open != undefined ? open : drawerOpenState;
+    const drawerOpen = isOpen != undefined ? isOpen : drawerOpenState;
     const animate = drawerOpen ? "open" : "closed";
 
     const toggle = React.useCallback(() => toggleDrawer(), [toggleDrawer]);
@@ -287,7 +286,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     // Called when an exit event is fired
     const onClose = React.useCallback(() => {
         // StateBased
-        if (props.open)
+        if (props.isOpen)
             return props.onRequestClose ? props.onRequestClose() : null;
 
         // EventBased
