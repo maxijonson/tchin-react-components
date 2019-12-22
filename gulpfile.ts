@@ -22,9 +22,7 @@ import {
     BUMP_PATCH,
     BUMP_MINOR,
     BUMP_MAJOR,
-    // @ts-ignore
 } from "./gulpTasks.json";
-// @ts-ignore
 import pkg from "./package.json";
 import getWebpackConfig from "./webpack.config";
 
@@ -198,15 +196,34 @@ exports[BUMP_MAJOR.task] = gulp.series(bumpStart, bumpMajor, bumpEnd);
 
 exports["default"] = exports[DEV_SERVER.task];
 
-const compile = (done: IGulpTaskDoneFn) => {
-    console.log(chalk.blue("Compiling..."));
+const removeDist = (done: IGulpTaskDoneFn) => {
     rmrf.sync("./dist");
-    shell.exec("tsc");
+    done();
+};
+
+const compileTS = (done: IGulpTaskDoneFn) => {
+    console.log(chalk.blue("Compiling..."));
+    if (shell.exec("tsc").code != 0) done("FAILED: Compilation errors");
+    done();
+};
+
+const copyStyles = (done: IGulpTaskDoneFn) => {
     fse.copySync("./src/styles", "./dist/src/styles");
+    done();
+};
+
+const compileDone = (done: IGulpTaskDoneFn) => {
     console.log(chalk.green("Compiled!"));
     done();
 };
-exports[COMPILE.task] = gulp.series(initProd, compile);
+
+exports[COMPILE.task] = gulp.series(
+    initProd,
+    removeDist,
+    compileTS,
+    copyStyles,
+    compileDone
+);
 
 const publishDone = (done: IGulpTaskDoneFn) => {
     console.log(
