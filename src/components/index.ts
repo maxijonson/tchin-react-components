@@ -33,3 +33,4 @@ export {
     default as Collapsible,
     toggleCollapsible,
 } from "./Collapsible/Collapsible";
+export { default as ScrollTo } from "./ScrollTo/ScrollTo";
