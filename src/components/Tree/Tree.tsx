@@ -96,7 +96,7 @@ const Item = ({
     collapsible?: boolean;
 }) => {
     const { id, subItems, ref, name } = item;
-    const [collapsed, setCollapsed] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
     return (
         <Li key={id} style={{ paddingBottom: 2, paddingTop: 2 }}>
             <div
@@ -110,7 +110,7 @@ const Item = ({
                     <Button
                         variant="text"
                         noScale
-                        onClick={() => setCollapsed(!collapsed)}
+                        onClick={() => setOpen(!open)}
                         style={{
                             padding: 0,
                             margin: 0,
@@ -126,7 +126,7 @@ const Item = ({
             </div>
             <ScrollTo to={ref}>{name}</ScrollTo>
             {collapsible ? (
-                <Collapsible collapsed={collapsed}>
+                <Collapsible open={open}>
                     {renderItems(subItems, collapsible)}
                 </Collapsible>
             ) : (
