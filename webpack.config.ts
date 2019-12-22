@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import CircularDependencyPlugin from "circular-dependency-plugin";
 
