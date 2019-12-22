@@ -48,7 +48,11 @@ const renderItems = (items: IGroupedTree, collapsible?: boolean) => (
         {_.size(items) > 0 && (
             <Ul>
                 {_.map(items, (item) => (
-                    <Item key={item.id} item={item} collapsible={collapsible} />
+                    <Item
+                        key={item.id}
+                        item={item}
+                        isCollapsible={collapsible}
+                    />
                 ))}
             </Ul>
         )}
@@ -100,10 +104,10 @@ const ScrollTo = ({
 
 const Item = ({
     item,
-    collapsible,
+    isCollapsible,
 }: {
     item: IGroupedTree[0];
-    collapsible?: boolean;
+    isCollapsible?: boolean;
 }) => {
     const { id, subItems, ref, name } = item;
     const [isCollapsed, setIsCollapsed] = React.useState(true);
@@ -116,7 +120,7 @@ const Item = ({
                     display: "inline-block",
                 }}
             >
-                {collapsible && _.size(subItems) > 0 && (
+                {isCollapsible && _.size(subItems) > 0 && (
                     <Button
                         variant="text"
                         noScale
@@ -139,9 +143,9 @@ const Item = ({
                 )}
             </div>
             <ScrollTo to={ref}>{name}</ScrollTo>
-            {collapsible ? (
+            {isCollapsible ? (
                 <Collapsible isCollapsed={isCollapsed}>
-                    {renderItems(subItems, collapsible)}
+                    {renderItems(subItems, isCollapsible)}
                 </Collapsible>
             ) : (
                 renderItems(subItems)
@@ -150,8 +154,8 @@ const Item = ({
     );
 };
 
-export default ({ items, isCollapsible: collapsible }: ITreeProps) => {
+export default ({ items, isCollapsible }: ITreeProps) => {
     const groups = React.useMemo(() => groupItems(items), [items]);
 
-    return <Tree>{renderItems(groups, collapsible)}</Tree>;
+    return <Tree>{renderItems(groups, isCollapsible)}</Tree>;
 };
