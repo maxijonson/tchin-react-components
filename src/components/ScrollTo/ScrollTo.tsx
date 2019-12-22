@@ -1,10 +1,15 @@
 import React from "react";
-import Button from "../Button/Button";
+import styled from "styled-components";
+import { Link as BaseLink } from "../TextStyles";
 
 interface IScrollToProps {
     to: React.RefObject<HTMLElement>;
     children: React.ReactNode;
 }
+
+const Link = styled(BaseLink)`
+    color: inherit;
+`;
 
 export default ({ to, children }: IScrollToProps) => {
     const onClick = React.useCallback(() => {
@@ -13,14 +18,5 @@ export default ({ to, children }: IScrollToProps) => {
         }
     }, [to]);
 
-    return (
-        <Button
-            variant="text"
-            onClick={onClick}
-            style={{ padding: "5px", margin: 0 }}
-            noScale
-        >
-            {children}
-        </Button>
-    );
+    return <Link onClick={onClick}>{children}</Link>;
 };

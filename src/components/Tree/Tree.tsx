@@ -8,6 +8,7 @@ import Ul from "../Layouts/Ul";
 import Li from "../Layouts/Li";
 import Collapsible from "../Collapsible/Collapsible";
 import Button from "../Button/Button";
+import ScrollTo from "../ScrollTo/ScrollTo";
 
 type ITreeItem = ITreeItems[0];
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
@@ -89,31 +90,6 @@ const Tree = styled.div`
     }
 `;
 
-const ScrollTo = ({
-    to,
-    children,
-}: {
-    to: ITreeItems[0]["ref"];
-    children: React.ReactNode;
-}) => {
-    const onClick = React.useCallback(() => {
-        if (to.current) {
-            window.scrollTo({ top: to.current.offsetTop, behavior: "smooth" });
-        }
-    }, [to]);
-
-    return (
-        <Button
-            variant="text"
-            onClick={onClick}
-            style={{ padding: "5px", margin: 0 }}
-            noScale
-        >
-            {children}
-        </Button>
-    );
-};
-
 const Item = ({ item }: { item: IGroupedTree[0] }) => {
     const { id, subItems, ref, name } = item;
     const { isCollapsible, initiallyCollapsed } = React.useContext(TreeContext);
@@ -151,7 +127,15 @@ const Item = ({ item }: { item: IGroupedTree[0] }) => {
                     </Button>
                 )}
             </div>
-            <ScrollTo to={ref}>{name}</ScrollTo>
+            <ScrollTo to={ref}>
+                <Button
+                    variant="text"
+                    noScale
+                    style={{ margin: 0, padding: "2px" }}
+                >
+                    {name}
+                </Button>
+            </ScrollTo>
             {isCollapsible ? (
                 <Collapsible isCollapsed={isCollapsed}>
                     {renderItems(subItems)}
