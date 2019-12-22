@@ -9,8 +9,8 @@ interface ICollapsibleBaseProps {
 
 interface ICollapsibleStateBasedProps extends ICollapsibleBaseProps {
     collapsed: boolean;
-    initialCollapse: never;
-    id: never;
+    initialCollapse?: never;
+    id?: never;
 }
 
 interface ICollapsibleEventBasedProps extends ICollapsibleBaseProps {
@@ -50,11 +50,11 @@ export default (props: ICollapsibleProps) => {
 
     // Evaluates the state of the Drawer for both EventBased and StateBased Drawers
     const animate = React.useMemo(() => {
-        if (props.collapsed != undefined) {
-            return open ? "open" : "closed";
+        if (!props.id) {
+            return props.collapsed ? "open" : "closed";
         }
         return openState ? "open" : "closed";
-    }, [openState, props.collapsed]);
+    }, [openState, props.collapsed, props.id]);
 
     const toggle = React.useCallback(() => toggleState(), [toggleState]);
 

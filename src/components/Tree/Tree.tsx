@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import _ from "lodash";
-import shortid from "shortid";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import Ul from "../Layouts/Ul";
 import Li from "../Layouts/Li";
-import Collapsible, { toggleCollapsible } from "../Collapsible/Collapsible";
+import Collapsible from "../Collapsible/Collapsible";
 import Button from "../Button/Button";
 
 export interface ITreeItems {
@@ -43,16 +42,12 @@ const groupItems = (items: ITreeItems, group?: string) =>
         }, {} as IGroupedTree);
 
 // Recursively renders items and their subItems
-const renderItems = (items: IGroupedTree, collapsibleId?: string) => (
+const renderItems = (items: IGroupedTree, collapsible?: boolean) => (
     <>
         {_.size(items) > 0 && (
             <Ul>
                 {_.map(items, (item) => (
-                    <Item
-                        key={item.id}
-                        item={item}
-                        collapsibleId={collapsibleId}
-                    />
+                    <Item key={item.id} item={item} collapsible={collapsible} />
                 ))}
             </Ul>
         )}
@@ -95,12 +90,13 @@ const ScrollTo = ({
 
 const Item = ({
     item,
-    collapsibleId,
+    collapsible,
 }: {
-    collapsibleId?: string;
     item: IGroupedTree[0];
+    collapsible?: boolean;
 }) => {
     const { id, subItems, ref, name } = item;
+    const [collapsed, setCollapsed] = React.useState(false);
     return (
         <Li key={id} style={{ paddingBottom: 2, paddingTop: 2 }}>
             <div
@@ -110,13 +106,11 @@ const Item = ({
                     display: "inline-block",
                 }}
             >
-                {collapsibleId && _.size(subItems) > 0 && (
+                {collapsible && _.size(subItems) > 0 && (
                     <Button
                         variant="text"
                         noScale
-                        onClick={() =>
-                            toggleCollapsible(`tree-${collapsibleId}-${id}`)
-                        }
+                        onClick={() => setCollapsed(!collapsed)}
                         style={{
                             padding: 0,
                             margin: 0,
@@ -131,9 +125,9 @@ const Item = ({
                 )}
             </div>
             <ScrollTo to={ref}>{name}</ScrollTo>
-            {collapsibleId ? (
-                <Collapsible id={`tree-${collapsibleId}-${id}`}>
-                    {renderItems(subItems, collapsibleId)}
+            {collapsible ? (
+                <Collapsible collapsed={collapsed}>
+                    {renderItems(subItems, collapsible)}
                 </Collapsible>
             ) : (
                 renderItems(subItems)
@@ -144,10 +138,6 @@ const Item = ({
 
 export default ({ items, collapsible }: ITreeProps) => {
     const groups = React.useMemo(() => groupItems(items), [items]);
-    const collapsibleId = React.useMemo(
-        () => (collapsible ? shortid.generate() : undefined),
-        [collapsible]
-    );
 
-    return <Tree>{renderItems(groups, collapsibleId)}</Tree>;
+    return <Tree>{renderItems(groups, collapsible)}</Tree>;
 };
