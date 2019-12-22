@@ -9,6 +9,9 @@ import Li from "../Layouts/Li";
 import Collapsible from "../Collapsible/Collapsible";
 import Button from "../Button/Button";
 
+type ITreeItem = ITreeItems[0];
+type IVariants = React.ComponentProps<typeof motion.div>["variants"];
+
 export interface ITreeItems {
     [id: string]: {
         id: string;
@@ -17,8 +20,6 @@ export interface ITreeItems {
         ref: React.RefObject<HTMLElement>;
     };
 }
-
-type ITreeItem = ITreeItems[0];
 
 export interface ITreeProps {
     items: ITreeItems;
@@ -53,6 +54,15 @@ const renderItems = (items: IGroupedTree, collapsible?: boolean) => (
         )}
     </>
 );
+
+const variants: IVariants = {
+    open: {
+        rotate: 90,
+    },
+    closed: {
+        rotate: 0,
+    },
+};
 
 const Tree = styled.div`
     padding-top: 10px;
@@ -118,9 +128,13 @@ const Item = ({
                             height: "100%",
                         }}
                     >
-                        <motion.span>
+                        <motion.div
+                            initial={false}
+                            animate={open ? "open" : "closed"}
+                            variants={variants}
+                        >
                             <FontAwesomeIcon icon={faCaretRight} />
-                        </motion.span>
+                        </motion.div>
                     </Button>
                 )}
             </div>
