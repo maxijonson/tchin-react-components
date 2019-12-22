@@ -23,7 +23,7 @@ export interface ITreeItems {
 
 export interface ITreeProps {
     items: ITreeItems;
-    collapsible?: boolean;
+    isCollapsible?: boolean;
 }
 
 interface IGroupedTree {
@@ -106,7 +106,7 @@ const Item = ({
     collapsible?: boolean;
 }) => {
     const { id, subItems, ref, name } = item;
-    const [open, setOpen] = React.useState(false);
+    const [isCollapsed, setIsCollapsed] = React.useState(true);
     return (
         <Li key={id} style={{ paddingBottom: 2, paddingTop: 2 }}>
             <div
@@ -120,7 +120,7 @@ const Item = ({
                     <Button
                         variant="text"
                         noScale
-                        onClick={() => setOpen(!open)}
+                        onClick={() => setIsCollapsed(!isCollapsed)}
                         style={{
                             padding: 0,
                             margin: 0,
@@ -130,7 +130,7 @@ const Item = ({
                     >
                         <motion.div
                             initial={false}
-                            animate={open ? "open" : "closed"}
+                            animate={isCollapsed ? "closed" : "open"}
                             variants={variants}
                         >
                             <FontAwesomeIcon icon={faCaretRight} />
@@ -140,7 +140,7 @@ const Item = ({
             </div>
             <ScrollTo to={ref}>{name}</ScrollTo>
             {collapsible ? (
-                <Collapsible open={open}>
+                <Collapsible isCollapsed={isCollapsed}>
                     {renderItems(subItems, collapsible)}
                 </Collapsible>
             ) : (
@@ -150,7 +150,7 @@ const Item = ({
     );
 };
 
-export default ({ items, collapsible }: ITreeProps) => {
+export default ({ items, isCollapsible: collapsible }: ITreeProps) => {
     const groups = React.useMemo(() => groupItems(items), [items]);
 
     return <Tree>{renderItems(groups, collapsible)}</Tree>;

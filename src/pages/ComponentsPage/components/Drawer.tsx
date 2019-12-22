@@ -203,7 +203,7 @@ export default () => {
                         <div>Components</div>
                     </div>
                     <Hr />
-                    <Tree collapsible />
+                    <Tree isCollapsible />
                 </div>
             </Drawer>
             <Drawer id="persistent-right" persistent position="right">
