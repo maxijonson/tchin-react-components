@@ -240,18 +240,18 @@ export default () => {
             <H4>Method 2: StateBased</H4>
             <P>
                 This approach lets you manage the state manually. Just give it a{" "}
-                <CodeSpan>open</CodeSpan> prop between <CodeSpan>true</CodeSpan>{" "}
-                or <CodeSpan>false</CodeSpan> to toggle the Drawer. Your
-                provided state will override the Drawer&apos;s internal state.
-                This method should be used if the component using the Drawer
-                needs to know its state.
+                <CodeSpan>isOpen</CodeSpan> prop between{" "}
+                <CodeSpan>true</CodeSpan> or <CodeSpan>false</CodeSpan> to
+                toggle the Drawer. Your provided state will override the
+                Drawer&apos;s internal state. This method should be used if the
+                component using the Drawer needs to know its state.
             </P>
             <P>
                 <i>
                     Note: if you are using TypeScript, the props typings have
                     been set so it disallows the use of both{" "}
-                    <CodeSpan>id</CodeSpan> and <CodeSpan>open</CodeSpan> at the
-                    same time
+                    <CodeSpan>id</CodeSpan> and <CodeSpan>isOpen</CodeSpan> at
+                    the same time
                 </i>
             </P>
             <H4>onRequestClose</H4>
