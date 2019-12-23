@@ -6,7 +6,7 @@ export default () => {
     return (
         <>
             <Drawer
-                open={drawerOpen}
+                isOpen={drawerOpen}
                 onRequestClose={() => setDrawerOpen(false)}
             >
                 <form>{/* ... */}</form>
