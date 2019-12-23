@@ -54,30 +54,26 @@ export default () => {
     const componentRef = React.useRef<HTMLHeadingElement>(null);
 
     React.useLayoutEffect(() => {
-        const groupId = "background";
+        const group = "background";
         const removeFns = [
             addItem({
-                id: groupId,
-                name: "Background",
-                ref: subtitleRef,
+                id: group,
+                data: { name: "Background", ref: subtitleRef },
             }),
             addItem({
-                id: `${groupId}_usage`,
-                name: "Usage",
-                ref: usageRef,
-                childrenOf: groupId,
+                id: `${group}_usage`,
+                data: { name: "Usage", ref: usageRef },
+                group,
             }),
             addItem({
-                id: `${groupId}_examples`,
-                name: "Examples",
-                ref: examplesRef,
-                childrenOf: groupId,
+                id: `${group}_examples`,
+                data: { name: "Examples", ref: examplesRef },
+                group,
             }),
             addItem({
-                id: `${groupId}_props`,
-                name: "Props",
-                ref: propsRef,
-                childrenOf: groupId,
+                id: `${group}_props`,
+                data: { name: "Props", ref: propsRef },
+                group,
             }),
         ];
 

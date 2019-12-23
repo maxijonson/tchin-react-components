@@ -8,6 +8,7 @@ import {
     CodeSnippet,
     Layouts,
     Table,
+    ScrollTo,
 } from "../../../components";
 import { BREAKPOINTS } from "../../../config";
 import tableFields from "../tableFields";
@@ -145,37 +146,48 @@ export default () => {
     const examplesRef = React.useRef(null);
     const propsRef = React.useRef(null);
 
+    type IRenderItem = React.ComponentProps<typeof Tree>["renderItem"];
+    const renderItem = React.useCallback<NonNullable<IRenderItem>>(
+        ({ data: { ref, name } }) => (
+            <ScrollTo to={ref}>
+                <Button
+                    variant="text"
+                    noScale
+                    style={{ margin: 0, padding: "2px" }}
+                >
+                    {name}
+                </Button>
+            </ScrollTo>
+        ),
+        []
+    );
+
     React.useLayoutEffect(() => {
-        const groupId = "drawer";
+        const group = "drawer";
         const removeFns = [
             addItem({
-                id: groupId,
-                name: "Drawer",
-                ref: subtitleRef,
+                id: group,
+                data: { name: "Drawer", ref: subtitleRef },
             }),
             addItem({
-                id: `${groupId}_motivation`,
-                name: "Motivation",
-                ref: motivationRef,
-                childrenOf: groupId,
+                id: `${group}_motivation`,
+                data: { name: "Motivation", ref: motivationRef },
+                group,
             }),
             addItem({
-                id: `${groupId}_usage`,
-                name: "Usage",
-                ref: usageRef,
-                childrenOf: groupId,
+                id: `${group}_usage`,
+                data: { name: "Usage", ref: usageRef },
+                group,
             }),
             addItem({
-                id: `${groupId}_examples`,
-                name: "Examples",
-                ref: examplesRef,
-                childrenOf: groupId,
+                id: `${group}_examples`,
+                data: { name: "Examples", ref: examplesRef },
+                group,
             }),
             addItem({
-                id: `${groupId}_props`,
-                name: "Props",
-                ref: propsRef,
-                childrenOf: groupId,
+                id: `${group}_props`,
+                data: { name: "Props", ref: propsRef },
+                group,
             }),
         ];
 
@@ -203,7 +215,7 @@ export default () => {
                         <div>Components</div>
                     </div>
                     <Hr />
-                    <Tree isCollapsible />
+                    <Tree isCollapsible renderItem={renderItem} />
                 </div>
             </Drawer>
             <Drawer id="persistent-right" persistent position="right">

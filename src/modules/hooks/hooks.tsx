@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Background, {
     IBackgroundOptions,
 } from "../../components/Background/Background";
-import Tree from "../../components/Tree/Tree";
+import Tree, { ITreeProps } from "../../components/Tree/Tree";
 import { BREAKPOINTS } from "../../config";
 
 export const useForceUpdate = () => {
@@ -187,15 +187,16 @@ export const useBackground = (
     );
 };
 
-type ITreeProps = React.ComponentProps<typeof Tree>;
-export const useTree = (initialItems?: ITreeProps["items"]) => {
-    const [items, setItems] = React.useState<ITreeProps["items"]>(
+export const useTree = <T extends {}>(
+    initialItems?: ITreeProps<T>["items"]
+) => {
+    const [items, setItems] = React.useState<ITreeProps<T>["items"]>(
         initialItems ?? {}
     );
 
     const Component = React.useCallback(
-        (props: Omit<ITreeProps, "items">) => (
-            <Tree items={items} {...(props as ITreeProps)} />
+        (props: Omit<ITreeProps<T>, "items">) => (
+            <Tree items={items} {...(props as ITreeProps<T>)} />
         ),
         [items]
     );
@@ -211,7 +212,7 @@ export const useTree = (initialItems?: ITreeProps["items"]) => {
     );
 
     const addItem = React.useCallback(
-        (item: ITreeProps["items"][0]) => {
+        (item: ITreeProps<T>["items"][0]) => {
             setItems((state) => ({
                 ...state,
                 [item.id]: item,

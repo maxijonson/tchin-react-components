@@ -70,24 +70,21 @@ export default () => {
     const propsRef = React.useRef(null);
 
     React.useLayoutEffect(() => {
-        const groupId = "button";
+        const group = "button";
         const removeFns = [
             addItem({
-                id: groupId,
-                name: "Button",
-                ref: subtitleRef,
+                id: group,
+                data: { name: "Button", ref: subtitleRef },
             }),
             addItem({
-                id: `${groupId}_examples`,
-                name: "Examples",
-                ref: examplesRef,
-                childrenOf: groupId,
+                id: `${group}_examples`,
+                data: { name: "Examples", ref: examplesRef },
+                group,
             }),
             addItem({
-                id: `${groupId}_props`,
-                name: "Props",
-                ref: propsRef,
-                childrenOf: groupId,
+                id: `${group}_props`,
+                data: { name: "Props", ref: propsRef },
+                group,
             }),
         ];
 

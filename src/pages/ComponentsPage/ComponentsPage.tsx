@@ -8,7 +8,7 @@ import {
     TableDocs,
     DrawerDocs,
 } from "./components";
-import TreeContext from "./TreeContext";
+import TreeContext, { IData } from "./TreeContext";
 import app from "../../app";
 
 const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
@@ -22,7 +22,7 @@ export default () => {
         { parallax: true }
     );
 
-    const treeContext = useTree();
+    const treeContext = useTree<IData>();
 
     return (
         <Page>

@@ -8,54 +8,56 @@ import Ul from "../Layouts/Ul";
 import Li from "../Layouts/Li";
 import Collapsible from "../Collapsible/Collapsible";
 import Button from "../Button/Button";
-import ScrollTo from "../ScrollTo/ScrollTo";
 
-type ITreeItem = ITreeItems[0];
 type IVariants = React.ComponentProps<typeof motion.div>["variants"];
 
-export interface ITreeItems {
-    [id: string]: {
-        id: string;
-        childrenOf?: string;
-        name: React.ReactNode;
-        ref: React.RefObject<HTMLElement>;
-    };
+export interface ITreeItem<T> {
+    id: string;
+    group?: string;
+    data: T;
 }
 
-interface IBaseProps {
-    items: ITreeItems;
+export interface ITreeItems<T> {
+    [id: string]: ITreeItem<T>;
 }
 
-interface ICollapsibleTreeProps extends IBaseProps {
+interface IBaseProps<T> {
+    items: ITreeItems<T>;
+    renderItem?: (item: ITreeItem<T>) => React.ReactNode;
+}
+
+interface ICollapsibleTreeProps<T> extends IBaseProps<T> {
     isCollapsible: true;
     initiallyCollapsed?: boolean;
 }
 
-interface INonCollapsibleTreeProps extends IBaseProps {
+interface INonCollapsibleTreeProps<T> extends IBaseProps<T> {
     isCollapsible?: false;
     initiallyCollapsed?: never;
 }
 
-export type ITreeProps = ICollapsibleTreeProps | INonCollapsibleTreeProps;
+export type ITreeProps<T> =
+    | ICollapsibleTreeProps<T>
+    | INonCollapsibleTreeProps<T>;
 
-interface IGroupedTree {
-    [id: string]: ITreeItem & { subItems: IGroupedTree };
+interface IGroupedTree<T> {
+    [id: string]: ITreeItem<T> & { subItems: IGroupedTree<T> };
 }
 
 // Recursively groups items based on their childrenOf property
-const groupItems = (items: ITreeItems, group?: string) =>
+const groupItems = <T extends {}>(items: ITreeItems<T>, group?: string) =>
     _(items)
-        .filter((item) => item.childrenOf == group)
+        .filter((item) => item.group == group)
         .reduce((acc, item) => {
             acc[item.id] = {
                 ...item,
                 subItems: groupItems(items, item.id),
             };
             return acc;
-        }, {} as IGroupedTree);
+        }, {} as IGroupedTree<T>);
 
 // Recursively renders items and their subItems
-const renderItems = (items: IGroupedTree) => (
+const renderItems = <T extends {}>(items: IGroupedTree<T>) => (
     <>
         {_.size(items) > 0 && (
             <Ul>
@@ -67,7 +69,7 @@ const renderItems = (items: IGroupedTree) => (
     </>
 );
 
-const TreeContext = React.createContext<Omit<ITreeProps, "items">>({
+const TreeContext = React.createContext<Omit<ITreeProps<any>, "items">>({
     isCollapsible: true,
     initiallyCollapsed: true,
 });
@@ -90,9 +92,11 @@ const Tree = styled.div`
     }
 `;
 
-const Item = ({ item }: { item: IGroupedTree[0] }) => {
-    const { id, subItems, ref, name } = item;
-    const { isCollapsible, initiallyCollapsed } = React.useContext(TreeContext);
+const Item = <T extends {}>({ item }: { item: IGroupedTree<T>[0] }) => {
+    const { id, subItems } = item;
+    const { isCollapsible, initiallyCollapsed, renderItem } = React.useContext(
+        TreeContext
+    );
     const [isCollapsed, setIsCollapsed] = React.useState(
         initiallyCollapsed ?? true
     );
@@ -127,15 +131,7 @@ const Item = ({ item }: { item: IGroupedTree[0] }) => {
                     </Button>
                 )}
             </div>
-            <ScrollTo to={ref}>
-                <Button
-                    variant="text"
-                    noScale
-                    style={{ margin: 0, padding: "2px" }}
-                >
-                    {name}
-                </Button>
-            </ScrollTo>
+            {renderItem ? renderItem(item) : item.id}
             {isCollapsible ? (
                 <Collapsible isCollapsed={isCollapsed}>
                     {renderItems(subItems)}
@@ -147,11 +143,18 @@ const Item = ({ item }: { item: IGroupedTree[0] }) => {
     );
 };
 
-export default ({ items, isCollapsible, initiallyCollapsed }: ITreeProps) => {
+export default <T extends {}>({
+    items,
+    isCollapsible,
+    initiallyCollapsed,
+    renderItem,
+}: ITreeProps<T>) => {
     const groups = React.useMemo(() => groupItems(items), [items]);
 
     return (
-        <TreeContext.Provider value={{ isCollapsible, initiallyCollapsed }}>
+        <TreeContext.Provider
+            value={{ isCollapsible, initiallyCollapsed, renderItem }}
+        >
             <Tree>{renderItems(groups)}</Tree>
         </TreeContext.Provider>
     );
