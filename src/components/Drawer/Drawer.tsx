@@ -155,6 +155,7 @@ type IDrawerSCProps = Partial<IDrawerProps>;
 const Drawer = styled(motion.div)<IDrawerSCProps>`
     pointer-events: all;
     position: absolute;
+    overflow-y: scroll;
     min-width: 50px;
     min-height: 50px;
     padding: 0;
