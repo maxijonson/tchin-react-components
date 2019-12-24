@@ -23,44 +23,34 @@ const { Flex, CenterH } = Layouts;
 
 const catcherProps = [
     {
-        prop: "wrappedProps",
+        prop: "Fallback",
         definition: (
             <>
-                props passed to the <CodeSpan>Fallback</CodeSpan>.
-            </>
-        ),
-        type: "object",
-        default: "original component props",
-        required: false,
-    },
-    {
-        prop: "Fallback (fallback for HOC)",
-        definition: (
-            <>
-                The fallback component to use. The Fallback gets passed{" "}
-                <CodeSpan>errorReport</CodeSpan> object with the{" "}
-                <CodeSpan>error</CodeSpan> and <CodeSpan>info</CodeSpan> from{" "}
-                <CodeSpan>componentDidCatch</CodeSpan>. It also gets passed a{" "}
-                <CodeSpan>retry</CodeSpan> function which, when called, removes
-                the error &quot;state&quot; from the Catcher. This function
-                should only be called when an attempt to fix the issue was made.
-                Finally, the Fallback will receive the specified{" "}
-                <CodeSpan>wrappedProps</CodeSpan>.
+                Fallback component to use. It gets passed the props passed in{" "}
+                <CodeSpan>fallbackProps</CodeSpan> as well as{" "}
+                <CodeSpan>retry</CodeSpan> function to attempt to rebuild the
+                original component.
             </>
         ),
         type: "React.ComponentType<any>",
-        default: "a <p /> with standard error message",
+        default: "Simple error message with retry function.",
+        required: false,
+    },
+    {
+        prop: "fallbackProps",
+        definition: (
+            <>
+                Passed to the <CodeSpan>Fallback</CodeSpan>.
+            </>
+        ),
+        type: "object",
+        default: "{}",
         required: false,
     },
     {
         prop: "onError",
-        definition: (
-            <>
-                Function called on error. Gets passed the{" "}
-                <CodeSpan>errorReport</CodeSpan> (see Fallback).
-            </>
-        ),
-        type: "(IErrorReport) => void",
+        definition: "Called when an error is catched.",
+        type: "(error: Error, errorInfo: React.ErrorInfo) => void",
         default: "",
         required: false,
     },
@@ -174,12 +164,6 @@ export default () => {
             <H4>Using the component</H4>
             <CodeSnippet>{rawCatcherComponent}</CodeSnippet>
             <H4>Using the HOC</H4>
-            <TextLeft>
-                Pass the required component as the first parameter and the props
-                as an options object:
-                <br />
-                <CodeSpan>withCatcher(Component, options)</CodeSpan>
-            </TextLeft>
             <CodeSnippet>{rawCatcherHOC}</CodeSnippet>
             <H3 ref={examplesRef}>Examples</H3>
             <Flex

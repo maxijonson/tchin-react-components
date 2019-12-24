@@ -2,7 +2,7 @@ import { withCatcher } from "tchin-react-components";
 import { RiskyComponent, FallbackComponent } from "./components";
 
 const RiskyComponentCatched = withCatcher(RiskyComponent, {
-    fallback: FallbackComponent,
+    Fallback: FallbackComponent,
 });
 
 export default () => (
