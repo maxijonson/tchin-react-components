@@ -9,15 +9,15 @@ import {
     Layouts,
 } from "../../../components";
 import TreeContext from "../TreeContext";
-import { Hooks } from "../../../modules";
 import tableFields from "../tableFields";
+import { HOCs } from "../../../modules";
 
 import rawBackgroundComponent from "../snippets/Background-component.txt";
-import rawBackgroundHook from "../snippets/Background-hook.txt";
+import rawBackgroundHoc from "../snippets/Background-hoc.txt";
 
 const { TextLeft, CodeSpan, Subtitle, H3, H4 } = TextStyles;
 const { Flex } = Layouts;
-const { useBackground } = Hooks;
+const { withBackground } = HOCs;
 
 const backgroundProps = [
     {
@@ -44,7 +44,7 @@ const backgroundProps = [
 ];
 
 export default () => {
-    const BGCard = useBackground(Card, "assets/images/example-background.jpg");
+    const BGCard = withBackground(Card);
     const { addItem } = React.useContext(TreeContext);
 
     const subtitleRef = React.useRef<HTMLHeadingElement>(null);
@@ -106,15 +106,14 @@ export default () => {
                 to work.
             </TextLeft>
             <CodeSnippet>{rawBackgroundComponent}</CodeSnippet>
-            <H4>Using the hook</H4>
+            <H4>Using the HOC</H4>
             <TextLeft>
-                Use the <CodeSpan>useBackground</CodeSpan> hook. Pass optional
-                props as an object. Behind the scenes, the hook just does the
-                component method shown above and returns the resulting
-                component. The children must have{" "}
+                Use the <CodeSpan>withBackground</CodeSpan> HOC. Behind the
+                scenes, the HOC just applies the component method shown above
+                and returns the resulting component. The children must have{" "}
                 <CodeSpan>position: relative</CodeSpan> set for this to work.
             </TextLeft>
-            <CodeSnippet>{rawBackgroundHook}</CodeSnippet>
+            <CodeSnippet>{rawBackgroundHoc}</CodeSnippet>
 
             <H3 ref={examplesRef}>Examples</H3>
             <Flex
@@ -125,16 +124,16 @@ export default () => {
                 <Card style={{ position: "relative", overflow: "hidden" }}>
                     <Background background="assets/images/example-background.jpg" />
                     <div style={{ position: "relative" }}>
-                        <H4>Default props (component)</H4>
+                        <H3>Default props (component)</H3>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Non fuga, enim, iste aut laborum magnam voluptate
                         voluptatibus iure itaque nulla ducimus reiciendis rerum?
                         Ex est officia sint, at voluptate molestias?
                     </div>
                 </Card>
-                <BGCard>
+                <BGCard background="assets/images/example-background.jpg">
                     <div style={{ position: "relative" }}>
-                        <H4>Default props (hook)</H4>
+                        <H3>Default props (HOC)</H3>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Non fuga, enim, iste aut laborum magnam voluptate
                         voluptatibus iure itaque nulla ducimus reiciendis rerum?

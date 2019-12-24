@@ -4,9 +4,10 @@ import React from "react";
 import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import { Tooltip, Layouts } from "../../components";
-import { Hooks } from "../../modules";
+import { Hooks, HOCs } from "../../modules";
 
-const { useConnect, useBackground } = Hooks;
+const { useConnect } = Hooks;
+const { withBackground } = HOCs;
 const { Viewport } = Layouts;
 
 interface IKeywords {
@@ -184,12 +185,9 @@ export default ({
     redirectUrl?: string;
 }) => {
     const { theme } = useConnect(({ theme }) => ({ theme }));
-    const BGViewport = useBackground(
-        Viewport,
-        background || "/assets/images/notFound-bg.jpg"
-    );
+    const BGViewport = withBackground(Viewport);
     return (
-        <BGViewport>
+        <BGViewport background={background || "/assets/images/notFound-bg.jpg"}>
             <Container theme={theme}>
                 <Code theme={theme}>
                     <h1 style={{ textAlign: "center" }}>404 - Not Found</h1>

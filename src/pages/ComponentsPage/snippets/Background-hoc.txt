@@ -1,0 +1,14 @@
+import { HOCs, Viewport } from "tchin-react-components";
+
+const { withBackground } = HOCs;
+
+export default () => {
+    const BGViewport = withBackground(Viewport);
+    return (
+        <BGViewport background="path/to/image.jpg" blurAmount={5}>
+            <div style={{ position: "relative" }}>
+                This text has a background
+            </div>
+        </BGViewport>
+    );
+};

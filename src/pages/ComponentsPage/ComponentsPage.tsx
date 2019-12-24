@@ -1,6 +1,6 @@
 import React from "react";
 import { Layouts, TextStyles } from "../../components";
-import { Hooks } from "../../modules";
+import { Hooks, HOCs } from "../../modules";
 import {
     BackgroundDocs,
     ButtonDocs,
@@ -13,20 +13,17 @@ import app from "../../app";
 
 const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
 const { Viewport, Center, PaddingH, Page, Hr } = Layouts;
-const { useBackground, useTree } = Hooks;
+const { useTree } = Hooks;
+const { withBackground } = HOCs;
 
 export default () => {
-    const BGViewport = useBackground(
-        Viewport,
-        "assets/images/notfound-bg.jpg",
-        { parallax: true }
-    );
+    const BGViewport = withBackground(Viewport);
 
     const treeContext = useTree<IData>();
 
     return (
         <Page>
-            <BGViewport>
+            <BGViewport background="assets/images/notfound-bg.jpg" parallax>
                 <Center>
                     <div style={{ textAlign: "center" }}>
                         <H3

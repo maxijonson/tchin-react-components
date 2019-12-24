@@ -1,11 +1,7 @@
 import _ from "lodash";
 import React from "react";
-import styled from "styled-components";
 import { Dispatch } from "redux";
 import { useSelector, useDispatch } from "react-redux";
-import Background, {
-    IBackgroundOptions,
-} from "../../components/Background/Background";
 import Tree, { ITreeProps } from "../../components/Tree/Tree";
 import { BREAKPOINTS } from "../../config";
 
@@ -165,26 +161,6 @@ export const useCurrentBreakpoint = (mode: IBreakpointMode = "window") => {
     }, [getCurrentBreakpoint]);
 
     return breakpoint;
-};
-
-export const useBackground = (
-    Component: React.ElementType,
-    url: string,
-    options: IBackgroundOptions = { parallax: false, blurAmount: 3 }
-) => {
-    const StyledComponent = React.useMemo(
-        () => styled(Component)`
-            position: relative;
-            overflow: hidden;
-        `,
-        [Component]
-    );
-    return ({ children }: { children: React.ReactNode }) => (
-        <StyledComponent>
-            <Background background={url} {...options} />
-            {children}
-        </StyledComponent>
-    );
 };
 
 export const useTree = <T extends {}>(
