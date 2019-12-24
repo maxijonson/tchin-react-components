@@ -1,76 +1,60 @@
 import React from "react";
 
-declare global {
-    type IError = Error;
-    interface IErrorReport {
-        readonly error: IError;
-        readonly stack: object;
-    }
+interface IFallbackProps {
+    retry: () => void;
 }
-type IOnError = (errorReport: IErrorReport) => void;
-type IWrappedProps = object;
-type IFallback = React.ComponentType<any>;
 
-interface ICatcherOwnProps {
-    /**
-     * Fallback component
-     */
-    Fallback?: IFallback;
-
-    /**
-     * Function called on error
-     */
-    onError?: IOnError;
-
-    /**
-     * Props given to the Fallback component
-     */
-    wrappedProps?: IWrappedProps;
+interface ICatcherProps<T extends {}> {
+    onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
+    Fallback?: React.ComponentType<T & IFallbackProps>;
+    fallbackProps?: T;
 }
 
 interface ICatcherState {
-    readonly errorReport: IErrorReport | null;
+    hasError: boolean;
 }
 
-export default class Catcher extends React.Component<
-    ICatcherOwnProps,
+export default class Catcher<T extends {}> extends React.Component<
+    ICatcherProps<T>,
     ICatcherState
 > {
-    public constructor(props: ICatcherOwnProps) {
+    constructor(props: ICatcherProps<T>) {
         super(props);
-        this.state = { errorReport: null };
+        this.state = { hasError: false };
     }
 
-    public componentDidCatch(error: IError, info: object) {
+    componentDidCatch = (error: Error, errorInfo: React.ErrorInfo) => {
         const { onError } = this.props;
-        const errorReport: IErrorReport = {
-            error,
-            stack: info,
-        };
         if (onError) {
-            onError(errorReport);
+            onError(error, errorInfo);
         }
         this.setState({
-            errorReport,
+            hasError: true,
         });
-    }
+    };
 
-    public render() {
-        const { errorReport } = this.state;
-        const { children, Fallback, wrappedProps } = this.props;
+    render = () => {
+        const { hasError } = this.state;
+        const { children, Fallback, fallbackProps } = this.props;
+
         const retry = () => {
-            this.setState({ errorReport: null });
+            this.setState({ hasError: false });
         };
 
-        if (errorReport) {
-            return Fallback ? (
-                <Fallback
-                    errorReport={errorReport}
-                    retry={retry}
-                    {...wrappedProps}
-                />
-            ) : (
-                <p {...wrappedProps}>
+        if (hasError) {
+            if (Fallback) {
+                // HACK: doesn't pass typings without it
+                return fallbackProps ? (
+                    <Fallback {...fallbackProps} retry={retry} />
+                ) : (
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                    // @ts-ignore
+                    <Fallback retry={retry} />
+                );
+            }
+
+            return (
+                <p>
                     Something went wrong rendering this part of the page... Have
                     you tried{" "}
                     <u
@@ -84,31 +68,14 @@ export default class Catcher extends React.Component<
             );
         }
         return children;
-    }
+    };
 }
 
-// TODO: Type props so that required props appear required from the Catcher HOC too.
-/**
- * Catcher HOC
- * @param WrappedComponent - The component that is prone to error
- * @param [options] - Optional options for the Catcher
- * @param [options.Fallback] - Fallback component to use on error
- * @param [options.onError] - Function to execute on error
- * @param [options.wrappedProps] - Props that should be given to the Fallback component (defaults to the props given to the WrappedComponent)
- */
-export const withCatcher = (
-    WrappedComponent: React.ComponentType<any>,
-    options?: {
-        Fallback?: IFallback;
-        onError?: IOnError;
-        wrappedProps?: IWrappedProps;
-    }
-) => (props: any) => (
-    <Catcher
-        Fallback={options && options.Fallback}
-        onError={options && options.onError}
-        wrappedProps={(options && options.wrappedProps) || props}
-    >
-        <WrappedComponent {...props} />
+export const withCatcher = <T extends {}>(
+    Component: React.ElementType,
+    catcherProps?: ICatcherProps<T>
+) => (props: ComponentProps<typeof Component>) => (
+    <Catcher {...catcherProps}>
+        <Component {...props} />
     </Catcher>
 );

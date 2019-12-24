@@ -411,63 +411,62 @@ const CardComponent = (props: ICardProps & ICardInternalProps) => {
     );
 };
 
-const CardCatcher = ({ errorReport }: { errorReport: IErrorReport }) => {
-    const { theme } = useConnect(({ theme }) => ({ theme }));
-
-    const [modalVisible, setModalVisible] = React.useState(false);
-
-    // const handleClick = () => {
-    //     setModalVisible(true);
-    // };
-
-    const onModalRequestClose = () => setModalVisible(false);
-
-    return (
-        <>
-            <Base
-                background={theme.colors.defaultErrorBg}
-                title={
-                    <span
-                        style={{ color: theme.colors.defaultErrorText }}
-                        children="UH OH"
-                    />
-                }
-                subtitle={
-                    <span
-                        style={{ color: theme.colors.altErrorText }}
-                        children="Something went wrong..."
-                    />
-                }
-                headerSeparator={<span />}
-                imageUrl="assets/images/warn.png"
-            >
-                <div
-                    style={{
-                        color: theme.colors.defaultErrorText,
-                        textAlign: "center",
-                    }}
-                >
-                    <p>
-                        An unexpected error happened and this message was
-                        rendered as fallback to prevent the rest from crashing!
-                    </p>
-                </div>
-            </Base>
-            <Modal visible={modalVisible} onRequestClose={onModalRequestClose}>
-                <Base
-                    kClassName="ErrorModal--Modal--Card"
-                    title="Error Report"
-                    subtitle={errorReport.error.name}
-                >
-                    <pre>{errorReport.error.stack}</pre>
-                </Base>
-            </Modal>
-        </>
-    );
-};
-
 export const CardCatched = withCatcher(CardComponent, {
-    Fallback: CardCatcher,
+    Fallback: () => {
+        const { theme } = useConnect(({ theme }) => ({ theme }));
+
+        const [modalVisible, setModalVisible] = React.useState(false);
+
+        // const handleClick = () => {
+        //     setModalVisible(true);
+        // };
+
+        const onModalRequestClose = () => setModalVisible(false);
+
+        return (
+            <>
+                <Base
+                    background={theme.colors.defaultErrorBg}
+                    title={
+                        <span
+                            style={{ color: theme.colors.defaultErrorText }}
+                            children="UH OH"
+                        />
+                    }
+                    subtitle={
+                        <span
+                            style={{ color: theme.colors.altErrorText }}
+                            children="Something went wrong..."
+                        />
+                    }
+                    headerSeparator={<span />}
+                    imageUrl="assets/images/warn.png"
+                >
+                    <div
+                        style={{
+                            color: theme.colors.defaultErrorText,
+                            textAlign: "center",
+                        }}
+                    >
+                        <p>
+                            An unexpected error happened and this message was
+                            rendered as fallback to prevent the rest from
+                            crashing!
+                        </p>
+                    </div>
+                </Base>
+                <Modal
+                    visible={modalVisible}
+                    onRequestClose={onModalRequestClose}
+                >
+                    <Base
+                        kClassName="ErrorModal--Modal--Card"
+                        title="Error Report"
+                    />
+                </Modal>
+            </>
+        );
+    },
 });
 
 /**

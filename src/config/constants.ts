@@ -42,4 +42,12 @@ declare global {
         | "secondary"
         | "success"
         | "info";
+
+    type ComponentProps<
+        T extends React.ElementType
+    > = React.ComponentPropsWithRef<T>;
+
+    type ComponentPropsWithoutRef<
+        T extends React.ElementType
+    > = React.ComponentPropsWithoutRef<T>;
 }
