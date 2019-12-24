@@ -10,10 +10,10 @@ import {
     Table,
     Button,
     Card,
-    withCatcher,
 } from "../../../components";
 import tableFields from "../tableFields";
 import TreeContext from "../TreeContext";
+import { withCatcher } from "../../../modules/HOCs";
 
 import rawCatcherComponent from "../snippets/Catcher-component.txt";
 import rawCatcherHOC from "../snippets/Catcher-hoc.txt";

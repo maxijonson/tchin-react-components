@@ -12,7 +12,7 @@ export {
     IBackgroundOptions,
 } from "./Background/Background";
 export { default as Button } from "./Button/Button";
-export { default as Catcher, withCatcher } from "./Catcher/Catcher";
+export { default as Catcher } from "./Catcher/Catcher";
 export { default as ColorOverlay } from "./ColorOverlay/ColorOverlay";
 export { default as Footer } from "./Footer/Footer";
 export { default as Menu } from "./Menu/Menu";

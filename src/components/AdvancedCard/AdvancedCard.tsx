@@ -6,8 +6,7 @@ import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import Modal from "../Modal/Modal";
 import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../config";
-import { Hooks } from "../../modules";
-import { withCatcher } from "../Catcher/Catcher";
+import { Hooks, HOCs } from "../../modules";
 import {
     defaultProps,
     IBodyAlignment,
@@ -17,6 +16,7 @@ import {
 import app from "../../app";
 
 const { useConnect } = Hooks;
+const { withCatcher } = HOCs;
 
 type IThemeProps = ICardInternalProps & ICardProps;
 

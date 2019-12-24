@@ -4,7 +4,7 @@ interface IFallbackProps {
     retry: () => void;
 }
 
-interface ICatcherProps<T extends {}> {
+export interface ICatcherProps<T extends {}> {
     onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
     Fallback?: React.ComponentType<T & IFallbackProps>;
     fallbackProps?: T;
@@ -70,12 +70,3 @@ export default class Catcher<T extends {}> extends React.Component<
         return children;
     };
 }
-
-export const withCatcher = <T extends {}>(
-    Component: React.ElementType,
-    catcherProps?: ICatcherProps<T>
-) => (props: ComponentProps<typeof Component>) => (
-    <Catcher {...catcherProps}>
-        <Component {...props} />
-    </Catcher>
-);
