@@ -10,6 +10,7 @@ import {
     Table,
     ScrollTo,
 } from "../../../components";
+import { Hooks } from "../../../modules";
 import { BREAKPOINTS } from "../../../config";
 import tableFields from "../tableFields";
 import TreeContext from "../TreeContext";
@@ -19,6 +20,7 @@ import rawStateBased from "../snippets/Drawer-StateBased.txt";
 
 const { Subtitle, H3, H4, H5, P, CodeSpan } = TextStyles;
 const { CenterH, Hr } = Layouts;
+const { useCurrentBreakpoint } = Hooks;
 
 const temporaryPositions: Required<
     React.ComponentProps<typeof Drawer>
@@ -139,6 +141,7 @@ const drawerStateProps = [
 
 export default () => {
     const { addItem, Component: Tree } = React.useContext(TreeContext);
+    const breakpoint = useCurrentBreakpoint("window");
 
     const subtitleRef = React.useRef(null);
     const motivationRef = React.useRef(null);
@@ -204,7 +207,11 @@ export default () => {
                     <P>The size of drawers ajdusts to its content</P>
                 </Drawer>
             ))}
-            <Drawer id="persistent-left" persistent initiallyOpen>
+            <Drawer
+                id="persistent-left"
+                persistent
+                initiallyOpen={breakpoint >= BREAKPOINTS.xl}
+            >
                 <div>
                     <div style={{ padding: "4px 37px" }}>
                         <div
