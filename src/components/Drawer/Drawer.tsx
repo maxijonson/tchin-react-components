@@ -174,11 +174,11 @@ const TemporaryDrawer = styled(motion.div)<IDrawerSCProps>`
     }};
     max-height: ${({ position }) => {
         switch (position) {
-            case "left":
-            case "right":
-                return undefined;
-            default:
+            case "top":
+            case "bottom":
                 return "85vh";
+            default:
+                return undefined;
         }
     }};
     top: ${({ position }) => {
