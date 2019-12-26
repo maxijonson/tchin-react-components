@@ -1,5 +1,9 @@
 import React from "react";
 import _ from "lodash";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     TextStyles,
     Button,
@@ -20,7 +24,7 @@ import rawStateBased from "../snippets/Drawer-StateBased.txt";
 
 const { Subtitle, H3, H4, H5, P, CodeSpan } = TextStyles;
 const { CenterH, Hr } = Layouts;
-const { useCurrentBreakpoint } = Hooks;
+const { useCurrentBreakpoint, useConnect } = Hooks;
 
 const temporaryPositions: Required<
     React.ComponentProps<typeof Drawer>
@@ -139,9 +143,20 @@ const drawerStateProps = [
     },
 ];
 
+const TOCButton = styled(motion.svg)`
+    position: fixed;
+    bottom: 10vh;
+    left: 0;
+    width: 27px;
+    height: 50px;
+`;
+
 export default () => {
     const { addItem, Component: Tree } = React.useContext(TreeContext);
     const breakpoint = useCurrentBreakpoint("window");
+    const isDesktop = breakpoint >= BREAKPOINTS.xl;
+    const [tocOpen, setTocOpen] = React.useState(isDesktop);
+    const theme = useConnect(({ theme }) => theme);
 
     const subtitleRef = React.useRef(null);
     const motivationRef = React.useRef(null);
@@ -208,9 +223,9 @@ export default () => {
                 </Drawer>
             ))}
             <Drawer
-                id="persistent-left"
+                isOpen={tocOpen}
                 persistent
-                initiallyOpen={breakpoint >= BREAKPOINTS.xl}
+                onRequestClose={() => setTocOpen(false)}
             >
                 <div>
                     <div style={{ padding: "4px 37px" }}>
@@ -325,10 +340,7 @@ export default () => {
                 right positions are available when using persistent drawers.
             </P>
             <CenterH>
-                <Button
-                    onClick={() => toggleDrawer("persistent-left")}
-                    state="primary"
-                >
+                <Button onClick={() => setTocOpen((s) => !s)} state="primary">
                     Open left
                 </Button>
                 <Button
@@ -338,6 +350,38 @@ export default () => {
                     Open right
                 </Button>
             </CenterH>
+            {!isDesktop && (
+                <TOCButton
+                    initial={false}
+                    animate={tocOpen ? "open" : "closed"}
+                    variants={{
+                        closed: {
+                            x: "0%",
+                            opacity: 1,
+                            transition: { delay: 0.5, stiffness: 0 },
+                        },
+                        open: {
+                            x: 125,
+                            opacity: 0,
+                            transitionEnd: { x: "-100%", opacity: 1 },
+                        },
+                    }}
+                    onClick={() => setTocOpen((s) => !s)}
+                    viewBox="0 0 27 50"
+                >
+                    <motion.path
+                        d="m 0 3 a 1 1 0 0 1 0 45"
+                        fill={theme.colors.pageBackground}
+                        stroke={theme.colors.drawerBorder}
+                        strokeWidth="2"
+                    />
+                    <FontAwesomeIcon
+                        transform={{ size: 7, x: -1 }}
+                        color={theme.colors.altText}
+                        icon={faChevronRight}
+                    />
+                </TOCButton>
+            )}
             <H3 ref={propsRef}>Props</H3>
             The drawer props take many forms depending on what kind of drawer is
             needed.
