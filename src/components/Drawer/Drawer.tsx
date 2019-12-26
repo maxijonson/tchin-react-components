@@ -48,6 +48,7 @@ const vTemporaryDrawer: IVariants = {
         x: 0,
         y: 0,
         boxShadow: `0 0 5px ${shadow}`,
+        opacity: 1,
         transition: {
             duration: 0.5,
         },
@@ -79,6 +80,7 @@ const vTemporaryDrawer: IVariants = {
             },
             transitionEnd: {
                 boxShadow: `0 0 0px ${shadow}`,
+                opacity: 0,
             },
         };
     },
@@ -152,7 +154,7 @@ const DrawerContainer = styled(motion.div)`
 const Overlay = styled(motion.custom(ColorOverlay))``;
 
 type IDrawerSCProps = Partial<IDrawerProps>;
-const Drawer = styled(motion.div)<IDrawerSCProps>`
+const TemporaryDrawer = styled(motion.div)<IDrawerSCProps>`
     pointer-events: all;
     position: absolute;
     overflow-y: scroll;
@@ -161,6 +163,24 @@ const Drawer = styled(motion.div)<IDrawerSCProps>`
     padding: 0;
     margin: 0;
     background: ${({ theme }) => theme.colors.pageBackground};
+    max-width: ${({ position }) => {
+        switch (position) {
+            case "bottom":
+            case "top":
+                return undefined;
+            default:
+                return "85vw";
+        }
+    }};
+    max-height: ${({ position }) => {
+        switch (position) {
+            case "left":
+            case "right":
+                return undefined;
+            default:
+                return "85vh";
+        }
+    }};
     top: ${({ position }) => {
         switch (position) {
             case "bottom":
@@ -345,7 +365,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
             <>
                 <DrawerContainer animate={animate} initial={false}>
                     <Overlay variants={vOverlay} onClick={onClose} />
-                    <Drawer
+                    <TemporaryDrawer
                         position={position}
                         variants={vTemporaryDrawer}
                         custom={{
@@ -386,7 +406,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         <>
             <DrawerContainer animate={animate} initial={false}>
                 <Overlay variants={vOverlay} onClick={onClose} />
-                <Drawer
+                <TemporaryDrawer
                     position={position}
                     variants={vTemporaryDrawer}
                     custom={{
