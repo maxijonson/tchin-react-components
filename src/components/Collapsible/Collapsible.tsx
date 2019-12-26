@@ -1,7 +1,7 @@
 import React from "react";
 import { useCycle, motion } from "framer-motion";
 
-type IVariants = React.ComponentProps<typeof motion.div>["variants"];
+type IVariants = ComponentProps<typeof motion.div>["variants"];
 
 interface ICollapsibleBaseProps {
     children: React.ReactNode;

@@ -27,7 +27,7 @@ const { CenterH, Hr } = Layouts;
 const { useCurrentBreakpoint, useConnect } = Hooks;
 
 const temporaryPositions: Required<
-    React.ComponentProps<typeof Drawer>
+    ComponentProps<typeof Drawer>
 >["position"][] = ["top", "right", "bottom", "left"];
 
 const temporaryDrawerProps = [
@@ -164,7 +164,7 @@ export default () => {
     const examplesRef = React.useRef(null);
     const propsRef = React.useRef(null);
 
-    type IRenderItem = React.ComponentProps<typeof Tree>["renderItem"];
+    type IRenderItem = ComponentProps<typeof Tree>["renderItem"];
     const renderItem = React.useCallback<NonNullable<IRenderItem>>(
         ({ data: { ref, name } }) => (
             <ScrollTo to={ref}>

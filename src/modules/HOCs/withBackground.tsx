@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Background from "../../components/Background/Background";
 
-type IBackgroundProps = { children: React.ReactNode } & React.ComponentProps<
+type IBackgroundProps = { children: React.ReactNode } & ComponentProps<
     typeof Background
 >;
 

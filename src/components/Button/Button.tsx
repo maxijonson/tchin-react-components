@@ -10,7 +10,7 @@ interface IButtonProps {
     noScale?: boolean;
 }
 
-type IMotionProps = React.ComponentProps<typeof motion.button>;
+type IMotionProps = ComponentProps<typeof motion.button>;
 
 const defaultMotionProps: IMotionProps = {
     transition: { type: "spring", mass: 0.5, stiffness: 200, damping: 9 },

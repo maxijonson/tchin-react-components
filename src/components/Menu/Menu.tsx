@@ -9,7 +9,7 @@ import LangSwitch from "./LangSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 import app from "../../app";
 
-type IVariants = React.ComponentProps<typeof motion.div>["variants"];
+type IVariants = ComponentProps<typeof motion.div>["variants"];
 
 // https://css-tricks.com/svg-path-syntax-illustrated-guide/
 const overlay: IVariants = {
@@ -237,9 +237,7 @@ export default () => {
         [toggleNavigating, toggleOpen]
     );
 
-    const pathDefaultProps = React.useMemo<
-        React.ComponentProps<typeof motion.path>
-    >(
+    const pathDefaultProps = React.useMemo<ComponentProps<typeof motion.path>>(
         () => ({
             fill: "transparent",
             strokeWidth: "3",

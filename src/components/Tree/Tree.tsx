@@ -9,7 +9,7 @@ import Li from "../Layouts/Li";
 import Collapsible from "../Collapsible/Collapsible";
 import Button from "../Button/Button";
 
-type IVariants = React.ComponentProps<typeof motion.div>["variants"];
+type IVariants = ComponentProps<typeof motion.div>["variants"];
 
 export interface ITreeItem<T> {
     id: string;

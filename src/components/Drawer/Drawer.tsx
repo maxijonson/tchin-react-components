@@ -9,7 +9,7 @@ import { BREAKPOINTS } from "../../config";
 
 const { useConnect, useCurrentBreakpoint } = Hooks;
 
-type IVariants = React.ComponentProps<typeof motion.div>["variants"];
+type IVariants = ComponentProps<typeof motion.div>["variants"];
 
 interface ITemporaryDrawer {
     persistent?: false;

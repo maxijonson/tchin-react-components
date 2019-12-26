@@ -34,8 +34,8 @@ const Buttons = ({
     variant,
     disabled,
 }: {
-    variant?: React.ComponentProps<typeof Button>["variant"];
-    disabled?: React.ComponentProps<typeof Button>["disabled"];
+    variant?: ComponentProps<typeof Button>["variant"];
+    disabled?: ComponentProps<typeof Button>["disabled"];
 }) => (
     <>
         <Button disabled={disabled} variant={variant}>
