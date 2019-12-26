@@ -126,8 +126,15 @@ export default styled(Button)`
     }
 
     &:active {
-        background: #${({ theme, state }) => (theme.name == "light" ? tinycolor(theme.colors[state || "buttonBg"]).lighten(20) : tinycolor(theme.colors[state || "buttonBg"]).darken(20)).toHex()};
-        border-color: #${({ theme, state, variant }) => {
+        background: #${({ theme, state, disabled }) => {
+                if (disabled) return undefined;
+                return (theme.name == "light"
+                    ? tinycolor(theme.colors[state || "buttonBg"]).lighten(20)
+                    : tinycolor(theme.colors[state || "buttonBg"]).darken(20)
+                ).toHex();
+            }};
+        border-color: #${({ theme, state, variant, disabled }) => {
+                if (disabled) return undefined;
                 switch (variant) {
                     case "text":
                         return "transparent";
