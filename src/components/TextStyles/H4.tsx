@@ -5,4 +5,5 @@ export default styled.h4`
     padding: 0;
     font-size: 1.17em;
     color: ${({ theme }) => theme.colors.altText};
+    font-weight: 200;
 `;
