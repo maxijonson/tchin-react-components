@@ -254,6 +254,12 @@ export default () => {
                 Acts like a sidebar that can be presented in different modes and
                 positions.
             </P>
+            <P>
+                <b>
+                    Warning: Due to its complexity, this component still needs
+                    to be battle-tested and is more prone to breaking changes.
+                </b>
+            </P>
             <H3 ref={motivationRef}>Motivation</H3>
             <P>
                 In many other libraries, you must implement and manage your own
@@ -262,7 +268,7 @@ export default () => {
                 That said, TRC allows 2 methods to manage the Drawer.
             </P>
             <H3 ref={usageRef}>Usage</H3>
-            <H4>Method 1: EventBased</H4>
+            <H4>Method 1: EventBased (Recommended)</H4>
             <P>
                 This is the original solution TRC gives you. By giving the
                 Drawer an <CodeSpan>id</CodeSpan> prop, it will add an event
@@ -270,6 +276,10 @@ export default () => {
                 <CodeSpan>toggleDrawer</CodeSpan> function that is exported
                 along with the Drawer component to dispatch the toggle event
                 with the <CodeSpan>id</CodeSpan> you provided.
+            </P>
+            <P>
+                Since EventBased Drawers manage their own internal state, they
+                are <b>more performant</b> compared to StateBased Drawers.
             </P>
             <H4>Method 2: StateBased</H4>
             <P>

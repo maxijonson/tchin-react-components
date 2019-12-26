@@ -273,6 +273,11 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
     const theme = useConnect(({ theme }) => theme);
     const breakpoint = useCurrentBreakpoint();
 
+    // If false, will render a temporary drawer instead of persistent
+    const sizeAllowed =
+        breakpoint >=
+        BREAKPOINTS[(props.persistent ? props.allowSize : undefined) ?? "xl"];
+
     // Will only be used for EventBased Drawer
     const [drawerOpenState, toggleDrawer] = useCycle<
         IDrawerStateBased["isOpen"]
@@ -299,14 +304,40 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         throw new Error("Drawer was not given either a 'open' or 'id' prop");
     }, [props, toggle]);
 
+    // Triggers an exit event on ESC
+    const escape = React.useCallback(
+        (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        },
+        [onClose]
+    );
+
     React.useLayoutEffect(() => {
-        if (!id) return () => null;
+        // Only add 'keyup' when a temporary drawer is opened
+        if (drawerOpen && (!props.persistent || !sizeAllowed)) {
+            window.addEventListener("keyup", escape);
+        }
+
+        // Don't register toggleEvent for StateBased Drawers
+        if (!id) {
+            return () => {
+                // Unmount events
+                window.removeEventListener("keyup", escape);
+            };
+        }
+
+        // Register toggleEvent for EventBased Drawers
         const toggleEvent = getToggleEventName(id);
         window.addEventListener(toggleEvent, toggle);
+
         return () => {
+            // Unmount events
             window.removeEventListener(toggleEvent, toggle);
+            window.removeEventListener("keyup", escape);
         };
-    }, [id, toggle]);
+    }, [drawerOpen, escape, id, props.persistent, sizeAllowed, toggle]);
 
     // Temporary drawer
     if (!props.persistent)
@@ -328,9 +359,6 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         );
 
     // Persistent Drawer
-    // If false, renders a temporary drawer instead
-    const sizeAllowed = breakpoint >= BREAKPOINTS[props.allowSize || "xl"];
-
     return sizeAllowed ? (
         <Portal query={props.portalQuery || "#app > div"}>
             <ContentPusher
@@ -354,6 +382,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
             </ContentPusher>
         </Portal>
     ) : (
+        // Temporary Drawer
         <>
             <DrawerContainer animate={animate} initial={false}>
                 <Overlay variants={vOverlay} onClick={onClose} />
