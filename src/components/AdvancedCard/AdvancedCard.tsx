@@ -6,17 +6,17 @@ import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import Modal from "../Modal/Modal";
 import { THEME_TRANSITION_TIME, BREAKPOINTS } from "../../config";
-import { Hooks, HOCs } from "../../modules";
+import { Hooks, HOCs, CSS } from "../../modules";
 import {
     defaultProps,
     IBodyAlignment,
     ICardInternalProps,
     ICardProps,
 } from "./model";
-import app from "../../app";
 
 const { useConnect } = Hooks;
 const { withCatcher } = HOCs;
+const { fonts } = CSS;
 
 type IThemeProps = ICardInternalProps & ICardProps;
 
@@ -24,7 +24,7 @@ type IThemeProps = ICardInternalProps & ICardProps;
 
 const DTitle = styled.h1<IThemeProps>`
     font-size: 4rem;
-    font-family: ${app.fonts.roboto.family};
+    font-family: ${fonts.roboto.family};
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
@@ -43,7 +43,7 @@ const DTitle = styled.h1<IThemeProps>`
 const DSubtitle = styled.h2<IThemeProps>`
     font-size: 2.25rem;
     color: ${({ theme }) => theme.colors.cardSubtitle};
-    font-family: ${app.fonts.openSans.family};
+    font-family: ${fonts.openSans.family};
 
     @media (max-width: ${BREAKPOINTS.smpx}) {
         position: relative;
@@ -84,8 +84,6 @@ const DHeaderHider = styled.div<IThemeProps>`
 
 const DHeader = styled.div`
     @media (max-width: ${BREAKPOINTS.smpx}) {
-        background: url(${({ theme: { imageUrl } }) => imageUrl}) center center /
-            cover no-repeat;
         overflow-y: auto;
         overflow-x: hidden;
         padding: 0.5% 3%;
@@ -96,7 +94,7 @@ const DHeader = styled.div`
 // CARD BODY
 
 const DBody = styled.div`
-    font-family: "${app.fonts.openSans.family}";
+    font-family: "${fonts.openSans.family}";
     @media (max-width: ${BREAKPOINTS.smpx}) {
         padding: 2% 3%;
     }
@@ -148,7 +146,7 @@ const DImage = styled.div<IThemeProps>`
 // Footer
 
 const DFooter = styled.div`
-    font-family: "${app.fonts.roboto.family}";
+    font-family: "${fonts.roboto.family}";
     font-size: 1.6rem;
     color: ${({ theme }) => {
         const color = tinycolor(theme.colors.defaultText).clone();

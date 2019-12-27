@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Switch from "react-switch";
-import app from "../../../src/app";
+import app from "../../App/app";
 import { Hooks } from "../../../src/modules";
 
 const { useConnect } = Hooks;

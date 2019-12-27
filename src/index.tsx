@@ -10,7 +10,9 @@ import {
     faReact,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { app, APP_ROOT, NotFoundPage, TRCRouter, ComponentsPage } from "..";
+import { app, APP_ROOT, TRCRouter } from "..";
+import ComponentsPage from "./pages/ComponentsPage/ComponentsPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 app.init({
     routes: [
@@ -79,6 +81,14 @@ app.init({
             ),
         },
     ],
+    themes: {
+        light: {
+            name: "light",
+            colors: {
+                zzz: "asdf",
+            },
+        },
+    },
 });
 
 ReactDOM.render(

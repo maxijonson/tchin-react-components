@@ -1,6 +1,6 @@
 import * as colors from "./colors";
 import * as shades from "./shades";
 
-export { defaultFonts } from "./fonts";
+export { fonts } from "./fonts";
 
 export { colors, shades };

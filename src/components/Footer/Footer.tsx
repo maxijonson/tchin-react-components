@@ -5,8 +5,10 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../../src/config";
 import { version } from "../../../package.json";
-import app from "../../app";
 import { Link } from "../TextStyles";
+import { CSS } from "../../modules";
+
+const { fonts } = CSS;
 
 interface IFooterProps {
     kClassName?: string;
@@ -20,7 +22,7 @@ const Footer = styled.footer`
     padding-bottom: 1%;
     transition: all ${THEME_TRANSITION_TIME}s;
     background-color: ${({ theme }) => theme.colors.pageBackground};
-    font-family: ${app.fonts.oswald.family};
+    font-family: ${fonts.oswald.family};
     width: 100%;
 `;
 

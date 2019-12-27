@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Router, Switch } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
-import app from "../app";
+import app from "../App/app";
 import { Scrollbar, ToastStyle } from "../components";
 import { THEME_TRANSITION_TIME } from "../config";
 import { Hooks } from "../modules";

@@ -1,17 +1,4 @@
-export type IFontVariants = "400" | "400i" | "700" | "700i";
-export type IFontSubsets = "latin" | "latin-ext";
-
-export interface IFont {
-    family: string;
-    variants?: IFontVariants;
-    subsets?: IFontSubsets;
-}
-
-export interface IFonts {
-    [name: string]: IFont;
-}
-
-export const defaultFonts: IFonts = {
+export const fonts = {
     oswald: {
         family: "Oswald",
     },

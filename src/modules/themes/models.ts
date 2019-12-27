@@ -1,12 +1,4 @@
-export type IThemeName = "light" | "dark";
-
-export interface ISection {
-    [name: string]: string;
-}
-
 export interface ITheme {
-    name: IThemeName;
-    colors: ISection;
+    name: string;
+    colors: { [name: string]: string };
 }
-
-export type IThemes = { [name in IThemeName]: ITheme };

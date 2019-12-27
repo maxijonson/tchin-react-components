@@ -1,6 +1,6 @@
 import React from "react";
 import { Layouts, TextStyles } from "../../components";
-import { Hooks, HOCs } from "../../modules";
+import { Hooks, HOCs, CSS } from "../../modules";
 import {
     BackgroundDocs,
     ButtonDocs,
@@ -9,12 +9,12 @@ import {
     DrawerDocs,
 } from "./components";
 import TreeContext, { IData } from "./TreeContext";
-import app from "../../app";
 
 const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
 const { Viewport, Center, PaddingH, Page, Hr } = Layouts;
 const { useTree } = Hooks;
 const { withBackground } = HOCs;
+const { fonts } = CSS;
 
 export default () => {
     const BGViewport = withBackground(Viewport);
@@ -28,7 +28,7 @@ export default () => {
                     <div style={{ textAlign: "center" }}>
                         <H3
                             style={{
-                                fontFamily: app.fonts.kaushan.family,
+                                fontFamily: fonts.kaushan.family,
                                 color: "inherit",
                             }}
                         >

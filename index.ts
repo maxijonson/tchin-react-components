@@ -17,7 +17,7 @@ export * from "./src/config";
 export * from "./src/pages";
 
 /// ----- APP
-export { default as app } from "./src/app";
+export { default as app } from "./src/App/app";
 
 /// ----- TRC ROUTER
 export { default as TRCRouter } from "./src/routers/AppRouter";

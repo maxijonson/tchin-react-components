@@ -1,4 +1,3 @@
-import { IThemes } from "./models";
 import { colors } from "../CSS/colors";
 
 const {
@@ -13,7 +12,7 @@ const {
     veryLight,
 } = colors;
 
-export const defaultThemes: IThemes = {
+export const defaultThemes = {
     light: {
         name: "light",
         colors: {
@@ -95,3 +94,11 @@ export const defaultThemes: IThemes = {
         },
     },
 };
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface ICustomTheme {}
+    interface IStoreState {
+        theme: typeof defaultThemes.light & ICustomTheme;
+    }
+}

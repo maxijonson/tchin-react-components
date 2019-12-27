@@ -4,10 +4,13 @@ import { motion, useCycle } from "framer-motion";
 import _ from "lodash";
 import { NavLink } from "react-router-dom";
 import { ZINDEX, BREAKPOINTS, THEME_TRANSITION_TIME } from "../../config";
-import { useConnect, useGetDimensions } from "../../modules/hooks/hooks";
+import { Hooks, CSS } from "../../modules";
 import LangSwitch from "./LangSwitch";
 import ThemeSwitch from "./ThemeSwitch";
-import app from "../../app";
+import app from "../../App/app";
+
+const { useConnect, useGetDimensions } = Hooks;
+const { fonts } = CSS;
 
 type IVariants = ComponentProps<typeof motion.div>["variants"];
 
@@ -197,14 +200,14 @@ const Icon = styled.div`
 `;
 
 const Text = styled.div`
-    font-family: ${app.fonts.openSans.family};
+    font-family: ${fonts.openSans.family};
     font-size: ${ICON_HEIGHT}px;
 `;
 
 const Switches = styled(motion.div)`
     display: flex;
     width: 100%;
-    font-family: ${app.fonts.openSans.family};
+    font-family: ${fonts.openSans.family};
     flex-direction: row-reverse;
     & > * {
         margin-left: 7.5%;

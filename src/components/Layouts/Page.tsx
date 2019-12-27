@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Footer from "../Footer/Footer";
 import Menu from "../Menu/Menu";
-import app from "../../app";
+import app from "../../App/app";
 
 interface IPageProps {
     children: React.ReactNode;

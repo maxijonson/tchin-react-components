@@ -2,7 +2,9 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { ITableField, TextStyles } from "../../components";
-import app from "../../app";
+import { CSS } from "../../modules";
+
+const { fonts } = CSS;
 
 const { TextCenter } = TextStyles;
 
@@ -25,7 +27,7 @@ const tableFields: ITableField<{
         name: "Type",
         render: ({ type }) =>
             type && (
-                <span style={{ fontFamily: app.fonts.firaCode.family }}>
+                <span style={{ fontFamily: fonts.firaCode.family }}>
                     {type}
                 </span>
             ),

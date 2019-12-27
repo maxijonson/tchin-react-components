@@ -5,10 +5,11 @@ import styled from "styled-components";
 import tinycolor from "tinycolor2";
 import Tooltip from "../Tooltip/Tooltip";
 import { BREAKPOINTS, THEME_TRANSITION_TIME } from "../../../src/config";
-import { Hooks } from "../../../src/modules";
-import app from "../../app";
+import { Hooks, CSS } from "../../../src/modules";
 
 const { useConnect, useCurrentBreakpoint } = Hooks;
+const { fonts } = CSS;
+
 const SLIDE_TIME = 1000;
 
 type ITitlePosition = "top" | "right" | "left";
@@ -132,7 +133,7 @@ const Content = styled.div`
     grid-area: content;
     text-align: justify;
     margin: auto 0;
-    font-family: "${app.fonts.openSans.family}";
+    font-family: "${fonts.openSans.family}";
 `;
 
 const Indicator = styled.div<{ active: boolean }>`

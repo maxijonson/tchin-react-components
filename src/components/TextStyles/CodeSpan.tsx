@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { THEME_TRANSITION_TIME } from "../../config";
-import app from "../../app";
+import { CSS } from "../../modules";
+
+const { fonts } = CSS;
 
 export default styled.span`
     border: 1px solid ${({ theme }) => theme.colors.tableAltBorder};
@@ -9,5 +11,5 @@ export default styled.span`
     border-radius: 0.25em;
     padding: 0 3px;
     font-size: calc(1.6rem - 3px);
-    font-family: ${app.fonts.firaCode.family};
+    font-family: ${fonts.firaCode.family};
 `;

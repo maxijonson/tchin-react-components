@@ -5,7 +5,7 @@ import Switch from "react-switch";
 import { useTranslation } from "react-i18next";
 import { Hooks } from "../../../src/modules";
 import { creators as themeActions, ITheme } from "../../modules/themes";
-import app from "../../app";
+import app from "../../App/app";
 
 const { useConnect } = Hooks;
 

@@ -2,12 +2,6 @@ import { ITheme } from "./models";
 import { SESSION_KEYS } from "../../config";
 import { creators, types } from "./actions";
 
-declare global {
-    interface IStoreState {
-        theme: ITheme;
-    }
-}
-
 export const makeThemeReducer = (initialState: ITheme) => (
     state: ITheme = initialState,
     action: ActionsUnion<typeof creators>
