@@ -24,11 +24,7 @@ const Table = styled.table<{ stripped?: boolean }>`
 
     & tbody tr:nth-child(odd) td {
         background: ${({ theme, stripped }) =>
-            stripped &&
-            tinycolor(theme.colors.tableBackground)
-                .clone()
-                .darken(3)
-                .toHexString()};
+            stripped && theme.colors.tableStrippedBackground};
     }
 
     & th,
@@ -46,13 +42,8 @@ const TableWrapper = styled.div`
     width: 100%;
     overflow-x: auto;
     padding: 0;
-    border-radius: 5px;
     margin: 10px 0;
-
     transition: all ${THEME_TRANSITION_TIME}s;
-    background: ${({ theme }) => theme.colors.tableBackground};
-    box-shadow: 0 2px 2px -1px ${({ theme }) => theme.colors.cardShadow},
-        0 1px 5px -2px ${({ theme }) => theme.colors.cardShadow};
 `;
 
 // https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions

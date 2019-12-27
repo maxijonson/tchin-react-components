@@ -393,8 +393,10 @@ export default () => {
                 </TOCButton>
             )}
             <H3 ref={propsRef}>Props</H3>
-            The drawer props take many forms depending on what kind of drawer is
-            needed.
+            <P>
+                The drawer props take many forms depending on what kind of
+                drawer is needed.
+            </P>
             <H4>Drawer mode</H4>
             <H5>Temporary Drawer</H5>
             <Table fields={tableFields} data={temporaryDrawerProps} />

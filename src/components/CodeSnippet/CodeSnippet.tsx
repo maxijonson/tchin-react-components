@@ -2,7 +2,6 @@ import React from "react";
 import { Prism as SyntaxHighlight } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 import styled from "styled-components";
-import tinycolor from "tinycolor2";
 import { Hooks } from "../../modules";
 import { THEME_TRANSITION_TIME } from "../../config";
 import app from "../../app";
@@ -16,17 +15,8 @@ const CodeSnippet = styled.div`
     }
     & > pre,
     & > pre > code span {
-        background: ${({ theme }) => {
-            return theme.name == "light"
-                ? tinycolor(theme.colors.pageBackground)
-                      .clone()
-                      .lighten(5)
-                      .toHexString()
-                : tinycolor(theme.colors.pageBackground)
-                      .clone()
-                      .darken(2)
-                      .toHexString();
-        }} !important;
+        background: ${({ theme }) =>
+            theme.colors.codeSnippetBackground} !important;
     }
 `;
 
