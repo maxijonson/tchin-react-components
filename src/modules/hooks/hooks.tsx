@@ -7,7 +7,7 @@ import { BREAKPOINTS } from "../../config";
 
 export const useForceUpdate = () => {
     const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
-    return () => forceUpdate({});
+    return () => forceUpdate();
 };
 
 // TODO: Benchmark immutability
