@@ -81,15 +81,15 @@ app.init({
             ),
         },
     ],
-    themes: {
-        light: {
-            name: "light",
-            colors: {
-                zzz: "asdf",
-            },
-        },
-    },
 });
+
+// TODO: Delete when docs on this is made.
+// Only way to type custom themes
+// declare global {
+//     interface ICustomTheme {
+//         colors: typeof themes.light.colors;
+//     }
+// }
 
 ReactDOM.render(
     <Provider store={app.store}>
