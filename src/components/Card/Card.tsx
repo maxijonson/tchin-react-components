@@ -12,6 +12,5 @@ export default styled.div`
             .toHex8String()};
     margin: 2%;
     border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-    box-shadow: 0 2px 2px -1px ${({ theme }) => theme.colors.cardShadow},
-        0 1px 5px -2px ${({ theme }) => theme.colors.cardShadow};
+    box-shadow: 0px 2px 2px -1px ${({ theme }) => theme.colors.cardShadow};
 `;

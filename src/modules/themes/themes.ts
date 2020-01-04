@@ -22,9 +22,9 @@ export const defaultThemes = {
             buttonBg: veryDark.white,
             buttonText: pitchLight.white,
             card: pitchLight.white,
-            cardBorder: veryLight.onyx,
+            cardBorder: ultraLight.onyx,
             cardFooter: light.black, // TODO: remove with AdvancedCard
-            cardShadow: dark.white,
+            cardShadow: normal.black,
             cardSubtitle: light.orange, // TODO: remove with AdvancedCard
             codeSnippetBackground: pitchLight.navy,
             danger: "#c91e1e",
