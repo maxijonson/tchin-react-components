@@ -214,29 +214,8 @@ const Switches = styled(motion.div)`
 
 export default () => {
     const [open, toggleOpen] = useCycle(false, true);
-    const [navigating, toggleNavigating] = useCycle(false, true);
     const theme = useConnect(({ theme }) => theme);
     const dimensions = useGetDimensions({ throttle: 100 });
-
-    const menuAnimate = (() => {
-        if (navigating) return "navigating";
-        return open ? "open" : "closed";
-    })();
-
-    const handleNavigation = React.useCallback(
-        (e: React.MouseEvent, path: string) => {
-            e.preventDefault();
-            toggleNavigating();
-            setTimeout(() => {
-                app.history.push(path);
-                setTimeout(() => {
-                    toggleNavigating();
-                    toggleOpen();
-                }, 250);
-            }, 500);
-        },
-        [toggleNavigating, toggleOpen]
-    );
 
     const pathDefaultProps = React.useMemo<ComponentProps<typeof motion.path>>(
         () => ({
@@ -249,7 +228,7 @@ export default () => {
     );
 
     return (
-        <Menu initial={false} animate={menuAnimate}>
+        <Menu initial={false} animate={open ? "open" : "closed"}>
             <Backdrop variants={backdrop} />
             <Svg
                 {...dimensions}
@@ -282,9 +261,6 @@ export default () => {
                                         to={route.path}
                                         key={route.key}
                                         exact={route.exact}
-                                        onClick={(e) =>
-                                            handleNavigation(e, route.path)
-                                        }
                                         style={{
                                             color: theme.colors.defaultText,
                                             textDecoration: "none",
