@@ -27,7 +27,7 @@ const Button = ({
         () =>
             !disabled
                 ? {
-                      scale: 1.035,
+                      scale: 1.015,
                   }
                 : undefined,
         [disabled]
@@ -36,7 +36,7 @@ const Button = ({
         () =>
             !disabled
                 ? {
-                      scale: 0.97,
+                      scale: 0.985,
                   }
                 : undefined,
         [disabled]
