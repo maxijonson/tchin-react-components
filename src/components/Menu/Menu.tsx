@@ -150,7 +150,7 @@ const Svg = styled.svg<{ open: boolean }>`
 
 const ICON_HEIGHT = 25;
 const NavContainer = styled(motion.div)`
-    width: 80%;
+    min-width: 80%;
     height: 80%;
     position: absolute;
     left: 0;
@@ -159,15 +159,14 @@ const NavContainer = styled(motion.div)`
             (${TOGGLE_BUTTON_PADDING} * 2)
     );
     @media (min-width: ${BREAKPOINTS.mdpx}) {
-        width: 30%;
+        min-width: 30%;
     }
     @media (min-width: ${BREAKPOINTS.lgpx}) {
-        width: 20%;
+        min-width: 20%;
     }
 
     & > div {
         max-height: 85%;
-        overflow-y: scroll;
         padding-right: ${ICON_HEIGHT / 2}px;
     }
 `;
@@ -185,7 +184,6 @@ const Route = styled(motion.li)`
     margin: ${ICON_HEIGHT / 4}px 0;
     display: flex;
     align-items: center;
-    word-break: break-word;
     cursor: pointer;
 `;
 
