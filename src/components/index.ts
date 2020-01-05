@@ -34,3 +34,4 @@ export {
     toggleCollapsible,
 } from "./Collapsible/Collapsible";
 export { default as ScrollTo } from "./ScrollTo/ScrollTo";
+export { default as Breakpoint } from "./Breakpoint/Breakpoint";

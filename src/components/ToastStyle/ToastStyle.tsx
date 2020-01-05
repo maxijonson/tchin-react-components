@@ -10,7 +10,7 @@ export default createGlobalStyle`
         color: ${({ theme }) => theme.colors.defaultText};
         font-family: "${fonts.openSans.family}";
         font-size: 1.6em;
-        @media (min-width: ${BREAKPOINTS.smpx}) {
+        @media (min-width: ${BREAKPOINTS.sm}px) {
             font-size: 1.3em;
         }
     }

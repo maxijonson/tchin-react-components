@@ -153,7 +153,7 @@ const TOCButton = styled(motion.svg)`
 
 export default () => {
     const { addItem, Component: Tree } = React.useContext(TreeContext);
-    const breakpoint = useCurrentBreakpoint("window");
+    const breakpoint = useCurrentBreakpoint();
     const isDesktop = breakpoint >= BREAKPOINTS.xl;
     const [tocOpen, setTocOpen] = React.useState(isDesktop);
     const theme = useConnect(({ theme }) => theme);
@@ -405,9 +405,9 @@ export default () => {
             <P>
                 <i>
                     As of this version, the sizes are the following: xs (
-                    {BREAKPOINTS.xspx}), sm ({BREAKPOINTS.smpx}), md (
-                    {BREAKPOINTS.mdpx}), lg ({BREAKPOINTS.lgpx}), xl (
-                    {BREAKPOINTS.xlpx}),
+                    {BREAKPOINTS.xs}px), sm ({BREAKPOINTS.sm}px), md (
+                    {BREAKPOINTS.md}px), lg ({BREAKPOINTS.lg}px), xl (
+                    {BREAKPOINTS.xl}px),
                 </i>
             </P>
             <H4>Drawer toggling method</H4>

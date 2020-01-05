@@ -26,7 +26,7 @@ const DTitle = styled.h1<IThemeProps>`
     font-size: 4rem;
     font-family: ${fonts.roboto.family};
 
-    @media (max-width: ${BREAKPOINTS.smpx}) {
+    @media (max-width: ${BREAKPOINTS.sm}px) {
         position: relative;
         padding-left: ${({ bodyAlignment }) =>
             bodyAlignment == "right" && "50%"};
@@ -45,7 +45,7 @@ const DSubtitle = styled.h2<IThemeProps>`
     color: ${({ theme }) => theme.colors.cardSubtitle};
     font-family: ${fonts.openSans.family};
 
-    @media (max-width: ${BREAKPOINTS.smpx}) {
+    @media (max-width: ${BREAKPOINTS.sm}px) {
         position: relative;
         padding-left: ${({ bodyAlignment }) =>
             bodyAlignment == "right" && "25%"};
@@ -62,7 +62,7 @@ const DSubtitle = styled.h2<IThemeProps>`
 const DHeaderHider = styled.div<IThemeProps>`
     ${({ imageUrl, background, theme, bodyAlignment }) =>
         imageUrl &&
-        `@media (max-width: ${BREAKPOINTS.smpx}) {
+        `@media (max-width: ${BREAKPOINTS.sm}px) {
         background: ${background || theme.colors.card};
         transition: all ${THEME_TRANSITION_TIME}s;
         position: absolute;
@@ -83,7 +83,7 @@ const DHeaderHider = styled.div<IThemeProps>`
 // CARD HEADER
 
 const DHeader = styled.div`
-    @media (max-width: ${BREAKPOINTS.smpx}) {
+    @media (max-width: ${BREAKPOINTS.sm}px) {
         overflow-y: auto;
         overflow-x: hidden;
         padding: 0.5% 3%;
@@ -95,7 +95,7 @@ const DHeader = styled.div`
 
 const DBody = styled.div`
     font-family: "${fonts.openSans.family}";
-    @media (max-width: ${BREAKPOINTS.smpx}) {
+    @media (max-width: ${BREAKPOINTS.sm}px) {
         padding: 2% 3%;
     }
 `;
@@ -106,7 +106,7 @@ const DContent = styled.div`
     grid-area: body;
     padding: 2% 3%;
 
-    @media (max-width: ${BREAKPOINTS.smpx}) {
+    @media (max-width: ${BREAKPOINTS.sm}px) {
         grid-area: body;
         padding: 0;
     }
@@ -130,7 +130,7 @@ const DImageHider = styled.div<IThemeProps>`
 // CARD IMAGE
 
 const DImage = styled.div<IThemeProps>`
-    @media (min-width: ${BREAKPOINTS.smpx}) {
+    @media (min-width: ${BREAKPOINTS.sm}px) {
     grid-area: image;
     background-size: cover;
     position: relative;
@@ -172,7 +172,7 @@ const Card = styled.div<IThemeProps>`
     font-size: 2.3rem;
     grid-template-columns: [body] 100%;
 
-    @media (min-width: ${BREAKPOINTS.smpx}) {
+    @media (min-width: ${BREAKPOINTS.sm}px) {
         font-size: 1.8rem;
         grid-gap: 0 1rem;
         grid-template-columns: ${({ bodyAlignment, imageUrl }) => {

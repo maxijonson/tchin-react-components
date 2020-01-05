@@ -37,7 +37,7 @@ const Background = styled.div<IBackgroundProps>`
                       ? 3
                       : blurAmount /* TODO: Nullish coalescing in TS 3.7 */
               }px)`};
-    @media (max-width: ${BREAKPOINTS.lgpx}) {
+    @media (max-width: ${BREAKPOINTS.lg}px) {
         background-attachment: scroll !important;
         background-size: cover !important;
     }

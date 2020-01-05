@@ -158,10 +158,10 @@ const NavContainer = styled(motion.div)`
         ${TOGGLE_BUTTON_TOP} + ${TOGGLE_BUTTON_HEIGHT}px +
             (${TOGGLE_BUTTON_PADDING} * 2)
     );
-    @media (min-width: ${BREAKPOINTS.mdpx}) {
+    @media (min-width: ${BREAKPOINTS.md}px) {
         min-width: 30%;
     }
-    @media (min-width: ${BREAKPOINTS.lgpx}) {
+    @media (min-width: ${BREAKPOINTS.lg}px) {
         min-width: 20%;
     }
 

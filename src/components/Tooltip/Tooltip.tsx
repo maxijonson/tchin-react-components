@@ -102,7 +102,7 @@ const Tip = styled(
     position: absolute;
     z-index: ${ZINDEX.tooltip};
 
-    @media (min-width: ${BREAKPOINTS.mdpx}) {
+    @media (min-width: ${BREAKPOINTS.md}px) {
         min-width: ${({ minWidth }) => minWidth || "10rem"};
         max-width: ${({ maxWidth }) => maxWidth || "15rem"};
     }
@@ -187,7 +187,7 @@ const Message = styled.div`
     padding: 0.75em;
     text-align: center;
 
-    @media (min-width: ${BREAKPOINTS.mdpx}) {
+    @media (min-width: ${BREAKPOINTS.md}px) {
         font-size: 1.5rem;
     }
 `;
@@ -204,7 +204,7 @@ export default (props: ITooltipProps) => {
     } = props;
     const { theme } = useConnect(({ theme }) => ({ theme }));
     const [visibility, setVisibility] = React.useState<IVisibility>("hidden");
-    const screen = useCurrentBreakpoint("screen");
+    const screen = useCurrentBreakpoint();
 
     let timeout = 0;
     React.useEffect(

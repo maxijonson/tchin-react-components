@@ -108,57 +108,37 @@ export const useGetDimensions = (options?: { throttle: number }) => {
     return dimensions;
 };
 
-enum IBreakpoint {
-    "xs" = BREAKPOINTS.xs,
-    "sm" = BREAKPOINTS.sm,
-    "md" = BREAKPOINTS.md,
-    "lg" = BREAKPOINTS.lg,
-    "xl" = BREAKPOINTS.xl,
-}
-type IBreakpointMode = "screen" | "window";
-
-export const useCurrentBreakpoint = (mode: IBreakpointMode = "window") => {
-    const getBreakpoint = (width: number): IBreakpoint => {
+export const useCurrentBreakpoint = () => {
+    const getBreakpoint = React.useCallback((width: number) => {
         if (width >= BREAKPOINTS.xl) {
-            return IBreakpoint.xl;
+            return BREAKPOINTS.xl;
         }
         if (width >= BREAKPOINTS.lg) {
-            return IBreakpoint.lg;
+            return BREAKPOINTS.lg;
         }
         if (width >= BREAKPOINTS.md) {
-            return IBreakpoint.md;
+            return BREAKPOINTS.md;
         }
         if (width >= BREAKPOINTS.sm) {
-            return IBreakpoint.sm;
+            return BREAKPOINTS.sm;
         }
 
-        return IBreakpoint.xs;
-    };
+        return BREAKPOINTS.xs;
+    }, []);
 
-    const getCurrentBreakpoint = React.useCallback(
-        _.throttle(
-            () =>
-                getBreakpoint(
-                    mode === "window" ? window.innerWidth : screen.width
-                ),
-            500
-        ),
-        []
-    );
-
-    const [breakpoint, setBreakpoint] = React.useState<IBreakpoint>(
-        getCurrentBreakpoint()
-    );
+    const [breakpoint, setBreakpoint] = React.useState<
+        typeof BREAKPOINTS[keyof typeof BREAKPOINTS]
+    >(getBreakpoint(window.innerWidth));
 
     React.useLayoutEffect(() => {
         const onWindowResize = () => {
-            setBreakpoint(getCurrentBreakpoint());
+            setBreakpoint(getBreakpoint(window.innerWidth));
         };
         window.addEventListener("resize", onWindowResize);
         return () => {
             window.removeEventListener("resize", onWindowResize);
         };
-    }, [getCurrentBreakpoint]);
+    }, [getBreakpoint]);
 
     return breakpoint;
 };

@@ -53,7 +53,7 @@ export default () => {
     const [position, setPosition] = React.useState(
         document.documentElement.scrollTop
     );
-    const breakpoint = useCurrentBreakpoint("screen");
+    const breakpoint = useCurrentBreakpoint();
 
     const sbHeight = _.clamp((window.innerHeight / docHeight) * 100, 0, 100);
     const sbPos = (position / docHeight) * 100;

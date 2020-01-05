@@ -1,19 +1,14 @@
 import { version } from "../../package.json";
 
-export const THEME_TRANSITION_TIME = 0.25;
+export const THEME_TRANSITION_TIME = 0.25 as const;
 
 export const BREAKPOINTS = {
     xs: 0,
-    xspx: "0px",
     sm: 600,
-    smpx: "600px",
     md: 768,
-    mdpx: "768px",
     lg: 992,
-    lgpx: "992px",
     xl: 1200,
-    xlpx: "1200px",
-};
+} as const;
 
 export const ZINDEX = {
     tooltip: 10,
@@ -22,14 +17,14 @@ export const ZINDEX = {
     persistentDrawer: 150,
     temporaryDrawer: 155,
     modal: 200,
-};
+} as const;
 
-export const APP_ROOT = "app";
+export const APP_ROOT = "app" as const;
 
 export const SESSION_KEYS = {
     theme: "THEME",
     i18n: "I18N",
-};
+} as const;
 
 export const TRC_VERSION = version;
 

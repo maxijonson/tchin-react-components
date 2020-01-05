@@ -150,7 +150,7 @@ const Indicator = styled.div<{ active: boolean }>`
                   .setAlpha(0.5)
                   .toRgbString()};
 
-    @media (min-width: ${BREAKPOINTS.mdpx}) {
+    @media (min-width: ${BREAKPOINTS.md}px) {
         width: 0.75rem;
         height: 0.75rem;
         margin: 0 0.75rem;
@@ -160,7 +160,7 @@ const Indicator = styled.div<{ active: boolean }>`
 export default (props: ISectionProps) => {
     const { items, startIndex, kClassName = "" } = props;
     const { theme } = useConnect(({ theme }) => ({ theme }));
-    const screenBreakpoint = useCurrentBreakpoint("screen");
+    const screenBreakpoint = useCurrentBreakpoint();
 
     // State
     const [position, setPosition] = React.useState(startIndex || 0);
