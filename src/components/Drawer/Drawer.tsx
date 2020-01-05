@@ -359,6 +359,11 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
         };
     }, [drawerOpen, escape, id, props.persistent, sizeAllowed, toggle]);
 
+    const custom = {
+        position,
+        shadow: theme.colors.drawerShadow,
+    };
+
     // Temporary drawer
     if (!props.persistent)
         return (
@@ -368,10 +373,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
                     <TemporaryDrawer
                         position={position}
                         variants={vTemporaryDrawer}
-                        custom={{
-                            position,
-                            shadow: theme.colors.defaultShadow,
-                        }}
+                        custom={custom}
                         children={children}
                     />
                 </DrawerContainer>
@@ -409,10 +411,7 @@ export default (props: IDrawerProps & { children?: React.ReactNode }) => {
                 <TemporaryDrawer
                     position={position}
                     variants={vTemporaryDrawer}
-                    custom={{
-                        position,
-                        shadow: theme.colors.defaultShadow,
-                    }}
+                    custom={custom}
                     children={children}
                     style={{ width: props.width || defaultWidth }}
                 />
