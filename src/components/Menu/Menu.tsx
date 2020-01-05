@@ -5,6 +5,7 @@ import _ from "lodash";
 import { NavLink } from "react-router-dom";
 import { ZINDEX, BREAKPOINTS, THEME_TRANSITION_TIME } from "../../config";
 import { Hooks, CSS } from "../../modules";
+import Hr from "../Layouts/Hr";
 import LangSwitch from "./LangSwitch";
 import ThemeSwitch from "./ThemeSwitch";
 import app from "../../App/app";
@@ -213,6 +214,11 @@ const Switches = styled(motion.div)`
     }
 `;
 
+const MHr = styled(motion.custom(Hr))`
+    margin: 10px 0;
+    background-color: ${({ theme }) => theme.colors.defaultText};
+`;
+
 export default () => {
     const [open, toggleOpen] = useCycle(false, true);
     const theme = useConnect(({ theme }) => theme);
@@ -227,7 +233,6 @@ export default () => {
         }),
         [theme]
     );
-
     return (
         <Menu initial={false} animate={open ? "open" : "closed"}>
             <Backdrop variants={backdrop} />
@@ -251,7 +256,7 @@ export default () => {
                         <ThemeSwitch />
                     </motion.div>
                 </Switches>
-                <motion.hr variants={staggerChildren} />
+                <MHr variants={staggerChildren} />
                 <div>
                     <Navigation>
                         {_.map(
@@ -284,7 +289,7 @@ export default () => {
                         )}
                     </Navigation>
                 </div>
-                <motion.hr variants={staggerChildren} />
+                <MHr variants={staggerChildren} />
                 <Switches
                     style={{
                         justifyContent: "center",
