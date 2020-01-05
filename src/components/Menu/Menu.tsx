@@ -167,7 +167,7 @@ const NavContainer = styled(motion.div)`
 
     & > div {
         max-height: 85%;
-        padding-right: ${ICON_HEIGHT / 2}px;
+        padding-right: 4vw;
     }
 `;
 
@@ -207,6 +207,7 @@ const Switches = styled(motion.div)`
     width: 100%;
     font-family: ${fonts.openSans.family};
     flex-direction: row-reverse;
+    padding-right: 0 !important;
     & > * {
         margin-left: 7.5%;
     }
