@@ -1,5 +1,5 @@
 import React from "react";
-import { Layouts, TextStyles } from "../../components";
+import { Layouts, TextStyles, Loading } from "../../components";
 import { Hooks, HOCs, CSS } from "../../modules";
 import {
     BackgroundDocs,
@@ -39,6 +39,8 @@ export default () => {
                 </Center>
             </BGViewport>
             <PaddingH>
+                <Loading type="spinner" />
+                <Loading type="bar" />
                 <TextLeft>
                     These are the components available in TRC. Some have been
                     omitted as they do not follow much of the &quot;Thinking in
