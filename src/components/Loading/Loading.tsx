@@ -26,9 +26,14 @@ const Circle = styled(motion.circle)`
     stroke-linecap: round;
 `;
 
-const SVG = styled.svg`
+const Spinner = styled.svg`
     max-width: 100px;
     max-height: 100px;
+`;
+
+const SpinnerText = styled.text`
+    text-anchor: middle;
+    fill: ${({ theme }) => theme.colors.defaultText};
 `;
 
 export default (props: ILoadingProps) => {
@@ -36,7 +41,7 @@ export default (props: ILoadingProps) => {
         default:
         case "spinner":
             return (
-                <SVG viewBox="0 0 44 44">
+                <Spinner viewBox="0 0 44 44">
                     <Circle
                         animate={{
                             rotate: 360,
@@ -52,7 +57,15 @@ export default (props: ILoadingProps) => {
                         cy="22"
                         r="20"
                     />
-                </SVG>
+                    <SpinnerText
+                        fontSize={12}
+                        x="50%"
+                        y="51%"
+                        dominantBaseline="middle"
+                    >
+                        100%
+                    </SpinnerText>
+                </Spinner>
             );
 
         case "bar":
