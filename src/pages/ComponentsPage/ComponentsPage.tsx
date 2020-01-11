@@ -17,14 +17,25 @@ const { useTree, useSetInterval } = Hooks;
 const { withBackground } = HOCs;
 const { fonts } = CSS;
 
-export default () => {
-    const BGViewport = withBackground(Viewport);
+const Loadings = () => {
     const [progress, setProgress] = React.useState(0);
-    const treeContext = useTree<IData>();
 
     useSetInterval(() => {
         setProgress(_.random(0, 100));
     }, 1500);
+
+    return (
+        <>
+            <Loading type="spinner" />
+            <Loading type="spinner" size={50} progress={progress} />
+            <Loading type="bar" />
+        </>
+    );
+};
+
+export default () => {
+    const BGViewport = withBackground(Viewport);
+    const treeContext = useTree<IData>();
 
     return (
         <Page>
@@ -44,9 +55,7 @@ export default () => {
                 </Center>
             </BGViewport>
             <PaddingH>
-                <Loading type="spinner" />
-                <Loading type="spinner" size={50} progress={progress} />
-                <Loading type="bar" />
+                <Loadings />
                 <TextLeft>
                     These are the components available in TRC. Some have been
                     omitted as they do not follow much of the &quot;Thinking in
