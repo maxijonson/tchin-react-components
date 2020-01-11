@@ -39,19 +39,43 @@ export const usePortalOld = (parent: HTMLElement, className?: string) => {
     return elRef.current;
 };
 
-export const useSetInterval = (cb: () => void, time = 1000) => {
+export const useSetInterval = (
+    cb: () => void,
+    time: number,
+    deps?: Parameters<typeof React.useEffect>[1],
+    toggle = false
+) => {
     const interval = React.useRef(0);
+    const cancelled = React.useRef(false);
+    const warningIssued = React.useRef(false);
+
     React.useEffect(() => {
+        if (cancelled.current) return () => null;
+
         interval.current = window.setInterval(cb, time);
         return () => {
             if (interval.current) {
                 window.clearInterval(interval.current);
             }
         };
-    });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cb, time, ...(deps ?? [])]);
+
+    // Returns a function to toggle the interval
     return () => {
+        if (cancelled.current) {
+            if (!toggle && !warningIssued.current) {
+                console.warn(
+                    "You tried to cancel the interval when it is already cancelled. If you meant to toggle the interval, specify true to useSetInterval's toggle parameter."
+                );
+                warningIssued.current = true;
+                return;
+            }
+            cancelled.current = false;
+        }
         if (interval.current) {
             window.clearInterval(interval.current);
+            cancelled.current = true;
         }
     };
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -37,38 +38,66 @@ const SpinnerText = styled.text`
     fill: ${({ theme }) => theme.colors.defaultText};
 `;
 
+const SPINNER_RADIUS = 20;
+
 export default (props: ILoadingProps) => {
     switch (props.type) {
         default:
-        case "spinner":
+        case "spinner": {
+            const c = Math.PI * SPINNER_RADIUS * 2;
+            const progress = _.clamp(props.progress ?? 0, 0, 100);
+            const percent = ((100 - (progress ?? 0)) / 100) * c;
+            const hasProgress =
+                props.progress != undefined || props.progress != null;
             return (
                 <Spinner viewBox="0 0 44 44" size={props.size}>
                     <Circle
-                        animate={{
-                            rotate: 360,
-                            strokeDasharray: ["1,200", "89,200", "89,200"],
-                            strokeDashoffset: [0, -35, -124],
-                        }}
-                        transition={{
-                            duration: 1.5,
-                            loop: Infinity,
-                            ease: "linear",
-                        }}
+                        strokeDasharray={hasProgress ? "125" : undefined}
+                        animate={
+                            hasProgress
+                                ? {
+                                      strokeDashoffset: percent,
+                                  }
+                                : {
+                                      rotate: 360,
+                                      strokeDasharray: [
+                                          "1,200",
+                                          "89,200",
+                                          "89,200",
+                                      ],
+                                      strokeDashoffset: [0, -35, -124],
+                                  }
+                        }
+                        transition={
+                            hasProgress
+                                ? {
+                                      duration: 0.5,
+                                      ease: "easeInOut",
+                                  }
+                                : {
+                                      duration: 1.5,
+                                      loop: Infinity,
+                                      ease: "linear",
+                                  }
+                        }
                         cx="22"
                         cy="22"
-                        r="20"
+                        strokeDashoffset={0}
+                        r={SPINNER_RADIUS}
                     />
-                    <SpinnerText
-                        fontSize={12}
-                        x="50%"
-                        y="51%"
-                        dominantBaseline="middle"
-                    >
-                        100%
-                    </SpinnerText>
+                    {hasProgress && (
+                        <SpinnerText
+                            fontSize={12}
+                            x="50%"
+                            y="51%"
+                            dominantBaseline="middle"
+                        >
+                            {progress}%
+                        </SpinnerText>
+                    )}
                 </Spinner>
             );
-
+        }
         case "bar":
             return null;
     }
