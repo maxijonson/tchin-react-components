@@ -6,7 +6,7 @@ import { ISpinnerProps } from "./model";
 
 const Circle = styled(motion.circle)`
     fill: none;
-    stroke: ${({ theme }) => theme.colors.defaultText};
+    stroke: ${({ theme }) => theme.colors.loading};
     stroke-width: 2;
     stroke-linecap: round;
 `;
@@ -18,7 +18,7 @@ const Spinner = styled.svg<{ size: ISpinnerProps["size"] }>`
 
 const SpinnerText = styled.text`
     text-anchor: middle;
-    fill: ${({ theme }) => theme.colors.defaultText};
+    fill: ${({ theme }) => theme.colors.loading};
 `;
 
 const SPINNER_RADIUS = 20;
@@ -28,6 +28,7 @@ export default (props: ISpinnerProps) => {
     const progress = _.clamp(props.progress ?? 0, 0, 100);
     const percent = ((100 - (progress ?? 0)) / 100) * c;
     const hasProgress = props.progress != undefined || props.progress != null;
+
     return (
         <Spinner viewBox="0 0 44 44" size={props.size}>
             <Circle
