@@ -1,6 +1,7 @@
 import React from "react";
 import { ILoadingProps } from "./model";
 import Spinner from "./Spinner";
+import Bar from "./Bar";
 
 export default (props: ILoadingProps) => {
     switch (props.type) {
@@ -8,6 +9,6 @@ export default (props: ILoadingProps) => {
         case "spinner":
             return <Spinner {...props} />;
         case "bar":
-            return null;
+            return <Bar {...props} />;
     }
 };

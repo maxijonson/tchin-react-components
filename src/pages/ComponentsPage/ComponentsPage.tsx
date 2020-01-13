@@ -29,6 +29,9 @@ const Loadings = () => {
             <Loading type="spinner" />
             <Loading type="spinner" size={50} progress={progress} />
             <Loading type="bar" />
+            <div style={{ width: "25%" }}>
+                <Loading type="bar" />
+            </div>
         </>
     );
 };
