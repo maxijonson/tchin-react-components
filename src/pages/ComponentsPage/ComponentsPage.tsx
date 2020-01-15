@@ -1,6 +1,5 @@
 import React from "react";
-import _ from "lodash";
-import { Layouts, TextStyles, Loading } from "../../components";
+import { Layouts, TextStyles } from "../../components";
 import { Hooks, HOCs, CSS } from "../../modules";
 import {
     BackgroundDocs,
@@ -13,26 +12,9 @@ import TreeContext, { IData } from "./TreeContext";
 
 const { CodeSpan, TextLeft, Title, H3 } = TextStyles;
 const { Viewport, Center, PaddingH, Page, Hr } = Layouts;
-const { useTree, useSetInterval } = Hooks;
+const { useTree } = Hooks;
 const { withBackground } = HOCs;
 const { fonts } = CSS;
-
-const Loadings = () => {
-    const [progress, setProgress] = React.useState(0);
-
-    useSetInterval(() => {
-        setProgress(_.random(0, 100));
-    }, 1500);
-
-    return (
-        <>
-            <Loading type="spinner" />
-            <Loading type="spinner" size={50} progress={progress} />
-            <Loading type="bar" />
-            <Loading type="bar" progress={progress} />
-        </>
-    );
-};
 
 export default () => {
     const BGViewport = withBackground(Viewport);
@@ -56,7 +38,6 @@ export default () => {
                 </Center>
             </BGViewport>
             <PaddingH>
-                <Loadings />
                 <TextLeft>
                     These are the components available in TRC. Some have been
                     omitted as they do not follow much of the &quot;Thinking in
