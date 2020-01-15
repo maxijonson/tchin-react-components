@@ -13,8 +13,5 @@ export default styled.div<IColorOverlayProps>`
     width: 100%;
     background-color: ${({ overlayColor, theme }) =>
         overlayColor || theme.colors.pageBackground};
-    opacity: ${({ overlayOpacity }) =>
-        overlayOpacity == undefined
-            ? 0.3
-            : overlayOpacity}; /* TODO: Nullish coalescing in TS 3.7 */
+    opacity: ${({ overlayOpacity }) => overlayOpacity ?? 0.3};
 `;

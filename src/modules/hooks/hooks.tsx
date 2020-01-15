@@ -104,7 +104,7 @@ export const useGetDimensions = (options?: { throttle: number }) => {
                 width: window.innerWidth,
                 height: window.innerHeight,
             }),
-            options ? options.throttle || 500 : 500 // TODO: null coalescing and optional chaining
+            options?.throttle ?? 500
         ),
         []
     );

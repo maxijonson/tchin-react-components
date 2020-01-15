@@ -27,16 +27,8 @@ const Background = styled.div<IBackgroundProps>`
     transition: all ${THEME_TRANSITION_TIME}s;
     filter: ${({ theme, blurAmount }) =>
         theme.name == "light"
-            ? `blur(${
-                  blurAmount == undefined
-                      ? 3
-                      : blurAmount /* TODO: Nullish coalescing in TS 3.7 */
-              }px)`
-            : `blur(${
-                  blurAmount == undefined
-                      ? 3
-                      : blurAmount /* TODO: Nullish coalescing in TS 3.7 */
-              }px)`};
+            ? `blur(${blurAmount ?? 3}px)`
+            : `blur(${blurAmount ?? 3}px)`};
     @media (max-width: ${BREAKPOINTS.lg}px) {
         background-attachment: scroll !important;
         background-size: cover !important;
