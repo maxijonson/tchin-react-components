@@ -53,6 +53,10 @@ gulp
 
 Then navigate to http://localhost:1338/ (was 1337 initialy 😉 however, my Razer keyboard seems to be using this port for some unknown reason...) 
 
+## Contributing
+
+TRC is not even a production ready library, as it is still in development process. Therefore, most of it's features are in constant change and for that reason, **contributing should be held out until an alpha version releases**. Thanks for your understanding!
+
 ## License
 
 [ISC](https://choosealicense.com/licenses/isc/)
