@@ -24,7 +24,10 @@
         },
         "ecmaVersion": 2018,
         "import/parsers": {
-            "@typescript-eslint/parser": [".ts", ".tsx"]
+            "@typescript-eslint/parser": [
+                ".ts",
+                ".tsx"
+            ]
         },
         "import/resolver": {
             "typescript": {}
@@ -34,7 +37,12 @@
         "tsconfigRootDir": ".",
         "useJSXTextNode": true
     },
-    "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
+    "plugins": [
+        "react",
+        "react-hooks",
+        "@typescript-eslint",
+        "prettier"
+    ],
     "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/interface-name-prefix": "off",
@@ -43,8 +51,8 @@
         "@typescript-eslint/no-unused-vars": [
             "warn",
             {
-                "ignoreRestSiblings": true,
-                "argsIgnorePattern": "^_"
+                "argsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
             }
         ],
         "class-methods-use-this": "off",
@@ -72,16 +80,28 @@
         "no-console": [
             "warn",
             {
-                "allow": ["warn", "error", "info"]
+                "allow": [
+                    "warn",
+                    "error",
+                    "info"
+                ]
             }
         ],
         "no-new": "off",
+        "no-param-reassign": [
+            "warn",
+            {
+                "props": false
+            }
+        ],
         "no-restricted-globals": "off",
         "no-restricted-syntax": "off",
         "no-shadow": [
             "error",
             {
-                "allow": ["theme"]
+                "allow": [
+                    "theme"
+                ]
             }
         ],
         "no-underscore-dangle": "off",
@@ -101,7 +121,10 @@
         "react/jsx-filename-extension": [
             1,
             {
-                "extensions": [".tsx", ".jsx"]
+                "extensions": [
+                    ".tsx",
+                    ".jsx"
+                ]
             }
         ],
         "react/jsx-props-no-spreading": "off",
@@ -112,7 +135,9 @@
             "warn",
             "always",
             {
-                "markers": ["/"]
+                "markers": [
+                    "/"
+                ]
             }
         ]
     },

@@ -36,3 +36,4 @@ export {
 export { default as ScrollTo } from "./ScrollTo/ScrollTo";
 export { default as Breakpoint } from "./Breakpoint/Breakpoint";
 export { default as Loading } from "./Loading/Loading";
+export { useToast, withToastProvider } from "./Toast/Toast";

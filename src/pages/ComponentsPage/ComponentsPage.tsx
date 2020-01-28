@@ -1,5 +1,5 @@
 import React from "react";
-import { Layouts, TextStyles } from "../../components";
+import { Layouts, TextStyles, withToastProvider } from "../../components";
 import { Hooks, HOCs, CSS } from "../../modules";
 import {
     BackgroundDocs,
@@ -7,6 +7,7 @@ import {
     CatcherDocs,
     TableDocs,
     DrawerDocs,
+    ToastDocs,
 } from "./components";
 import TreeContext, { IData } from "./TreeContext";
 
@@ -16,7 +17,7 @@ const { useTree } = Hooks;
 const { withBackground } = HOCs;
 const { fonts } = CSS;
 
-export default () => {
+const ComponentsPage = () => {
     const BGViewport = withBackground(Viewport);
     const treeContext = useTree<IData>();
 
@@ -54,6 +55,7 @@ export default () => {
                 </TextLeft>
                 <Hr />
                 <TreeContext.Provider value={treeContext}>
+                    <ToastDocs />
                     <BackgroundDocs />
                     <Hr />
                     <br />
@@ -73,3 +75,5 @@ export default () => {
         </Page>
     );
 };
+
+export default withToastProvider(ComponentsPage, { duration: 5000 });

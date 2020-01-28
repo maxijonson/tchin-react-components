@@ -204,3 +204,20 @@ export const useTree = <T extends {}>(
 
     return { Component, addItem, removeItem };
 };
+
+/**
+ * Runs effect only on updates (i.e not the first render)
+ * https://kentcdodds.com/blog/compound-components-with-react-hooks
+ */
+export const useUpdateEffect = (
+    cb: React.EffectCallback,
+    deps?: React.DependencyList
+) => {
+    const justMounted = React.useRef(true);
+    // eslint-disable-next-line consistent-return
+    React.useEffect(() => {
+        if (!justMounted.current) return cb();
+        justMounted.current = false;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, deps);
+};

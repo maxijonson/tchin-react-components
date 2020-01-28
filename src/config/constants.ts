@@ -17,6 +17,7 @@ export const ZINDEX = {
     persistentDrawer: 150,
     temporaryDrawer: 155,
     modal: 200,
+    toast: 250,
 } as const;
 
 export const APP_ROOT = "app" as const;

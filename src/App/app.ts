@@ -72,7 +72,6 @@ class App {
     private static _socials: NonNullable<IAppInitOptions["socials"]>;
     private static _store: Store<IStoreState>;
     private static _themes: NonNullable<IAppInitOptions["themes"]>;
-    private static _languages: string[];
 
     public static get instance() {
         return this._instance;
