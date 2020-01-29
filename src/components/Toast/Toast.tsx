@@ -122,7 +122,7 @@ const StyledToast = styled(motion.li)<{ contextState?: IContextState }>`
             .mix(
                 theme.colors.toastBackground,
                 theme.colors[contextState ?? "toastBackground"],
-                40
+                30
             )
             .toHexString()};
     margin: 10px 0;
