@@ -1,6 +1,5 @@
 import React from "react";
-import { Hooks } from "../../modules";
-import { Tree } from "../../components";
+import { Hooks, Tree } from "../../..";
 
 const { useTree } = Hooks;
 

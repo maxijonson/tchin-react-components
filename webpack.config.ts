@@ -24,7 +24,7 @@ const config = (env: NodeJS.ProcessEnv): webpack.Configuration => {
     });
 
     return {
-        entry: ["babel-polyfill", "./src/index.tsx"],
+        entry: ["babel-polyfill", "./website/index.tsx"],
         output: {
             path: path.join(__dirname, "public/dist"),
             filename: "bundle.js",

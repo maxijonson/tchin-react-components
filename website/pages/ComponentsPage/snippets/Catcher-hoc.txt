@@ -1,0 +1,14 @@
+import { HOCs } from "tchin-react-components";
+import { RiskyComponent, FallbackComponent } from "./components";
+
+const { withCatcher } = HOCs;
+
+const RiskyComponentCatched = withCatcher(RiskyComponent, {
+    Fallback: FallbackComponent,
+});
+
+export default () => (
+    <RiskyComponentCatched>
+        Some stuff here that could make this component crash
+    </RiskyComponentCatched>
+);

@@ -1,6 +1,12 @@
 import React from "react";
-import { Layouts, TextStyles, withToastProvider } from "../../components";
-import { Hooks, HOCs, CSS } from "../../modules";
+import {
+    Layouts,
+    TextStyles,
+    withToastProvider,
+    Hooks,
+    HOCs,
+    CSS,
+} from "../../..";
 import {
     BackgroundDocs,
     ButtonDocs,

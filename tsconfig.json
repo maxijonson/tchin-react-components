@@ -66,5 +66,5 @@
         "skipLibCheck": true
     },
     "exclude": ["node_modules"],
-    "include": ["./src/**/*", "./gulpfile.ts"]
+    "include": ["./src/**/*", "./gulpfile.ts", "./website/**/*"]
 }
