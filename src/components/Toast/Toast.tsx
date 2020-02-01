@@ -17,12 +17,14 @@ type IPosition =
     | "bottomRight";
 
 interface IToast {
-    message: string;
+    message: React.ReactNode;
     id: string;
+    /** in ms */
     duration: number;
     showProgress: boolean;
     onClick: (close: () => void) => void;
     contextState?: IContextState;
+    autoDismiss?: boolean;
 }
 
 type IToasts = { [id: string]: IToast };
@@ -33,6 +35,8 @@ interface IToastProps extends IToast {
         position?: IPosition;
     };
 }
+
+const DEFAULT_DURATION = 5000;
 
 const ToastListContainer = styled.div<{ position: IPosition }>`
     position: fixed;
@@ -145,9 +149,10 @@ const ToastProgress = styled(motion.div)<{ contextState?: IContextState }>`
 
 const defaultToast: IToast = {
     message: "No message",
-    duration: 5000,
+    duration: DEFAULT_DURATION,
     onClick: (close) => close(),
     showProgress: true,
+    autoDismiss: true,
     contextState: undefined,
     id: "toast",
 };
@@ -160,17 +165,13 @@ const Toast = ({
     onClick,
     showProgress,
     contextState,
+    autoDismiss,
 }: IToastProps) => {
     const removeRef = React.useRef(remove);
-
-    React.useEffect(() => {
-        const timeout = window.setTimeout(
-            () => removeRef.current(),
-            duration ?? 5000
-        );
-
-        return () => window.clearTimeout(timeout);
-    }, [duration]);
+    const remainingTime = React.useRef(duration);
+    const startTime = React.useRef(Date.now());
+    const timeout = React.useRef(0);
+    const [paused, setPaused] = React.useState(false);
 
     const position = options?.position ?? "bottomRight";
 
@@ -188,6 +189,33 @@ const Toast = ({
         }
     }, [position]);
 
+    const pause = React.useCallback(() => {
+        const now = Date.now();
+        window.clearTimeout(timeout.current);
+        remainingTime.current -= now - startTime.current;
+        setPaused(true);
+    }, []);
+
+    const resume = React.useCallback(() => {
+        startTime.current = Date.now();
+        timeout.current = window.setTimeout(
+            removeRef.current,
+            remainingTime.current
+        );
+        setPaused(false);
+    }, []);
+
+    React.useEffect(() => {
+        // Do nothing if !autoDismiss
+        if (!autoDismiss) return () => null;
+
+        // Start the timeout onMount
+        resume();
+
+        // Clear the timeout at unMount
+        return () => window.clearTimeout(timeout.current);
+    }, [autoDismiss, resume]);
+
     return (
         <StyledToast
             positionTransition
@@ -196,16 +224,36 @@ const Toast = ({
             exit={{ opacity: 0, scale: 0 }}
             onClick={() => onClick(removeRef.current)}
             contextState={contextState}
+            onHoverStart={autoDismiss ? pause : undefined}
+            onHoverEnd={autoDismiss ? resume : undefined}
         >
             {message}
-            {showProgress && (
-                <ToastProgress
-                    initial={{ width: "100%" }}
-                    animate={{ width: "0%" }}
-                    transition={{ duration: duration / 1000, ease: "linear" }}
-                    contextState={contextState}
-                />
-            )}
+            {showProgress &&
+                autoDismiss &&
+                (paused ? (
+                    <ToastProgress
+                        key="paused"
+                        contextState={contextState}
+                        style={{
+                            width: `${(remainingTime.current / duration) *
+                                100}%`,
+                        }}
+                    />
+                ) : (
+                    <ToastProgress
+                        key="unpaused"
+                        initial={{
+                            width: `${(remainingTime.current / duration) *
+                                100}%`,
+                        }}
+                        animate={{ width: "0%" }}
+                        transition={{
+                            duration: remainingTime.current / 1000,
+                            ease: "linear",
+                        }}
+                        contextState={contextState}
+                    />
+                ))}
         </StyledToast>
     );
 };
