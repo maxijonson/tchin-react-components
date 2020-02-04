@@ -13,6 +13,7 @@ import {
     CatcherDocs,
     TableDocs,
     DrawerDocs,
+    FormsDocs,
 } from "./components";
 import TreeContext, { IData } from "./TreeContext";
 
@@ -60,6 +61,8 @@ const ComponentsPage = () => {
                 </TextLeft>
                 <Hr />
                 <TreeContext.Provider value={treeContext}>
+                    <FormsDocs />
+                    <Hr />
                     <BackgroundDocs />
                     <Hr />
                     <br />

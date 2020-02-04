@@ -2,8 +2,9 @@ import * as CardsBase from "./AdvancedCard/AdvancedCard";
 import * as CardsAnimated from "./AdvancedCard/CardAnimated";
 import * as Layouts from "./Layouts";
 import * as TextStyles from "./TextStyles";
+import * as Inputs from "./Inputs";
 
-export { Layouts, TextStyles };
+export { Layouts, TextStyles, Inputs };
 export { default as Card } from "./Card/Card";
 export { default as AdvancedCard } from "./AdvancedCard/AdvancedCard";
 export const AdvancedCards = { ...CardsBase, ...CardsAnimated };
@@ -37,3 +38,4 @@ export { default as ScrollTo } from "./ScrollTo/ScrollTo";
 export { default as Breakpoint } from "./Breakpoint/Breakpoint";
 export { default as Loading } from "./Loading/Loading";
 export { useToast, withToastProvider } from "./Toast/Toast";
+export { useForm } from "./Form/Form";

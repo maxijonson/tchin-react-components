@@ -221,3 +221,29 @@ export const useUpdateEffect = (
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
 };
+
+/**
+ * Shows changed props. Can be used to find out why a component updates.
+ * https://stackoverflow.com/questions/41004631/trace-why-a-react-component-is-re-rendering
+ */
+export const useTraceUpdate = <T extends { [name: string]: any }>(
+    props: T,
+    name?: string
+) => {
+    const prev = React.useRef(props);
+    React.useEffect(() => {
+        const changedProps = Object.entries(props).reduce((ps: any, [k, v]) => {
+            if (prev.current[k] !== v) {
+                ps[k] = [prev.current[k], v];
+            }
+            return ps;
+        }, {});
+        if (Object.keys(changedProps).length > 0) {
+            console.info(
+                `${name ? `(${name}) ` : ""}Changed props:`,
+                changedProps
+            );
+        }
+        prev.current = props;
+    });
+};
