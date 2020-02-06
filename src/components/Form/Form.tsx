@@ -8,7 +8,7 @@ interface IBaseField<T> {
     hint?: string;
     required?: boolean;
     initial?: T;
-    validation?: (value: T) => string | undefined;
+    validation?: ((value: T) => string) | ((value: T) => void);
 }
 
 interface ITextField extends IBaseField<string> {
@@ -45,12 +45,18 @@ type IUseFormReturnType<T extends IUseFormProps> = {
         value: IFormDataValue<T>;
         type: T["fields"][key]["type"];
         onChange: (value: IFormDataValue<T>) => void;
+        label: ExistsOr<T["fields"][key]["label"], undefined, string>;
+        hint: ExistsOr<T["fields"][key]["hint"], undefined, string>;
+        required: ExistsOr<T["fields"][key]["required"], undefined, boolean>;
+        placeholder: ExistsOr<
+            T["fields"][key]["placeholder"],
+            undefined,
+            string
+        >;
     };
 };
 
-export const useForm = <T extends IUseFormProps>(
-    options: T
-): IUseFormReturnType<T> => {
+export const useForm = <T extends IUseFormProps>(options: T) => {
     const [formData, setFormData] = React.useState(
         _.reduce(
             options.fields,
@@ -85,7 +91,11 @@ export const useForm = <T extends IUseFormProps>(
                             })
                         );
                     },
-                };
+                    label: field.label,
+                    placeholder: field.placeholder,
+                    hint: field.hint,
+                    required: field.required,
+                } as IUseFormReturnType<T>[0];
                 return acc;
             },
             {} as IUseFormReturnType<T>

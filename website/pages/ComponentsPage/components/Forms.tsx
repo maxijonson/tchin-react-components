@@ -54,33 +54,20 @@ const { TextInput } = Inputs;
 // };
 
 export default () => {
-    const { firstName, lastName } = useForm({
+    const { firstName } = useForm({
         fields: {
             firstName: {
                 type: "text",
+                initial: "Tristan",
+                placeholder: "John",
                 hint: "Your first name",
-                initial: "John",
-                label: "First Name",
-                placeholder: "First Name",
-                required: true,
-                validation: (val) => {
-                    if (val.length == 0)
-                        return "First name must be at least 1 character";
-                    return undefined;
-                },
             },
             lastName: {
                 type: "text",
-                hint: "Your last name",
-                initial: "Smith",
-                label: "Last Name",
-                placeholder: "Last Name",
-                required: true,
-                validation: (val) => {
-                    if (val.length == 0)
-                        return "Last name must be at least 1 character";
-                    return undefined;
-                },
+                initial: "Chin",
+                label: "Last name",
+                placeholder: "John",
+                hint: "Your first name",
             },
         },
     });
@@ -89,7 +76,6 @@ export default () => {
         <>
             <Subtitle>Forms</Subtitle>
             <TextInput {...firstName} />
-            <TextInput {...lastName} />
         </>
     );
 };
