@@ -38,7 +38,7 @@ type IFormData<T extends IUseFormProps> = {
 
 /**
  * Return type of useForm. It is an object where each property keys are equivalent to the "fields" keys.
- * The object definition will differ depending on the field type.
+ * The object definition will differ depending on the field type and defined properties when used.
  */
 type IUseFormReturnType<T extends IUseFormProps> = {
     [key in keyof T["fields"]]: {
