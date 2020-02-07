@@ -3,11 +3,17 @@ import _ from "lodash";
 import { produce } from "immer";
 
 interface IBaseField<T> {
+    /** Input placeholder */
     placeholder?: string;
+    /** Input label */
     label?: string;
+    /** Hint on what the input is for */
     hint?: string;
-    required?: boolean;
+    /** If the input is required. Set as string for a custom message. */
+    required?: boolean | string;
+    /** Initial value */
     initial?: T;
+    /** Validation function. Takes in the value and returns an error string, if any. */
     validation?: ((value: T) => string) | ((value: T) => void);
 }
 
@@ -45,13 +51,23 @@ type IUseFormReturnType<T extends IUseFormProps> = {
         value: IFormDataValue<T>;
         type: T["fields"][key]["type"];
         onChange: (value: IFormDataValue<T>) => void;
+
         label: ExistsOr<T["fields"][key]["label"], undefined, string>;
         hint: ExistsOr<T["fields"][key]["hint"], undefined, string>;
-        required: ExistsOr<T["fields"][key]["required"], undefined, boolean>;
+        required: ExistsOr<
+            T["fields"][key]["required"],
+            undefined,
+            boolean | string
+        >;
         placeholder: ExistsOr<
             T["fields"][key]["placeholder"],
             undefined,
             string
+        >;
+        validation: ExistsOr<
+            T["fields"][key]["validation"],
+            undefined,
+            IBaseField<IFormDataValue<T>>["validation"]
         >;
     };
 };
@@ -95,6 +111,7 @@ export const useForm = <T extends IUseFormProps>(options: T) => {
                     placeholder: field.placeholder,
                     hint: field.hint,
                     required: field.required,
+                    validation: field.validation,
                 } as IUseFormReturnType<T>[0];
                 return acc;
             },

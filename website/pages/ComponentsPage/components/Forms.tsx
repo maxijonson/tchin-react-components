@@ -59,8 +59,14 @@ export default () => {
             firstName: {
                 type: "text",
                 initial: "Tristan",
+                label: "First name",
                 placeholder: "John",
                 hint: "Your first name",
+                validation: (v) => {
+                    if (v.length <= 3)
+                        return "field must be greater than 3 characters";
+                },
+                required: true,
             },
             lastName: {
                 type: "text",
