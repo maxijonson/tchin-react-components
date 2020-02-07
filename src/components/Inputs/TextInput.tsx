@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Hooks } from "../../modules";
+import { THEME_TRANSITION_TIME } from "../../config";
 
 const { useConnect } = Hooks;
 
@@ -32,7 +33,7 @@ const labelVariants: IVariants = {
 };
 
 const TextInput = styled(motion.div)<{ focused: boolean; hasError: boolean }>`
-    transition: border-bottom 0.25s;
+    transition: all ${THEME_TRANSITION_TIME}s;
     display: inline-flex;
     flex-direction: column;
     margin: 10px 5px;

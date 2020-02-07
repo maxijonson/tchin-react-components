@@ -73,6 +73,7 @@ export default () => {
                 initial: "Chin",
                 label: "Last name",
                 placeholder: "John",
+                required: true,
             },
         },
     });
