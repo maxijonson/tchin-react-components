@@ -39,3 +39,4 @@ export { default as Breakpoint } from "./Breakpoint/Breakpoint";
 export { default as Loading } from "./Loading/Loading";
 export { useToast, withToastProvider } from "./Toast/Toast";
 export { useForm } from "./Form/Form";
+export { default as RenderCount } from "./RenderCount/RenderCount";
