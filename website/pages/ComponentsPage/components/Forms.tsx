@@ -54,7 +54,7 @@ const { TextInput } = Inputs;
 // };
 
 export default () => {
-    const { firstName } = useForm({
+    const { firstName, lastName } = useForm({
         fields: {
             firstName: {
                 type: "text",
@@ -62,7 +62,7 @@ export default () => {
                 label: "First name",
                 placeholder: "John",
                 hint: "Your first name",
-                validation: (v) => {
+                validate: (v) => {
                     if (v.length <= 3)
                         return "field must be greater than 3 characters";
                 },
@@ -73,7 +73,6 @@ export default () => {
                 initial: "Chin",
                 label: "Last name",
                 placeholder: "John",
-                hint: "Your first name",
             },
         },
     });
@@ -82,6 +81,7 @@ export default () => {
         <>
             <Subtitle>Forms</Subtitle>
             <TextInput {...firstName} />
+            <TextInput {...lastName} />
         </>
     );
 };

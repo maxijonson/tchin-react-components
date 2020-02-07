@@ -10,13 +10,14 @@ const { useConnect } = Hooks;
 
 interface ITextInputProps {
     value: string;
+    name?: string;
     type?: "text";
     onChange: (value: string) => void;
     label?: string;
     placeholder?: string;
     hint?: string;
     required?: boolean | string;
-    validation?: ((value: string) => string) | ((value: string) => void);
+    validate?: ((value: string) => string) | ((value: string) => void);
 }
 
 type IVariants = ComponentProps<typeof motion.div>["variants"];
@@ -79,8 +80,11 @@ export default React.memo((props: ITextInputProps) => {
         placeholder,
         hint,
         required,
-        validation,
+        validate,
+        name,
+        type,
     } = props;
+
     const requiredMessage =
         typeof required === "string" ? required : "This field is required";
 
@@ -89,17 +93,17 @@ export default React.memo((props: ITextInputProps) => {
     const [focused, setFocused] = React.useState(false);
     const [error, setError] = React.useState(NO_ERROR);
 
-    const validate = React.useCallback(() => {
+    const runValidation = React.useCallback(() => {
         if (required && !value) {
             setError(requiredMessage);
-        } else if (validation) {
-            const err = validation(value);
+        } else if (validate) {
+            const err = validate(value);
             if (err) setError(err);
             else setError(NO_ERROR);
         } else {
             setError(NO_ERROR);
         }
-    }, [required, requiredMessage, validation, value]);
+    }, [required, requiredMessage, validate, value]);
 
     const onChangeInput = React.useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,12 +117,12 @@ export default React.memo((props: ITextInputProps) => {
     }, []);
     const onBlur = React.useCallback(() => {
         setFocused(false);
-        validate();
-    }, [validate]);
+        runValidation();
+    }, [runValidation]);
 
     React.useEffect(() => {
         if (error) {
-            validate();
+            runValidation();
         }
     });
 
@@ -128,11 +132,15 @@ export default React.memo((props: ITextInputProps) => {
                 variants={labelVariants}
                 animate={focused || value ? "focused" : "unfocused"}
                 initial={false}
+                htmlFor={name}
             >
                 {label}
             </Label>
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", display: "flex" }}>
                 <Input
+                    name={name}
+                    id={name}
+                    type={type}
                     value={value}
                     onChange={onChangeInput}
                     onFocus={onFocus}

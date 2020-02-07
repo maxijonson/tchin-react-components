@@ -3,6 +3,10 @@ import _ from "lodash";
 import { produce } from "immer";
 
 interface IBaseField<T> {
+    /** Initial value */
+    initial?: T;
+    /** Validation function. Takes in the value and returns an error string, if any. */
+    validate?: ((value: T) => string) | ((value: T) => void);
     /** Input placeholder */
     placeholder?: string;
     /** Input label */
@@ -11,10 +15,6 @@ interface IBaseField<T> {
     hint?: string;
     /** If the input is required. Set as string for a custom message. */
     required?: boolean | string;
-    /** Initial value */
-    initial?: T;
-    /** Validation function. Takes in the value and returns an error string, if any. */
-    validation?: ((value: T) => string) | ((value: T) => void);
 }
 
 interface ITextField extends IBaseField<string> {
@@ -51,6 +51,7 @@ type IUseFormReturnType<T extends IUseFormProps> = {
         value: IFormDataValue<T>;
         type: T["fields"][key]["type"];
         onChange: (value: IFormDataValue<T>) => void;
+        name: key;
 
         label: ExistsOr<T["fields"][key]["label"], undefined, string>;
         hint: ExistsOr<T["fields"][key]["hint"], undefined, string>;
@@ -64,10 +65,10 @@ type IUseFormReturnType<T extends IUseFormProps> = {
             undefined,
             string
         >;
-        validation: ExistsOr<
-            T["fields"][key]["validation"],
+        validate: ExistsOr<
+            T["fields"][key]["validate"],
             undefined,
-            IBaseField<IFormDataValue<T>>["validation"]
+            IBaseField<IFormDataValue<T>>["validate"]
         >;
     };
 };
@@ -97,6 +98,7 @@ export const useForm = <T extends IUseFormProps>(options: T) => {
                 acc[name] = {
                     value: formData[name],
                     type: field.type,
+                    name,
                     onChange: (value) => {
                         fieldProps.current[name].value = value;
 
@@ -111,7 +113,7 @@ export const useForm = <T extends IUseFormProps>(options: T) => {
                     placeholder: field.placeholder,
                     hint: field.hint,
                     required: field.required,
-                    validation: field.validation,
+                    validate: field.validate,
                 } as IUseFormReturnType<T>[0];
                 return acc;
             },
