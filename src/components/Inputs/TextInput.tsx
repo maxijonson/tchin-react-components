@@ -62,11 +62,11 @@ const Label = styled(motion.label)`
 
 const Icon = ({ children }: { children: React.ReactNode }) => (
     <motion.i
-        style={{ display: "block", position: "absolute", right: 0, top: "50%" }}
+        style={{ width: "20px", textAlign: "center" }}
         children={children}
-        initial={{ opacity: 0, y: "-75%" }}
-        animate={{ opacity: 1, y: "-50%", transition: { delay: 0.1 } }}
-        exit={{ opacity: 0, scale: 0 }}
+        initial={{ opacity: 0, y: "-75%", display: "none" }}
+        animate={{ opacity: 1, y: "0%", display: "block" }}
+        exit={{ opacity: 0, scale: 0, position: "absolute" }}
     />
 );
 
