@@ -28,6 +28,8 @@ export default () => {
             },
             age: {
                 type: "number",
+                max: 8,
+                label: "Age",
             },
         },
     });

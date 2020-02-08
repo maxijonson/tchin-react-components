@@ -16,6 +16,8 @@ export interface IBaseField<T> {
 type IText = string;
 interface ITextField extends IBaseField<IText> {
     type: "text";
+    autoComplete?: string;
+    autoFocus?: boolean;
 }
 
 type INumber = number;
@@ -25,7 +27,7 @@ interface INumberField extends IBaseField<INumber> {
     min?: number;
     /** Maximum value */
     max?: number;
-    /** Allowed decimals. Defaults to 0 */
+    /** Amount of allowed decimals */
     decimals?: number;
 }
 
@@ -36,116 +38,70 @@ interface IUseFormProps {
 }
 
 /**
- * Conditional type for the value of a field. Depending on what type the field is, the value of the field will be different.
- * @case ITextField - string
- * @case INumberField - number
+ * If the field described by "name" is of the type of "Field", then the data value type is of "DataType"
  */
-type IFormDataValue<T extends IUseFormProps, name extends keyof T["fields"]> =
-    | If<T["fields"][name], ITextField, string, never>
-    | If<T["fields"][name], INumberField, number, never>;
+type DataFor<T extends IUseFormProps, name, Field, DataType> = If<
+    T["fields"][name],
+    Field,
+    DataType,
+    never
+>;
 
 /**
- * Form data that is in useForm's state and will be given onSubmit. Each key is a "field" key and the value is infered from the type of the field. (see IFormDataValue)
+ * Conditional type for the value of a field. Depending on what type the field is, the value of the field will be different.
+ */
+type IFormDataValue<T extends IUseFormProps, name extends keyof T["fields"]> =
+    | DataFor<T, name, ITextField, string>
+    | DataFor<T, name, INumberField, number>;
+
+/**
+ * Form data that is in useForm's state and will be given onSubmit. Each key is a field in T["fields"] and the value is infered from type of the field described by "name"
  */
 type IFormData<T extends IUseFormProps> = {
     [name in keyof T["fields"]]: IFormDataValue<T, name>;
 };
 
 /**
- * Used to know wether a nullable field has a value or not
+ * Base input props that should be used by most inputs
  */
-type Fallback<T, N> = If<T, NonNullable<N>, T, undefined>;
+interface IInputProps<T, name = string> {
+    value: T;
+    onChange: (value: T) => void;
+    name?: name;
+}
 
 /**
- * Return type of useForm. It is an object where each property keys are equivalent to the "fields" keys and
- * each property value will differ depending on the field type
- *
- * Note on non-base return types below: we use a conditional check only for the TypeScript compiler to know union type properties are present,
- * but it should never resolve to "never" (no pun intended)
+ * Gets the field properties for a given field. Pretty complex, here's the breakdown:
+ * - If the field described by "name" extends "Field"
+ *      - Return the following:
+ *          - Required<InputProps...> : All props from IInputProps (see above). Also make them Required, since it will be given a value for sure in useForm
+ *          - For each "key" in the field described by "name", get the actual existential value of the key (in other words, check if a possible undefined value is actually undefined or defined)
+ *              - Check if the field property described by "key" extends the NonNullable equivalent its field definition (ITextField, INumberField, etc.) key
+ *                  - If it is, then it means the value was defined. Note that a defined value that could still be undefined, will keep the undefined type as well as the true type!
+ *                  - If it is not, then it means the value was not defined, hence, it is necessarily undefined.
+ * - otherwise use never (which means "the field described by 'name' is not assignable to 'Field'")
+ */
+type FieldPropertiesFor<T extends IUseFormProps, Field, name> = If<
+    T["fields"][name],
+    Field,
+    Required<IInputProps<IFormDataValue<T, name>, name>> &
+        {
+            [key in keyof Required<Field>]: If<
+                T["fields"][name][key],
+                NonNullable<Field[key]>,
+                T["fields"][name][key],
+                undefined
+            >;
+        },
+    never
+>;
+
+/**
+ * Return type of useForm. Object where each property keys are equivalent to the "fields" keys and
+ * each property value will differ depending on the field type.
  */
 type IUseFormReturnType<T extends IUseFormProps> = {
     [name in keyof T["fields"]]:
-        | If<
-              T["fields"][name],
-              ITextField,
-              IUseFormReturnTypeText<T, name>,
-              never
-          >
-        | If<
-              T["fields"][name],
-              INumberField,
-              IUseFormReturnTypeNumber<T, name>,
-              never
-          >;
+        | FieldPropertiesFor<T, ITextField, name>
+        | FieldPropertiesFor<T, INumberField, name>;
 };
-
-/**
- * Should be used by most inputs
- */
-interface IInputProps<T> {
-    value: T;
-    onChange: (value: T) => void;
-    name?: string;
-}
-
-/**
- * Base properties that are returned
- */
-interface IUseFormReturnTypeBase<
-    T extends IUseFormProps,
-    name extends keyof T["fields"]
-> {
-    value: IFormDataValue<T, name>;
-    onChange: (value: IFormDataValue<T, name>) => void;
-    name: name;
-
-    label: Fallback<
-        T["fields"][name]["label"],
-        IBaseField<IFormDataValue<T, name>>["label"]
-    >;
-    hint: Fallback<
-        T["fields"][name]["hint"],
-        IBaseField<IFormDataValue<T, name>>["hint"]
-    >;
-    required: Fallback<
-        T["fields"][name]["required"],
-        IBaseField<IFormDataValue<T, name>>["required"]
-    >;
-    placeholder: Fallback<
-        T["fields"][name]["placeholder"],
-        IBaseField<IFormDataValue<T, name>>["placeholder"]
-    >;
-    validate: Fallback<
-        T["fields"][name]["validate"],
-        IBaseField<IFormDataValue<T, name>>["validate"]
-    >;
-}
-
-/**
- * Properties for number types
- */
-interface IUseFormReturnTypeNumber<
-    T extends IUseFormProps,
-    name extends keyof T["fields"]
-> extends IUseFormReturnTypeBase<T, name> {
-    type: T["fields"][name]["type"];
-    min: T["fields"][name] extends INumberField
-        ? Fallback<T["fields"][name]["min"], INumberField["min"]>
-        : never;
-    max: T["fields"][name] extends INumberField
-        ? Fallback<T["fields"][name]["max"], INumberField["max"]>
-        : never;
-    decimals: T["fields"][name] extends INumberField
-        ? Fallback<T["fields"][name]["decimals"], INumberField["decimals"]>
-        : never;
-}
-
-/**
- * Properties for text types
- */
-interface IUseFormReturnTypeText<
-    T extends IUseFormProps,
-    name extends keyof T["fields"]
-> extends IUseFormReturnTypeBase<T, name> {
-    type: T["fields"][name]["type"];
-}

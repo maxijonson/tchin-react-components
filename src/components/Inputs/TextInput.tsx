@@ -10,7 +10,7 @@ import { ITextField, IInputProps } from "../Form/types";
 
 const { useConnect } = Hooks;
 
-type ITextInputProps = ITextField & IInputProps<string>;
+interface ITextInputProps extends ITextField, IInputProps<string> {}
 
 type IVariants = ComponentProps<typeof motion.div>["variants"];
 
@@ -75,6 +75,8 @@ export default React.memo((props: ITextInputProps) => {
         validate,
         name,
         type,
+        autoComplete,
+        autoFocus,
     } = props;
 
     const requiredMessage =
@@ -139,6 +141,8 @@ export default React.memo((props: ITextInputProps) => {
                     onBlur={onBlur}
                     placeholder={focused || !label ? placeholder : undefined}
                     required={!!required}
+                    autoComplete={autoComplete}
+                    autoFocus={autoFocus}
                 />
                 <AnimatePresence initial={false}>
                     {error && (
