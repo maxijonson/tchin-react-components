@@ -43,14 +43,6 @@ interface IUseFormProps {
 type IFormDataValue<T extends IUseFormProps, name extends keyof T["fields"]> =
     | If<T["fields"][name], ITextField, string, never>
     | If<T["fields"][name], INumberField, number, never>;
-// type IFormDataValue<
-//     T extends IUseFormProps,
-//     name extends keyof T["fields"]
-// > = T["fields"][name] extends ITextField
-//     ? string
-//     : never | T["fields"][name] extends INumberField
-//     ? number
-//     : never;
 
 /**
  * Form data that is in useForm's state and will be given onSubmit. Each key is a "field" key and the value is infered from the type of the field. (see IFormDataValue)
@@ -65,8 +57,11 @@ type IFormData<T extends IUseFormProps> = {
 type Fallback<T, N> = If<T, NonNullable<N>, T, undefined>;
 
 /**
- * Return type of useForm. It is an object where each property keys are equivalent to the "fields" keys.
- * The object definition will differ depending on the field type and defined properties when used.
+ * Return type of useForm. It is an object where each property keys are equivalent to the "fields" keys and
+ * each property value will differ depending on the field type
+ *
+ * Note on non-base return types below: we use a conditional check only for the TypeScript compiler to know union type properties are present,
+ * but it should never resolve to "never" (no pun intended)
  */
 type IUseFormReturnType<T extends IUseFormProps> = {
     [name in keyof T["fields"]]: IUseFormReturnTypeBase<T, name> &
@@ -85,6 +80,10 @@ type IUseFormReturnType<T extends IUseFormProps> = {
               >
         );
 };
+
+/**
+ * Base properties that are returned
+ */
 type IUseFormReturnTypeBase<
     T extends IUseFormProps,
     name extends keyof T["fields"]
@@ -115,7 +114,9 @@ type IUseFormReturnTypeBase<
     >;
 };
 
-// "never" should never occur -> no pun intended
+/**
+ * Properties for number types
+ */
 type IUseFormReturnTypeNumber<
     T extends IUseFormProps,
     name extends keyof T["fields"]
@@ -131,6 +132,10 @@ type IUseFormReturnTypeNumber<
         ? Fallback<T["fields"][name]["decimals"], INumberField["decimals"]>
         : never;
 };
+
+/**
+ * Properties for text types
+ */
 type IUseFormReturnTypeText<
     T extends IUseFormProps,
     name extends keyof T["fields"]
