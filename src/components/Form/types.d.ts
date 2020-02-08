@@ -80,12 +80,21 @@ type IUseFormReturnType<T extends IUseFormProps> = {
 };
 
 /**
+ * Should be used by most inputs
+ */
+interface IInputProps<T> {
+    value: T;
+    onChange: (value: T) => void;
+    name?: string;
+}
+
+/**
  * Base properties that are returned
  */
-type IUseFormReturnTypeBase<
+interface IUseFormReturnTypeBase<
     T extends IUseFormProps,
     name extends keyof T["fields"]
-> = {
+> {
     value: IFormDataValue<T, name>;
     onChange: (value: IFormDataValue<T, name>) => void;
     name: name;
@@ -110,7 +119,7 @@ type IUseFormReturnTypeBase<
         T["fields"][name]["validate"],
         IBaseField<IFormDataValue<T, name>>["validate"]
     >;
-};
+}
 
 /**
  * Properties for number types
