@@ -1,8 +1,4 @@
 /**
- * If T is NonNullable, then T is used. Otherwise, it means that the type is U.
- * Optionnaly, specify V to check as the NonNullable type for T.
- * This can be useful when T in a case where T is "string | undefined":
- *
- * @example See Form IUseFormReturnType
+ * A pretty verbose type. If T extends "Extends", then use "True", else, use "False"
  */
-declare type ExistsOr<T, U, V = T> = T extends NonNullable<V> ? T : U;
+declare type If<T, Extends, True, False> = T extends Extends ? True : False;

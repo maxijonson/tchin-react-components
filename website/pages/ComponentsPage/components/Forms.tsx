@@ -75,6 +75,9 @@ export default () => {
                 placeholder: "John",
                 required: true,
             },
+            age: {
+                type: "number",
+            },
         },
     });
 
