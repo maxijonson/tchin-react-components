@@ -47,7 +47,7 @@ export const useForm = <T extends IUseFormProps>(options: T) => {
                             })
                         );
                     },
-                } as IUseFormReturnType<T>[typeof name]; // HACK: This saves typing time, but could be dangerous if we're not returning the correct fields
+                } as IUseFormReturnType<T>[typeof name]; // HACK: This can be dangerous if we add properties in types, but forget to actually add them here!
                 return acc;
             },
             {} as IUseFormReturnType<T>
