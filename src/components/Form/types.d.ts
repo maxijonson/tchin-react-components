@@ -64,21 +64,19 @@ type Fallback<T, N> = If<T, NonNullable<N>, T, undefined>;
  * but it should never resolve to "never" (no pun intended)
  */
 type IUseFormReturnType<T extends IUseFormProps> = {
-    [name in keyof T["fields"]]: IUseFormReturnTypeBase<T, name> &
-        (
-            | If<
-                  T["fields"][name],
-                  ITextField,
-                  IUseFormReturnTypeText<T, name>,
-                  never
-              >
-            | If<
-                  T["fields"][name],
-                  INumberField,
-                  IUseFormReturnTypeNumber<T, name>,
-                  never
-              >
-        );
+    [name in keyof T["fields"]]:
+        | If<
+              T["fields"][name],
+              ITextField,
+              IUseFormReturnTypeText<T, name>,
+              never
+          >
+        | If<
+              T["fields"][name],
+              INumberField,
+              IUseFormReturnTypeNumber<T, name>,
+              never
+          >;
 };
 
 /**
@@ -117,10 +115,10 @@ type IUseFormReturnTypeBase<
 /**
  * Properties for number types
  */
-type IUseFormReturnTypeNumber<
+interface IUseFormReturnTypeNumber<
     T extends IUseFormProps,
     name extends keyof T["fields"]
-> = {
+> extends IUseFormReturnTypeBase<T, name> {
     type: T["fields"][name]["type"];
     min: T["fields"][name] extends INumberField
         ? Fallback<T["fields"][name]["min"], INumberField["min"]>
@@ -131,14 +129,14 @@ type IUseFormReturnTypeNumber<
     decimals: T["fields"][name] extends INumberField
         ? Fallback<T["fields"][name]["decimals"], INumberField["decimals"]>
         : never;
-};
+}
 
 /**
  * Properties for text types
  */
-type IUseFormReturnTypeText<
+interface IUseFormReturnTypeText<
     T extends IUseFormProps,
     name extends keyof T["fields"]
-> = {
+> extends IUseFormReturnTypeBase<T, name> {
     type: T["fields"][name]["type"];
-};
+}

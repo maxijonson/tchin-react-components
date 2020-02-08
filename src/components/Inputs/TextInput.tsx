@@ -6,19 +6,14 @@ import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { Hooks } from "../../modules";
 import { THEME_TRANSITION_TIME } from "../../config";
+import { ITextField } from "../Form/types";
 
 const { useConnect } = Hooks;
 
-interface ITextInputProps {
+interface ITextInputProps extends ITextField {
     value: string;
-    name?: string;
-    type?: "text";
     onChange: (value: string) => void;
-    label?: string;
-    placeholder?: string;
-    hint?: string;
-    required?: boolean | string;
-    validate?: ((value: string) => string) | ((value: string) => void);
+    name?: string;
 }
 
 type IVariants = ComponentProps<typeof motion.div>["variants"];
