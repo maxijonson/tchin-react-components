@@ -29,6 +29,8 @@ export default () => {
             age: {
                 type: "number",
                 initial: 16,
+                min: 7,
+                max: 18,
                 placeholder: "Age",
                 hint: "Your age",
                 label: "Age",

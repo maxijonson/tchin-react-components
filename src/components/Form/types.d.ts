@@ -29,6 +29,8 @@ interface INumberField extends IBaseField<INumber> {
     max?: number;
     /** Amount of allowed decimals */
     decimals?: number;
+    /** Steps when using the arrows */
+    steps?: number;
 }
 
 type IField = ITextField | INumberField;

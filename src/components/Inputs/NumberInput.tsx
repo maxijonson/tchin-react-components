@@ -23,7 +23,7 @@ const getNewValue = (n: number, min?: number, max?: number) =>
 
 export default React.memo((props: INumberInputProps) => {
     const input = useInput(props);
-    const prevValue = React.useRef(
+    const strValue = React.useRef(
         getNewValue(props.value, props.min, props.max).toString()
     );
     const forceUpdate = useForceUpdate();
@@ -35,7 +35,7 @@ export default React.memo((props: INumberInputProps) => {
 
             // Handle deleting the whole input
             if (actualValue.length == 0) {
-                prevValue.current = actualValue; // ""
+                strValue.current = actualValue; // ""
                 const newValue = getNewValue(0, props.min, props.max);
                 if (props.value == newValue) return forceUpdate();
                 props.onChange(newValue);
@@ -46,35 +46,66 @@ export default React.memo((props: INumberInputProps) => {
             if (isNaN(num)) {
                 // Handle beginning negative values
                 if (actualValue == "-" && (!props.min || props.min < 0)) {
-                    prevValue.current = actualValue; // "-"
+                    strValue.current = actualValue; // "-"
                     const newValue = getNewValue(0, props.min, props.max);
                     if (props.value == newValue) return forceUpdate();
                     props.onChange(newValue);
                 }
+
+                // Handle beginning float values
+                if (
+                    actualValue == "." &&
+                    (!props.decimals || props.decimals != 0)
+                ) {
+                    const newValue = getNewValue(0, props.min, props.max);
+                    strValue.current = `${newValue}${actualValue}`; // "."
+                    if (props.value == newValue) return forceUpdate();
+                    props.onChange(newValue);
+                }
+
                 return;
             }
 
             const newValue = getNewValue(num, props.min, props.max);
-
-            props.onChange(newValue);
-            prevValue.current = newValue.toString();
+            strValue.current = `${newValue.toString()}${
+                _.last(actualValue) == "." ? "." : ""
+            }`;
             if (props.value == newValue) return forceUpdate();
+            props.onChange(newValue);
         },
         [props, forceUpdate]
     );
 
+    const onKeyDown = React.useCallback(
+        (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key == "ArrowUp" || e.key == "ArrowDown") {
+                const newValue = getNewValue(
+                    e.key == "ArrowUp"
+                        ? props.value + (props.steps ?? 1)
+                        : props.value - (props.steps ?? 1),
+                    props.min,
+                    props.max
+                );
+                strValue.current = newValue.toString();
+                if (props.value == newValue) return forceUpdate();
+                props.onChange(newValue);
+            }
+        },
+        [forceUpdate, props]
+    );
+
     const onBlur = React.useCallback(() => {
-        prevValue.current = props.value.toString();
+        strValue.current = props.value.toString();
         input.onBlur();
     }, [input, props.value]);
 
     useUpdateEffect(() => {
         // If the value changes from another source, we still want to show the new value.
-        if (prevValue.current != props.value.toString() && !input.focused) {
-            prevValue.current = props.value.toString();
+        if (strValue.current != props.value.toString() && !input.focused) {
+            strValue.current = props.value.toString();
             forceUpdate();
         }
-    }, [props.value, prevValue.current, input.focused, forceUpdate]);
+    }, [props.value, strValue.current, input.focused, forceUpdate]);
 
     return (
         <InputContainer
@@ -85,17 +116,18 @@ export default React.memo((props: INumberInputProps) => {
             <Input
                 {...input}
                 {...props}
-                onBlur={onBlur}
-                value={prevValue.current}
-                type="text" // We'll handle the fancy stuff "number" does
                 id={props.name}
-                onChange={onChange}
+                type="text" // We'll handle the fancy stuff "number" does
+                value={strValue.current}
+                required={!!props.required}
                 placeholder={
                     input.focused || !props.label
                         ? props.placeholder
                         : undefined
                 }
-                required={!!props.required}
+                onBlur={onBlur}
+                onChange={onChange}
+                onKeyDown={onKeyDown}
             />
         </InputContainer>
     );
