@@ -33,8 +33,18 @@ interface INumberField extends IBaseField<INumber> {
     steps?: number;
 }
 
-type IField = ITextField | INumberField;
+type ISelect = string;
+interface ISelectField extends IBaseField<ISelect> {
+    type: "select";
+    /** Select options */
+    options: { label: string; value: ISelect; disabled?: boolean }[];
+}
 
+type IField = ITextField | INumberField | ISelectField;
+
+/**
+ * useForm hook options parameter
+ */
 interface IUseFormProps {
     fields: { [name: string]: IField };
 }
@@ -53,8 +63,9 @@ type DataFor<T extends IUseFormProps, name, Field, DataType> = If<
  * Conditional type for the value of a field. Depending on what type the field is, the value of the field will be different.
  */
 type IFormDataValue<T extends IUseFormProps, name extends keyof T["fields"]> =
-    | DataFor<T, name, ITextField, string>
-    | DataFor<T, name, INumberField, number>;
+    | DataFor<T, name, ITextField, IText>
+    | DataFor<T, name, INumberField, INumber>
+    | DataFor<T, name, ISelectField, ISelect>;
 
 /**
  * Form data that is in useForm's state and will be given onSubmit. Each key is a field in T["fields"] and the value is infered from type of the field described by "name"
@@ -105,5 +116,6 @@ type FieldPropertiesFor<T extends IUseFormProps, Field, name> = If<
 type IFieldProperties<T extends IUseFormProps> = {
     [name in keyof T["fields"]]:
         | FieldPropertiesFor<T, ITextField, name>
-        | FieldPropertiesFor<T, INumberField, name>;
+        | FieldPropertiesFor<T, INumberField, name>
+        | FieldPropertiesFor<T, ISelectField, name>;
 };

@@ -1,12 +1,21 @@
 import React from "react";
-import { TextStyles, useForm, Inputs, Button, Layouts } from "../../../..";
+import _ from "lodash";
+import {
+    TextStyles,
+    useForm,
+    Inputs,
+    Button,
+    Layouts,
+    useToast,
+} from "../../../..";
 
-const { Subtitle } = TextStyles;
+const { Subtitle, P, CodeSpan } = TextStyles;
 const { TextInput, NumberInput } = Inputs;
 const { Flex } = Layouts;
 
 export default () => {
-    const [{ firstName, lastName, age }, getFormData] = useForm({
+    const { addToast } = useToast();
+    const [fields, getFormData] = useForm({
         fields: {
             firstName: {
                 type: "text",
@@ -38,21 +47,41 @@ export default () => {
             },
         },
     });
+    const { firstName, lastName, age } = fields;
 
     const onClick = React.useCallback(() => {
         const data = getFormData();
         console.info(data);
-    }, [getFormData]);
+        addToast({
+            message: (
+                <div>
+                    {_.map(data, (v, k: keyof typeof fields) => (
+                        <span style={{ display: "block" }} key={k}>
+                            {fields[k].label ?? k}: {v}
+                        </span>
+                    ))}
+                </div>
+            ),
+        });
+    }, [getFormData, addToast, fields]);
 
     return (
         <>
             <Subtitle>Forms</Subtitle>
+            <P>
+                Inspired by Formik, the following are form components available
+                in the kit. The components themselves are pretty simple: they
+                accept a value and an onChange handler among other optional
+                props. The hook (<CodeSpan>useForm</CodeSpan>) that is used to
+                generate those props makes it easy to define your fields and
+                manage the state of your form.
+            </P>
             <Flex justifyContent="center" itemMinWidth="30%">
                 <TextInput {...firstName} />
                 <TextInput {...lastName} />
                 <NumberInput {...age} />
             </Flex>
-            <Button onClick={onClick} children="Get Data" state="primary" />
+            <Button onClick={onClick} children="Log Data" state="primary" />
         </>
     );
 };
