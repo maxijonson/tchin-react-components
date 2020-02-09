@@ -2,10 +2,10 @@ import React from "react";
 import { TextStyles, useForm, Inputs } from "../../../..";
 
 const { Subtitle } = TextStyles;
-const { TextInput } = Inputs;
+const { TextInput, NumberInput } = Inputs;
 
 export default () => {
-    const { firstName, lastName } = useForm({
+    const { firstName, lastName, age } = useForm({
         fields: {
             firstName: {
                 type: "text",
@@ -28,7 +28,9 @@ export default () => {
             },
             age: {
                 type: "number",
-                max: 8,
+                initial: 16,
+                placeholder: "Age",
+                hint: "Your age",
                 label: "Age",
             },
         },
@@ -39,6 +41,7 @@ export default () => {
             <Subtitle>Forms</Subtitle>
             <TextInput {...firstName} />
             <TextInput {...lastName} />
+            <NumberInput {...age} />
         </>
     );
 };

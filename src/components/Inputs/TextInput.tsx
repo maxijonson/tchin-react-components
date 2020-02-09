@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import _ from "lodash";
 import { ITextField, IInputProps } from "../Form/types";
 import useInput from "./useInput";
 import InputContainer from "./InputContainer";
@@ -28,13 +29,12 @@ export default React.memo((props: ITextInputProps) => {
         <InputContainer
             {...input}
             {...props}
-            name={props.name}
-            labelActive={input.focused || !!props.value}
+            labelActive={input.focused || !_.isEmpty(props.value)}
         >
             <Input
                 {...input}
                 {...props}
-                id={name}
+                id={props.name}
                 onChange={onChange}
                 placeholder={
                     input.focused || !props.label
