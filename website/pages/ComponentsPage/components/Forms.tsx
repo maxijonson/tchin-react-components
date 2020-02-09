@@ -1,11 +1,12 @@
 import React from "react";
-import { TextStyles, useForm, Inputs } from "../../../..";
+import { TextStyles, useForm, Inputs, Button, Layouts } from "../../../..";
 
 const { Subtitle } = TextStyles;
 const { TextInput, NumberInput } = Inputs;
+const { Flex } = Layouts;
 
 export default () => {
-    const { firstName, lastName, age } = useForm({
+    const [{ firstName, lastName, age }, getFormData] = useForm({
         fields: {
             firstName: {
                 type: "text",
@@ -38,12 +39,20 @@ export default () => {
         },
     });
 
+    const onClick = React.useCallback(() => {
+        const data = getFormData();
+        console.info(data);
+    }, [getFormData]);
+
     return (
         <>
             <Subtitle>Forms</Subtitle>
-            <TextInput {...firstName} />
-            <TextInput {...lastName} />
-            <NumberInput {...age} />
+            <Flex justifyContent="center" itemMinWidth="30%">
+                <TextInput {...firstName} />
+                <TextInput {...lastName} />
+                <NumberInput {...age} />
+            </Flex>
+            <Button onClick={onClick} children="Get Data" state="primary" />
         </>
     );
 };

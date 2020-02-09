@@ -102,7 +102,7 @@ type FieldPropertiesFor<T extends IUseFormProps, Field, name> = If<
  * Return type of useForm. Object where each property keys are equivalent to the "fields" keys and
  * each property value will differ depending on the field type.
  */
-type IUseFormReturnType<T extends IUseFormProps> = {
+type IFieldProperties<T extends IUseFormProps> = {
     [name in keyof T["fields"]]:
         | FieldPropertiesFor<T, ITextField, name>
         | FieldPropertiesFor<T, INumberField, name>;

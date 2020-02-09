@@ -5,7 +5,7 @@ import {
     IUseFormProps,
     IFormData,
     IFormDataValue,
-    IUseFormReturnType,
+    IFieldProperties,
 } from "./types";
 
 export const useForm = <T extends IUseFormProps>(options: T) => {
@@ -30,7 +30,7 @@ export const useForm = <T extends IUseFormProps>(options: T) => {
         )
     );
 
-    const fieldProps = React.useRef<IUseFormReturnType<T>>(
+    const fieldProperties = React.useRef<IFieldProperties<T>>(
         _.reduce(
             options.fields,
             (acc, field, name: keyof T["fields"]) => {
@@ -39,7 +39,7 @@ export const useForm = <T extends IUseFormProps>(options: T) => {
                     value: formData[name],
                     name,
                     onChange: (value) => {
-                        fieldProps.current[name].value = value;
+                        fieldProperties.current[name].value = value;
 
                         setFormData(
                             produce((data) => {
@@ -47,12 +47,14 @@ export const useForm = <T extends IUseFormProps>(options: T) => {
                             })
                         );
                     },
-                } as IUseFormReturnType<T>[typeof name]; // HACK: This can be dangerous if we add properties in types, but forget to actually add them here!
+                } as IFieldProperties<T>[typeof name]; // HACK: This can be dangerous if we add properties in types, but forget to actually add them here!
                 return acc;
             },
-            {} as IUseFormReturnType<T>
+            {} as IFieldProperties<T>
         )
     );
 
-    return fieldProps.current;
+    const getFormData = React.useCallback(() => formData, [formData]);
+
+    return [fieldProperties.current, getFormData] as const;
 };

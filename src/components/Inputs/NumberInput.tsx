@@ -16,6 +16,7 @@ const Input = styled.input`
     outline: none;
     color: ${({ theme }) => theme.colors.defaultText};
     height: 100%;
+    width: 100%;
 `;
 
 const getNewValue = (n: number, min?: number, max?: number) =>
