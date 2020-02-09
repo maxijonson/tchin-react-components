@@ -79,10 +79,13 @@ export default React.memo((props: INumberInputProps) => {
                 num = Number(actualValue);
             }
 
+            strValue.current = `${_.clamp(
+                num,
+                Number.MIN_SAFE_INTEGER,
+                Number.MAX_SAFE_INTEGER
+            ).toString()}${_.last(actualValue) == "." ? "." : ""}`;
+
             const newValue = getNewValue(num, props.min, props.max);
-            strValue.current = `${newValue.toString()}${
-                _.last(actualValue) == "." ? "." : ""
-            }`;
             if (props.value == newValue) return forceUpdate();
             props.onChange(newValue);
         },

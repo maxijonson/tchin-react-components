@@ -29,7 +29,6 @@ export default () => {
             age: {
                 type: "number",
                 initial: 16,
-                min: 7,
                 max: 18,
                 decimals: 2,
                 placeholder: "Age",
