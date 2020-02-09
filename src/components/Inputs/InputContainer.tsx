@@ -21,10 +21,11 @@ const labelVariants: IVariants = {
     },
 };
 
-const InputContainer = styled(motion.div)<{
+interface IInputContainerProps {
     focused: boolean;
     hasError: boolean;
-}>`
+}
+const InputContainer = styled(motion.div)<IInputContainerProps>`
     transition: all ${THEME_TRANSITION_TIME}s;
     display: inline-flex;
     flex-direction: column;
@@ -37,6 +38,27 @@ const InputContainer = styled(motion.div)<{
         if (focused) return theme.colors.primary;
         return theme.colors.inputBorder;
     }};
+
+    & input {
+        border: none;
+        background: none;
+        outline: none;
+        color: ${({ theme }) => theme.colors.defaultText};
+        height: 100%;
+        width: 100%;
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            /* 24 hours. Delay the background of autofill. */
+            transition-delay: 86400s;
+            /* Preventing overloading the CPU, give the job to the GPU */
+            transform: translateZ(0);
+            -webkit-text-fill-color: ${({ theme }) =>
+                theme.colors.defaultText} !important;
+        }
+    }
 `;
 
 const Label = styled(motion.label)`

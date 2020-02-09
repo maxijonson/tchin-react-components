@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import _ from "lodash";
 import { INumberField, IInputProps } from "../Form/types";
 import useInput from "./useInput";
@@ -9,15 +8,6 @@ import { Hooks } from "../../modules";
 const { useForceUpdate, useUpdateEffect } = Hooks;
 
 type INumberInputProps = INumberField & IInputProps<number>;
-
-const Input = styled.input`
-    border: none;
-    background: transparent;
-    outline: none;
-    color: ${({ theme }) => theme.colors.defaultText};
-    height: 100%;
-    width: 100%;
-`;
 
 const getNewValue = (n: number, min?: number, max?: number) =>
     _.clamp(n, min ?? Number.MIN_SAFE_INTEGER, max ?? Number.MAX_SAFE_INTEGER);
@@ -130,7 +120,7 @@ export default React.memo((props: INumberInputProps) => {
             {...props}
             labelActive={input.focused || _.isNumber(props.value)}
         >
-            <Input
+            <input
                 {...input}
                 {...props}
                 id={props.name}

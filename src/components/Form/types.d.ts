@@ -1,3 +1,4 @@
+/** Base attributes most input should be able to have */
 export interface IBaseField<T> {
     /** Initial value */
     initial?: T;

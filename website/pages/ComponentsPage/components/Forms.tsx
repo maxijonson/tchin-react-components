@@ -51,13 +51,12 @@ export default () => {
 
     const onClick = React.useCallback(() => {
         const data = getFormData();
-        console.info(data);
         addToast({
             message: (
                 <div>
                     {_.map(data, (v, k: keyof typeof fields) => (
                         <span style={{ display: "block" }} key={k}>
-                            {fields[k].label ?? k}: {v}
+                            ({typeof v}) {fields[k].label ?? k}: {v}
                         </span>
                     ))}
                 </div>
@@ -81,7 +80,7 @@ export default () => {
                 <TextInput {...lastName} />
                 <NumberInput {...age} />
             </Flex>
-            <Button onClick={onClick} children="Log Data" state="primary" />
+            <Button onClick={onClick} children="Get Data" state="primary" />
         </>
     );
 };

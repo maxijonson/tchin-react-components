@@ -1,20 +1,10 @@
 import React from "react";
-import styled from "styled-components";
 import _ from "lodash";
 import { ITextField, IInputProps } from "../Form/types";
 import useInput from "./useInput";
 import InputContainer from "./InputContainer";
 
 interface ITextInputProps extends ITextField, IInputProps<string> {}
-
-const Input = styled.input`
-    border: none;
-    background: transparent;
-    outline: none;
-    color: ${({ theme }) => theme.colors.defaultText};
-    height: 100%;
-    width: 100%;
-`;
 
 export default React.memo((props: ITextInputProps) => {
     const input = useInput(props);
@@ -32,7 +22,7 @@ export default React.memo((props: ITextInputProps) => {
             {...props}
             labelActive={input.focused || !_.isEmpty(props.value)}
         >
-            <Input
+            <input
                 {...input}
                 {...props}
                 id={props.name}
