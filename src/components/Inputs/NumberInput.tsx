@@ -30,8 +30,8 @@ export default React.memo((props: INumberInputProps) => {
 
     const onChange = React.useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
-            const actualValue = e.target.value;
-            const num = Number(actualValue);
+            let actualValue = e.target.value;
+            let num = Number(actualValue);
 
             // Handle deleting the whole input
             if (actualValue.length == 0) {
@@ -64,6 +64,19 @@ export default React.memo((props: INumberInputProps) => {
                 }
 
                 return;
+            }
+
+            // Limit decimals to props.decimals
+            if (
+                props.decimals &&
+                actualValue.indexOf(".") != -1 &&
+                actualValue.split(".")[1].length > props.decimals
+            ) {
+                actualValue = actualValue.substring(
+                    0,
+                    actualValue.indexOf(".") + 1 + props.decimals
+                );
+                num = Number(actualValue);
             }
 
             const newValue = getNewValue(num, props.min, props.max);

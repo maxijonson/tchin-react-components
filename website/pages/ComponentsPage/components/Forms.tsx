@@ -31,6 +31,7 @@ export default () => {
                 initial: 16,
                 min: 7,
                 max: 18,
+                decimals: 2,
                 placeholder: "Age",
                 hint: "Your age",
                 label: "Age",
