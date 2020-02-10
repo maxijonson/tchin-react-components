@@ -3,48 +3,8 @@
         "task": "server:dev",
         "hook": null
     },
-    "COMPILE": {
-        "task": "compile",
-        "hook": null
-    },
-    "BUMP_START": {
-        "task": "bump-start",
-        "hook": null
-    },
-    "BUMP_END": {
-        "task": "bump-end",
-        "hook": null
-    },
-    "BUMP_PATCH": {
-        "task": "bump:patch",
-        "hook": null
-    },
-    "BUMP_MINOR": {
-        "task": "bump:minor",
-        "hook": null
-    },
-    "BUMP_MAJOR": {
-        "task": "bump:major",
-        "hook": null
-    },
     "PUBLISH": {
         "task": "publish",
-        "hook": null
-    },
-    "PUBLISH_MINOR": {
-        "task": "publish:minor",
-        "hook": null
-    },
-    "PUBLISH_MAJOR": {
-        "task": "publish:major",
-        "hook": null
-    },
-    "PUBLISH_TEST": {
-        "task": "publish:test",
-        "hook": null
-    },
-    "PUBLISH_DONE": {
-        "task": "publish-done",
         "hook": null
     }
 }

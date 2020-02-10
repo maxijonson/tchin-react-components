@@ -11,7 +11,7 @@ import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import rmrf from "rimraf";
 import fse from "fs-extra";
-import { DEV_SERVER } from "./gulpTasks.json";
+import { DEV_SERVER, PUBLISH } from "./gulpTasks.json";
 import pkg from "./package.json";
 import getWebpackConfig from "./webpack.config";
 
@@ -177,10 +177,11 @@ const compile = () => {
 };
 
 const bumpVersion = (version: string) => {
-    shell.exec(`npm version ${version} -m "v${version}"`);
+    if (shell.exec(`npm version ${version} -m "v${version}"`).code != 0)
+        throw new Error(`Failed at making new version. (${version})`);
 };
 
-const publish = async (done: IGulpTaskDoneFn) => {
+exports[PUBLISH.task] = async (done: IGulpTaskDoneFn) => {
     out.cls();
 
     // Check if git working directory is clean (npm version will fail otherwise)
@@ -339,10 +340,8 @@ const publish = async (done: IGulpTaskDoneFn) => {
     bumpVersion(newVersion);
     out.success();
 
-    done();
+    return done();
 };
-
-exports.publish = gulp.series(publish);
 
 // exports[PUBLISH_DONE.task] = publishDone;
 
