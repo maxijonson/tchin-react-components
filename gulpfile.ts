@@ -176,6 +176,10 @@ const compile = () => {
     fse.copySync("./src/styles", "./dist/src/styles");
 };
 
+const bumpVersion = (version: string) => {
+    shell.exec(`npm version ${version} -m "v${version}"`);
+};
+
 const publish = async (done: IGulpTaskDoneFn) => {
     out.cls();
 
@@ -261,7 +265,12 @@ const publish = async (done: IGulpTaskDoneFn) => {
             out.success();
 
             out.write("Bumping version... ");
-            shell.exec(`npm version ${mainVersion}-${kind}.${Number(n) + 1}`);
+            try {
+                bumpVersion(`${mainVersion}-${kind}.${Number(n) + 1}`);
+            } catch (e) {
+                out.failed(e.message);
+                return done();
+            }
             out.success();
 
             return done();
@@ -327,7 +336,7 @@ const publish = async (done: IGulpTaskDoneFn) => {
     out.success();
 
     out.write("Bumping version... ");
-    shell.exec(`npm version ${newVersion}`);
+    bumpVersion(newVersion);
     out.success();
 
     done();
