@@ -159,7 +159,21 @@ const devServer = () => {
 };
 exports[DEV_SERVER.task] = gulp.series(exports["init:dev"], devServer);
 
-const publish = (version: string, tag: string) => {
+const publish = async (version: string, tag: string) => {
+    // Check if git working directory is clean (npm version will fail otherwise)
+    out.write("Checking git directory... ");
+    if (!(await git.status()).isClean()) {
+        throw new Error("Directory not clean.");
+    }
+    out.success();
+
+    // Lint code
+    out.write("Linting code... ");
+    if (shell.exec("npm run lint").code != 0) {
+        throw new Error("Failed.");
+    }
+    out.success();
+
     /* COMPILE */
     out.write("Compiling... ");
     // Init prod env
@@ -169,25 +183,30 @@ const publish = (version: string, tag: string) => {
     rmrf.sync("./dist");
 
     // Compile TypeScript to JavaScript
-    if (shell.exec("tsc").code != 0)
+    if (shell.exec("tsc").code != 0) {
         throw new Error(
             "FAILED: Compilation errors. Run TSC manually to see them"
         );
+    }
+    out.success();
 
     // Copy styles to dist
+    out.write("Copying styles... ");
     fse.copySync("./src/styles", "./dist/src/styles");
     out.success();
 
     /* BUMP VERSION */
     out.write("Bumping version... ");
-    if (shell.exec(`npm version ${version} -m "v${version}"`).code != 0)
+    if (shell.exec(`npm version ${version} -m "v${version}"`).code != 0) {
         throw new Error(`Failed at making new version. (${version})`);
+    }
     out.success();
 
     /* PUBLISH */
-    out.write("Publishing to NPM...");
-    console.log(`npm publish --tag ${tag}`);
-    // if (shell.exec(`npm`).code != 0) throw new Error("Publish failed");
+    out.write("Publishing to NPM... ");
+    if (shell.exec(`npm publish --tag ${tag}`).code != 0) {
+        throw new Error("Publish failed");
+    }
     out.success(
         `v${version} https://www.npmjs.com/package/tchin-react-components`
     );
@@ -199,28 +218,12 @@ const publish = (version: string, tag: string) => {
 
     /* PUSH TO REMOTE */
     out.write("Pushing... ");
-    console.log(`git push`);
+    await git.push();
     out.success();
 };
 
 exports[PUBLISH.task] = async (done: IGulpTaskDoneFn) => {
     out.cls();
-
-    // Check if git working directory is clean (npm version will fail otherwise)
-    out.write("Checking git directory... ");
-    if (!(await git.status()).isClean()) {
-        out.failed("Directory not clean.");
-        return done(1);
-    }
-    out.success();
-
-    // Lint code
-    out.write("Linting code... ");
-    if (shell.exec("npm run lint").code != 0) {
-        out.failed("Failed.");
-        return done(1);
-    }
-    out.success();
 
     enum Severities {
         patch = "patch",
@@ -283,7 +286,7 @@ exports[PUBLISH.task] = async (done: IGulpTaskDoneFn) => {
             ).value
         ) {
             try {
-                publish(`${mainVersion}-${kind}.${Number(n) + 1}`, kind);
+                await publish(`${mainVersion}-${kind}.${Number(n) + 1}`, kind);
             } catch (e) {
                 out.failed(e.message);
                 return done();
@@ -342,7 +345,7 @@ exports[PUBLISH.task] = async (done: IGulpTaskDoneFn) => {
     })();
 
     try {
-        publish(newVersion, kind);
+        await publish(newVersion, kind);
     } catch (e) {
         out.failed(e.message);
         return done();
