@@ -1,4 +1,5 @@
 *.css
 *.scss
+*.json
 src/pages/KitPage/snippets
 trc

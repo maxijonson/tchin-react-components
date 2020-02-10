@@ -2,6 +2,8 @@
 import chalk from "chalk";
 import express from "express";
 import gulp from "gulp";
+import inquirer from "inquirer";
+import simpleGit from "simple-git/promise";
 import _ from "lodash";
 import path from "path";
 import * as shell from "shelljs";
@@ -9,22 +11,30 @@ import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import rmrf from "rimraf";
 import fse from "fs-extra";
-import {
-    DEV_SERVER,
-    COMPILE,
-    PUBLISH,
-    PUBLISH_MINOR,
-    PUBLISH_MAJOR,
-    PUBLISH_TEST,
-    PUBLISH_DONE,
-    BUMP_START,
-    BUMP_END,
-    BUMP_PATCH,
-    BUMP_MINOR,
-    BUMP_MAJOR,
-} from "./gulpTasks.json";
+import { DEV_SERVER } from "./gulpTasks.json";
 import pkg from "./package.json";
 import getWebpackConfig from "./webpack.config";
+
+const git = simpleGit();
+
+const out = {
+    write: (message: string) => {
+        process.stdout.write(message);
+    },
+    success: (message?: string) => {
+        out.write(`✔️ ${message ?? ""}\n`);
+    },
+    failed: (message?: string) => {
+        out.write(`❌ ${message ?? ""}\n`);
+    },
+    clearLn: (dir: 1 | 0 | -1) => {
+        process.stdout.clearLine(dir);
+    },
+    writeLn: (message: string) => process.stdout.write(`\n${message}`),
+    cls: () => {
+        console.clear();
+    },
+} as const;
 
 shell.config.silent = true;
 shell.config.verbose = false;
@@ -95,13 +105,6 @@ const initDev = (done: IGulpTaskDoneFn) => {
 };
 exports["init:dev"] = gulp.series(exports.init, initDev);
 
-const initProd = (done: IGulpTaskDoneFn) => {
-    process.env.NODE_ENV = "production";
-    showVariables();
-    done();
-};
-exports["init:prod"] = gulp.series(exports.init, initProd);
-
 const devServer = () => {
     const webpackConfig = getWebpackConfig(process.env);
     if (!webpackConfig.plugins) {
@@ -156,134 +159,206 @@ const devServer = () => {
 };
 exports[DEV_SERVER.task] = gulp.series(exports["init:dev"], devServer);
 
-const [major, minor, patch] = pkg.version.split(".");
-let newVersion: string;
+const compile = () => {
+    // Init prod env
+    process.env.NODE_ENV = "production";
 
-const bumpStart = (done: IGulpTaskDoneFn) => {
-    console.log(chalk.blue("Bumping version..."));
+    // Remove dist folder (if exist)
+    rmrf.sync("./dist");
+
+    // Compile TypeScript to JavaScript
+    if (shell.exec("tsc").code != 0)
+        throw new Error(
+            "FAILED: Compilation errors. Run TSC manually to see them"
+        );
+
+    // Copy styles to dist
+    fse.copySync("./src/styles", "./dist/src/styles");
+};
+
+const publish = async (done: IGulpTaskDoneFn) => {
+    out.cls();
+
+    // Check if git working directory is clean (npm version will fail otherwise)
+    out.write("Checking git directory... ");
+    if (!(await git.status()).isClean()) {
+        out.failed("Directory not clean.");
+        return done(1);
+    }
+    out.success();
+
+    // Lint code
+    out.write("Linting code... ");
+    if (shell.exec("npm run lint").code != 0) {
+        out.failed("Failed.");
+        return done(1);
+    }
+    out.success();
+
+    enum Severities {
+        patch = "patch",
+        minor = "minor",
+        major = "major",
+    }
+    const severities = [
+        { name: "Patch", value: Severities.patch },
+        { name: "Minor", value: Severities.minor },
+        { name: "Major", value: Severities.major },
+    ] as const;
+
+    enum Kinds {
+        normal = "normal",
+        beta = "beta",
+        rc = "rc",
+    }
+    const specialKinds = [
+        { name: "Beta", value: Kinds.beta },
+        { name: "RC", value: Kinds.rc },
+    ] as const;
+    const kinds = [
+        { name: "Normal", value: Kinds.normal },
+        ...specialKinds,
+    ] as const;
+
+    const { version } = pkg;
+    const isSpecialKind = version.indexOf("-") != -1;
+    const mainVersion = isSpecialKind
+        ? version.substring(0, version.indexOf("-"))
+        : version;
+
+    // Check if current version is a special version
+    if (isSpecialKind) {
+        const [kind, n] = version
+            .substring(version.indexOf("-") + 1)
+            .split(".");
+
+        const specialKind = _.find(specialKinds, (s) => s.value == kind);
+
+        if (!specialKind) {
+            out.failed(`${kind} is not a recognized special version kind`);
+            return done();
+        }
+
+        // Ask to bump the special kind version. Else, proceed to normal prompt.
+        if (
+            (
+                await inquirer.prompt([
+                    {
+                        name: "value",
+                        type: "confirm",
+                        message: `The version is currently in "${kind}.${n}". Do you wish to continue with this version and bump the number?`,
+                    },
+                ])
+            ).value
+        ) {
+            out.write("Compiling... ");
+            try {
+                compile();
+            } catch (e) {
+                out.failed(e.message);
+                return done();
+            }
+            out.success();
+
+            out.write("Bumping version... ");
+            shell.exec(`npm version ${mainVersion}-${kind}.${Number(n) + 1}`);
+            out.success();
+
+            return done();
+        }
+    }
+
+    // Ask questions about the release
+    const answers = await inquirer.prompt([
+        {
+            name: "severity",
+            type: "list",
+            message: "What is the severity of this release?",
+            choices: severities,
+        },
+        {
+            name: "kind",
+            type: "list",
+            message: "What kind of version is this release?",
+            choices: kinds,
+        },
+        {
+            name: "confirm",
+            type: "confirm",
+            message: "Are you sure you want to proceed with the options above?",
+        },
+    ]);
+    const { confirm, severity, kind } = answers;
+
+    // Cancel publish
+    if (!confirm) return done();
+
+    // Get new version
+    const newVersion = (() => {
+        const [M, m, p] = mainVersion.split(".");
+        let v = "";
+        switch (severity) {
+            case Severities.patch:
+                v = `${M}.${m}.${Number(p) + 1}`;
+                break;
+            case Severities.minor:
+                v = `${M}.${Number(m) + 1}.0`;
+                break;
+            case Severities.major:
+                v = `${Number(M) + 1}.0.0`;
+                break;
+            default:
+                // Should never happen
+                v = `${M}.${m}.${p}`;
+        }
+        if (kind != Kinds.normal) {
+            v += `-${kind}.0`;
+        }
+        return v;
+    })();
+
+    out.write("Compiling... ");
+    try {
+        compile();
+    } catch (e) {
+        out.failed(e.message);
+        return done();
+    }
+    out.success();
+
+    out.write("Bumping version... ");
+    shell.exec(`npm version ${newVersion}`);
+    out.success();
+
     done();
 };
-exports[BUMP_START.task] = bumpStart;
 
-const bumpEnd = (done: IGulpTaskDoneFn) => {
-    const newPkg = { ...pkg, version: newVersion }; // update version
-    fse.writeFileSync("./package.json", JSON.stringify(newPkg, null, 4));
+exports.publish = gulp.series(publish);
 
-    console.log(
-        chalk.green("Package Version Updated"),
-        chalk.bold.white(pkg.version),
-        chalk.green("->"),
-        chalk.bold.white(newVersion)
-    );
-    done();
-};
-exports[BUMP_END.task] = bumpEnd;
+// exports[PUBLISH_DONE.task] = publishDone;
 
-const bumpPatch = (done: IGulpTaskDoneFn) => {
-    newVersion = `${major}.${minor}.${parseInt(patch, 10) + 1}`;
-    done();
-};
-exports[BUMP_PATCH.task] = gulp.series(bumpStart, bumpPatch, bumpEnd);
+// const publishTest = (done: IGulpTaskDoneFn) => {
+//     const TRC = "trc";
 
-const bumpMinor = (done: IGulpTaskDoneFn) => {
-    newVersion = `${major}.${parseInt(minor, 10) + 1}.${0}`;
-    done();
-};
-exports[BUMP_MINOR.task] = gulp.series(bumpStart, bumpMinor, bumpEnd);
+//     console.log(`rm -rf ${TRC}.tgz`);
+//     fse.removeSync(`${TRC}.tgz`);
 
-const bumpMajor = (done: IGulpTaskDoneFn) => {
-    newVersion = `${parseInt(major, 10) + 1}.${0}.${0}`;
-    done();
-};
-exports[BUMP_MAJOR.task] = gulp.series(bumpStart, bumpMajor, bumpEnd);
+//     console.log(chalk.blue("packaging TRC..."));
+//     shell.exec("npm pack");
+//     fse.renameSync(`tchin-react-components-${pkg.version}.tgz`, `${TRC}.tgz`);
+//     console.log(chalk.green("✔ succesfully packaged TRC"));
+
+//     console.log(chalk.blue("removing dist"));
+//     rmrf.sync("./dist");
+
+//     console.log(
+//         chalk.white("use"),
+//         chalk.blue(`npm i path/to/${TRC}.tgz`),
+//         chalk.white("to install it")
+//     );
+//     done();
+// };
+
+// exports[PUBLISH_TEST.task] = gulp.series(exports[COMPILE.task], publishTest);
 
 exports.default = exports[DEV_SERVER.task];
-
-const removeDist = (done: IGulpTaskDoneFn) => {
-    rmrf.sync("./dist");
-    done();
-};
-
-const compileTS = (done: IGulpTaskDoneFn) => {
-    console.log(chalk.blue("Compiling..."));
-    if (shell.exec("tsc").code != 0)
-        done("FAILED: Compilation errors. Run TSC manually to see them");
-    done();
-};
-
-const copyStyles = (done: IGulpTaskDoneFn) => {
-    fse.copySync("./src/styles", "./dist/src/styles");
-    done();
-};
-
-const compileDone = (done: IGulpTaskDoneFn) => {
-    console.log(chalk.green("Compiled!"));
-    done();
-};
-
-exports[COMPILE.task] = gulp.series(
-    initProd,
-    removeDist,
-    compileTS,
-    copyStyles,
-    compileDone
-);
-
-const publishDone = (done: IGulpTaskDoneFn) => {
-    console.log(
-        chalk.green("✔ succesfully published TRC"),
-        chalk.white("( https://www.npmjs.com/package/tchin-react-components )")
-    );
-    rmrf.sync("./dist");
-    done();
-};
-exports[PUBLISH_DONE.task] = publishDone;
-
-const publish = (done: IGulpTaskDoneFn) => {
-    shell.exec("npm publish");
-    done();
-};
-exports[PUBLISH.task] = gulp.series(
-    exports[BUMP_PATCH.task],
-    exports[COMPILE.task],
-    publish,
-    publishDone
-);
-
-exports[PUBLISH_MINOR.task] = gulp.series(
-    exports[BUMP_MINOR.task],
-    exports[COMPILE.task],
-    publish,
-    publishDone
-);
-
-exports[PUBLISH_MAJOR.task] = gulp.series(
-    exports[BUMP_MAJOR.task],
-    exports[COMPILE.task],
-    publish,
-    publishDone
-);
-
-const publishTest = (done: IGulpTaskDoneFn) => {
-    const TRC = "trc";
-
-    console.log(`rm -rf ${TRC}.tgz`);
-    fse.removeSync(`${TRC}.tgz`);
-
-    console.log(chalk.blue("packaging TRC..."));
-    shell.exec("npm pack");
-    fse.renameSync(`tchin-react-components-${pkg.version}.tgz`, `${TRC}.tgz`);
-    console.log(chalk.green("✔ succesfully packaged TRC"));
-
-    console.log(chalk.blue("removing dist"));
-    rmrf.sync("./dist");
-
-    console.log(
-        chalk.white("use"),
-        chalk.blue(`npm i path/to/${TRC}.tgz`),
-        chalk.white("to install it")
-    );
-    done();
-};
-
-exports[PUBLISH_TEST.task] = gulp.series(exports[COMPILE.task], publishTest);

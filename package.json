@@ -7,7 +7,8 @@
     "scripts": {
         "start": "gulp",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "lint": "eslint src/**/*"
+        "lint": "eslint 'src/**/*'",
+        "install": "WARNING: tchin-react-components is still in development and its features can change without notice. It should not be used unless you are testing the package. Eventually, this package will be deprecated and given a new name"
     },
     "repository": {
         "type": "git",
@@ -40,6 +41,7 @@
         "@types/git-branch": "^2.0.1",
         "@types/gulp": "^4.0.6",
         "@types/i18next": "^13.0.0",
+        "@types/inquirer": "^6.5.0",
         "@types/lodash": "^4.14.149",
         "@types/node": "^12.12.22",
         "@types/react": "^16.9.17",
@@ -58,6 +60,7 @@
         "@types/uuid": "^3.4.6",
         "@types/webpack": "^4.41.0",
         "@types/webpack-dev-server": "^3.9.0",
+        "@types/yargs": "^15.0.3",
         "@typescript-eslint/eslint-plugin": "^2.13.0",
         "@typescript-eslint/parser": "^2.13.0",
         "babel-loader": "^8.0.6",
@@ -88,6 +91,7 @@
         "i18next": "^19.0.2",
         "i18next-markdown-jsx-plugin": "^1.0.13",
         "immer": "^5.3.2",
+        "inquirer": "^7.0.4",
         "moment": "^2.24.0",
         "node-sass": "^4.13.0",
         "normalize.css": "^8.0.1",
@@ -111,6 +115,7 @@
         "sass-loader": "^8.0.0",
         "shelljs": "^0.8.3",
         "shortid": "^2.2.15",
+        "simple-git": "^1.131.0",
         "styled-components": "^4.4.1",
         "tinycolor2": "^1.4.1",
         "ts-loader": "^6.2.1",
@@ -119,6 +124,7 @@
         "uuid": "^3.3.3",
         "webpack": "^4.41.5",
         "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.10.1"
+        "webpack-dev-server": "^3.10.1",
+        "yargs": "^15.1.0"
     }
 }
