@@ -8,7 +8,7 @@
         "start": "gulp",
         "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "eslint 'src/**/*'",
-        "install": "WARNING: tchin-react-components is still in development and its features can change without notice. It should not be used unless you are testing the package. Eventually, this package will be deprecated and given a new name"
+        "install": "echo 'WARNING: tchin-react-components is still in development and its features can change without notice. It should not be used unless you are testing the package. Eventually, this package will be deprecated and given a new name'"
     },
     "repository": {
         "type": "git",
